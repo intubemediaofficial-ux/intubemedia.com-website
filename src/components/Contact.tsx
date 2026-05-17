@@ -1,6 +1,29 @@
-import { Send, Phone, Mail, MapPin } from 'lucide-react';
+import { useState } from 'react';
+import { Send, Phone, Mail, MapPin, CheckCircle2 } from 'lucide-react';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export default function Contact() {
+  const [form, setForm] = useState({ name: '', phone: '', email: '', service: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('sending');
+    try {
+      const res = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error('Failed');
+      setStatus('sent');
+      setForm({ name: '', phone: '', email: '', service: '', message: '' });
+    } catch {
+      setStatus('error');
+    }
+  };
+
   return (
     <section id="contact" className="py-20 sm:py-28 relative">
       <div className="absolute inset-0 z-0">
@@ -26,67 +49,99 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-8">
-            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {status === 'sent' ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <CheckCircle2 className="w-16 h-16 text-green-400 mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
+                <p className="text-gray-400 mb-6">We'll get back to you soon.</p>
+                <button onClick={() => setStatus('idle')} className="text-violet-400 hover:text-violet-300 text-sm">
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form className="space-y-5" onSubmit={handleSubmit}>
+                {status === 'error' && (
+                  <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl px-4 py-3 text-sm">
+                    Something went wrong. Please try again.
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Full Name</label>
+                    <input
+                      type="text"
+                      value={form.name}
+                      onChange={e => setForm({ ...form, name: e.target.value })}
+                      placeholder="Your name"
+                      required
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={e => setForm({ ...form, phone: e.target.value })}
+                      placeholder="+91 XXXXX XXXXX"
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">Full Name</label>
+                  <label className="block text-sm text-gray-400 mb-2">Email Address</label>
                   <input
-                    type="text"
-                    placeholder="Your name"
+                    type="email"
+                    value={form.email}
+                    onChange={e => setForm({ ...form, email: e.target.value })}
+                    placeholder="you@example.com"
+                    required
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm text-gray-400 mb-2">Phone Number</label>
-                  <input
-                    type="tel"
-                    placeholder="+91 XXXXX XXXXX"
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors"
+                  <label className="block text-sm text-gray-400 mb-2">Service Interested In</label>
+                  <select
+                    value={form.service}
+                    onChange={e => setForm({ ...form, service: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 focus:outline-none focus:border-violet-500/50 transition-colors appearance-none"
+                  >
+                    <option value="">Select a service</option>
+                    <option value="website">Website & App Development</option>
+                    <option value="marketing">Digital Marketing</option>
+                    <option value="branding">Branding & Creative</option>
+                    <option value="security">IT Support & Security</option>
+                    <option value="ai">AI & Automation</option>
+                    <option value="influencer">Influencer Management</option>
+                    <option value="package">Business Package</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">Your Message</label>
+                  <textarea
+                    rows={4}
+                    value={form.message}
+                    onChange={e => setForm({ ...form, message: e.target.value })}
+                    placeholder="Tell us about your project..."
+                    required
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors resize-none"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Email Address</label>
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Service Interested In</label>
-                <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 focus:outline-none focus:border-violet-500/50 transition-colors appearance-none">
-                  <option value="">Select a service</option>
-                  <option value="website">Website & App Development</option>
-                  <option value="marketing">Digital Marketing</option>
-                  <option value="branding">Branding & Creative</option>
-                  <option value="security">IT Support & Security</option>
-                  <option value="ai">AI & Automation</option>
-                  <option value="influencer">Influencer Management</option>
-                  <option value="package">Business Package</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Your Message</label>
-                <textarea
-                  rows={4}
-                  placeholder="Tell us about your project..."
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-3.5 bg-gradient-to-r from-violet-600 to-pink-600 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
-              >
-                <Send size={18} />
-                Send Message
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="w-full py-3.5 bg-gradient-to-r from-violet-600 to-pink-600 rounded-xl text-white font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  <Send size={18} />
+                  {status === 'sending' ? 'Sending...' : 'Send Message'}
+                </button>
+              </form>
+            )}
           </div>
 
           {/* Contact Info */}
