@@ -1,34 +1,34 @@
+import { Link } from 'react-router-dom';
 import { Instagram, Youtube, Facebook, Twitter, Linkedin, ArrowUp } from 'lucide-react';
 
 const footerLinks = [
   {
     title: 'Services',
     links: [
-      { label: 'Website Development', href: '#services' },
-      { label: 'Digital Marketing', href: '#services' },
-      { label: 'Branding & Creative', href: '#services' },
-      { label: 'AI & Automation', href: '#services' },
-      { label: 'IT Support', href: '#services' },
+      { label: 'Website Development', href: '/services/website-app' },
+      { label: 'Digital Marketing', href: '/services/digital-marketing' },
+      { label: 'Branding & Creative', href: '/services/branding-creative' },
+      { label: 'AI & Automation', href: '/services/ai-automation' },
+      { label: 'IT Support', href: '/services/it-support-security' },
     ],
   },
   {
     title: 'Creator Solutions',
     links: [
-      { label: 'Account Management', href: '#influencer' },
-      { label: 'Monetization', href: '#influencer' },
-      { label: 'Copyright Help', href: '#influencer' },
-      { label: 'Content Production', href: '#influencer' },
-      { label: 'Growth Services', href: '#influencer' },
+      { label: 'Account Management', href: '/services/account-management' },
+      { label: 'Monetization', href: '/services/monetization' },
+      { label: 'Copyright Help', href: '/services/copyright-claims' },
+      { label: 'Content Production', href: '/services/content-production' },
+      { label: 'Growth Services', href: '/services/growth-services' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About Us', href: '#about' },
-      { label: 'Packages', href: '#packages' },
-      { label: 'Contact', href: '#contact' },
-      { label: 'Careers', href: '#contact' },
-      { label: 'Blog', href: '#' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Packages', href: '/packages' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'All Services', href: '/services' },
     ],
   },
 ];
@@ -48,14 +48,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-600 to-pink-500 flex items-center justify-center font-bold text-white text-lg">
                 iM
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
                 Intube Media
               </span>
-            </div>
+            </Link>
             <p className="text-gray-400 text-sm max-w-sm mb-6">
               Your one-stop digital partner for business IT solutions,
               influencer management, digital marketing, and creative services.
@@ -83,12 +83,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
+                    <Link
+                      to={link.href}
                       className="text-sm text-gray-400 hover:text-white transition-colors"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -101,13 +101,13 @@ export default function Footer() {
           <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} Intube Media. All rights reserved.
           </p>
-          <a
-            href="#home"
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-violet-500/30 transition-all"
             aria-label="Back to top"
           >
             <ArrowUp size={18} />
-          </a>
+          </button>
         </div>
       </div>
     </footer>

@@ -1,0 +1,170 @@
+import { useState } from 'react';
+import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import SEO from '../components/SEO';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { serviceCategories } from '../data/services';
+
+const contactInfo = [
+  { icon: Phone, label: 'Phone', value: '+91 XXXXX XXXXX', href: 'tel:+91XXXXXXXXXX' },
+  { icon: Mail, label: 'Email', value: 'hello@intubemedia.com', href: 'mailto:hello@intubemedia.com' },
+  { icon: MapPin, label: 'Office', value: 'India', href: '#' },
+  { icon: Clock, label: 'Hours', value: 'Mon - Sat, 10AM - 7PM IST', href: '#' },
+];
+
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    message: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert('Thank you! We will contact you soon.');
+  };
+
+  return (
+    <>
+      <SEO
+        title="Contact Intube Media - Get a Free Consultation"
+        description="Get in touch with Intube Media for a free consultation. Contact us for business IT solutions, digital marketing, branding, and influencer management services."
+        path="/contact"
+      />
+
+      <section className="pt-28 pb-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-900/20 via-transparent to-pink-900/20" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Breadcrumbs />
+          <div className="text-center mt-4">
+            <p className="text-violet-400 font-semibold text-sm uppercase tracking-wider mb-2">Get In Touch</p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              Ready to start your project? Get a free consultation with our digital experts today.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-3 gap-12">
+            {/* Contact Form */}
+            <div className="lg:col-span-2">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+                <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition-colors"
+                        placeholder="Your name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+                      <input
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition-colors"
+                        placeholder="+91 XXXXX XXXXX"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Email Address *</label>
+                      <input
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition-colors"
+                        placeholder="you@example.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Service Needed</label>
+                      <select
+                        value={formData.service}
+                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-colors"
+                      >
+                        <option value="" className="bg-gray-900">Select a service</option>
+                        {serviceCategories.map(s => (
+                          <option key={s.slug} value={s.title} className="bg-gray-900">{s.title}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
+                    <textarea
+                      rows={5}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition-colors resize-none"
+                      placeholder="Tell us about your project..."
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
+                  >
+                    <Send className="w-5 h-5" /> Send Message
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            {/* Contact Info Sidebar */}
+            <div className="space-y-6">
+              {contactInfo.map(info => {
+                const Icon = info.icon;
+                return (
+                  <a
+                    key={info.label}
+                    href={info.href}
+                    className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-400">{info.label}</p>
+                      <p className="font-semibold">{info.value}</p>
+                    </div>
+                  </a>
+                );
+              })}
+
+              <div className="bg-gradient-to-br from-violet-900/40 to-pink-900/40 border border-white/10 rounded-2xl p-6 text-center">
+                <h3 className="text-lg font-bold mb-2">Free Consultation</h3>
+                <p className="text-sm text-gray-300 mb-4">
+                  Not sure what you need? Book a free consultation with our experts.
+                </p>
+                <a
+                  href="tel:+91XXXXXXXXXX"
+                  className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-6 py-2 rounded-full text-sm font-semibold hover:bg-white/20 transition-colors"
+                >
+                  <Phone className="w-4 h-4" /> Call Now
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
