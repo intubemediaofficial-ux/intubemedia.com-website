@@ -14,7 +14,7 @@ HASH_SALT = "intube-media-salt"
 security = HTTPBearer()
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return hash_password(plain_password) == hashed_password
+    return hmac.compare_digest(hash_password(plain_password), hashed_password)
 
 def hash_password(password: str) -> str:
     return hashlib.pbkdf2_hmac("sha256", password.encode(), HASH_SALT.encode(), 100000).hex()
