@@ -14,7 +14,7 @@ export default function Navbar() {
     setOpen(false);
     setServicesOpen(false);
     setMobileServicesOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -43,6 +43,9 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-8">
             <Link to="/" className="text-sm text-gray-300 hover:text-white transition-colors">
               Home
+            </Link>
+            <Link to="/about" className="text-sm text-gray-300 hover:text-white transition-colors">
+              About
             </Link>
 
             {/* Services Dropdown */}
@@ -106,11 +109,8 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link to="/packages" className="text-sm text-gray-300 hover:text-white transition-colors">
-              Packages
-            </Link>
-            <Link to="/about" className="text-sm text-gray-300 hover:text-white transition-colors">
-              About
+            <Link to="/#our-network" className="text-sm text-gray-300 hover:text-white transition-colors">
+              Our Network
             </Link>
             <Link to="/contact" className="text-sm text-gray-300 hover:text-white transition-colors">
               Contact
@@ -138,6 +138,9 @@ export default function Navbar() {
           <div className="px-4 py-4 space-y-1">
             <Link to="/" className="block text-gray-300 hover:text-white py-2 transition-colors">
               Home
+            </Link>
+            <Link to="/about" className="block text-gray-300 hover:text-white py-2 transition-colors">
+              About
             </Link>
 
             <button
@@ -179,11 +182,8 @@ export default function Navbar() {
               </div>
             )}
 
-            <Link to="/packages" className="block text-gray-300 hover:text-white py-2 transition-colors">
-              Packages
-            </Link>
-            <Link to="/about" className="block text-gray-300 hover:text-white py-2 transition-colors">
-              About
+            <Link to="/#our-network" className="block text-gray-300 hover:text-white py-2 transition-colors">
+              Our Network
             </Link>
             <Link to="/contact" className="block text-gray-300 hover:text-white py-2 transition-colors">
               Contact

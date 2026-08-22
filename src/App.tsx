@@ -8,6 +8,7 @@ import ServicePage from './pages/services/ServicePage';
 import PackagesPage from './pages/PackagesPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import BainslaMusicPage from './pages/BainslaMusicPage';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -29,6 +30,7 @@ function App() {
             <Route path="/packages" element={<PackagesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/network/bainsla-music" element={<BainslaMusicPage />} />
           </Route>
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>

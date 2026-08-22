@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Users, Briefcase, Award, Clock } from 'lucide-react';
 import SEO from '../components/SEO';
+import NetworkSection from '../components/NetworkSection';
 import { businessServices, influencerServices } from '../data/services';
 
 const stats = [
@@ -17,7 +18,7 @@ export default function HomePage() {
     <>
       <SEO
         title="Intube Media — Digital Agency | IT Solutions | Influencer Management"
-        description="Intube Media is India's fastest growing digital agency offering business IT solutions, digital marketing, branding, AI automation, and influencer management services."
+        description="Intube Media is a digital, technology and media network offering digital agency services, IT solutions, influencer management and entertainment businesses."
         path="/"
       />
 
@@ -34,8 +35,11 @@ export default function HomePage() {
             <div>
               <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-2 mb-6">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-sm text-violet-300">India's Fastest Growing Digital Agency</span>
+                <span className="text-sm text-violet-300">Digital • Technology • Creators • Media • Entertainment</span>
               </div>
+              <p className="text-sm font-semibold text-gray-300 uppercase tracking-[0.16em] mb-4">
+                Digital Agency • IT Solutions • Influencer Management
+              </p>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Transform Your
@@ -44,7 +48,7 @@ export default function HomePage() {
               </h1>
 
               <p className="text-lg text-gray-300 mb-8 max-w-xl leading-relaxed">
-                From business IT solutions to influencer management, we provide comprehensive digital services that help brands grow and creators shine.
+                Intube Media is the umbrella network for digital agency services, IT solutions, influencer management, media and entertainment businesses.
               </p>
 
               <div className="flex flex-wrap gap-4 mb-12">
@@ -204,6 +208,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <NetworkSection />
 
       {/* Packages Preview */}
       <section className="py-20">

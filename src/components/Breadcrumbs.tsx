@@ -17,6 +17,8 @@ const routeLabels: Record<string, string> = {
   packages: 'Packages',
   about: 'About Us',
   contact: 'Contact',
+  network: 'Our Network',
+  'bainsla-music': 'Bainsla Music',
 };
 
 export default function Breadcrumbs() {
@@ -45,7 +47,7 @@ export default function Breadcrumbs() {
               {isLast ? (
                 <span className="text-white font-medium">{label}</span>
               ) : (
-                <Link to={path} className="hover:text-white transition-colors">
+                <Link to={path === '/network' ? '/#our-network' : path} className="hover:text-white transition-colors">
                   {label}
                 </Link>
               )}
