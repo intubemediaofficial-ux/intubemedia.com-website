@@ -33,8 +33,8 @@ export default function AboutPage() {
   return (
     <>
       <SEO
-        title="About Intube Media - India's Fastest Growing Digital Agency"
-        description="Learn about Intube Media, our mission, values, and the team behind India's fastest growing digital agency offering business IT solutions and influencer management."
+        title="About Intube Media - Digital, Technology & Media Network"
+        description="Learn about Intube Media, the umbrella network for digital agency services, IT solutions, influencer management, media and entertainment businesses."
         path="/about"
       />
 
@@ -50,7 +50,7 @@ export default function AboutPage() {
               <span className="bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent"> Digital Growth</span>
             </h1>
             <p className="text-lg text-gray-300 leading-relaxed">
-              Intube Media is India's fastest growing digital agency, helping businesses and creators achieve their digital goals through innovative technology, creative design, and data-driven strategies.
+              Intube Media is a digital, technology and media network helping businesses and creators grow through digital agency services, IT solutions, influencer management and specialized entertainment companies.
             </p>
           </div>
         </div>

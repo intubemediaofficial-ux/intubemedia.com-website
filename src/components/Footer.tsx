@@ -45,7 +45,7 @@ export default function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-black/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
@@ -57,8 +57,11 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-gray-400 text-sm max-w-sm mb-6">
-              Your one-stop digital partner for business IT solutions,
-              influencer management, digital marketing, and creative services.
+              The digital, technology and media network for business IT solutions,
+              creator management, media and entertainment.
+            </p>
+            <p className="text-xs text-violet-300 uppercase tracking-[0.16em] mb-6">
+              Digital • Technology • Creators • Media • Entertainment
             </p>
             <div className="flex gap-3">
               {socials.map((social) => (
@@ -94,6 +97,27 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+
+          <div>
+            <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+              Our Network
+            </h4>
+            <Link
+              to="/network/bainsla-music"
+              className="block text-sm text-gray-300 hover:text-white transition-colors mb-1"
+            >
+              Bainsla Music
+            </Link>
+            <p className="text-xs text-gray-500 mb-3">Music & Entertainment</p>
+            <a
+              href="https://bainslamusic.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm text-violet-400 hover:text-violet-300 transition-colors"
+            >
+              bainslamusic.com ↗
+            </a>
+          </div>
         </div>
 
         {/* Bottom */}

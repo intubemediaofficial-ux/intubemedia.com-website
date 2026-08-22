@@ -4,11 +4,18 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 export default function Layout() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    if (hash) {
+      requestAnimationFrame(() => {
+        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' });
+      });
+      return;
+    }
+
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
 
   return (
     <div className="min-h-screen bg-[#050510] text-white overflow-x-hidden">
