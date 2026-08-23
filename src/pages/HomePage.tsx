@@ -2,18 +2,22 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Users, Briefcase, Award, Clock } from 'lucide-react';
 import SEO from '../components/SEO';
 import NetworkSection from '../components/NetworkSection';
-import { businessServices, influencerServices } from '../data/services';
-
-const stats = [
-  { icon: Briefcase, value: '500+', label: 'Projects Delivered' },
-  { icon: Users, value: '200+', label: 'Happy Clients' },
-  { icon: Award, value: '50+', label: 'Team Members' },
-  { icon: Clock, value: '5+', label: 'Years Experience' },
-];
+import CmsIcon from '../components/CmsIcon';
+import { useCms } from '../context/useCms';
 
 const trustedBrands = ['Google', 'Meta', 'YouTube', 'Amazon', 'Flipkart', 'Zomato', 'Swiggy', 'PhonePe'];
 
 export default function HomePage() {
+  const { services, theme } = useCms();
+  const businessServices = services.filter(service => service.section === 'business');
+  const influencerServices = services.filter(service => service.section === 'influencer');
+  const stats = [
+    { icon: Briefcase, value: theme.stat_projects, label: 'Projects Delivered' },
+    { icon: Users, value: theme.stat_clients, label: 'Happy Clients' },
+    { icon: Award, value: theme.stat_team, label: 'Team Members' },
+    { icon: Clock, value: theme.stat_experience, label: 'Years Experience' },
+  ];
+
   return (
     <>
       <SEO
@@ -34,21 +38,25 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-2 mb-6">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-sm text-violet-300">Digital • Technology • Creators • Media • Entertainment</span>
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: theme.accent_color }} />
+                <span className="text-sm text-violet-300">{theme.hero_badge}</span>
               </div>
               <p className="text-sm font-semibold text-gray-300 uppercase tracking-[0.16em] mb-4">
                 Digital Agency • IT Solutions • Influencer Management
               </p>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Transform Your
-                <span className="bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent"> Digital Presence </span>
-                With Us
+              <h1
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-violet-300 to-pink-300 bg-clip-text text-transparent"
+                style={{
+                  fontFamily: theme.heading_font,
+                  backgroundImage: `linear-gradient(90deg, #ffffff, ${theme.primary_color}, ${theme.secondary_color})`,
+                }}
+              >
+                {theme.hero_title}
               </h1>
 
               <p className="text-lg text-gray-300 mb-8 max-w-xl leading-relaxed">
-                Intube Media is the umbrella network for digital agency services, IT solutions, influencer management, media and entertainment businesses.
+                {theme.hero_subtitle}
               </p>
 
               <div className="flex flex-wrap gap-4 mb-12">
@@ -95,11 +103,11 @@ export default function HomePage() {
               </div>
 
               <div className="absolute -bottom-4 -left-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-4">
-                <p className="text-2xl font-bold">500+</p>
+                <p className="text-2xl font-bold">{theme.stat_projects}</p>
                 <p className="text-sm text-gray-300">Projects Delivered</p>
               </div>
               <div className="absolute -top-4 -right-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-4">
-                <p className="text-2xl font-bold">200+</p>
+                <p className="text-2xl font-bold">{theme.stat_clients}</p>
                 <p className="text-sm text-gray-300">Happy Clients</p>
               </div>
             </div>
@@ -147,16 +155,14 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {businessServices.map(service => {
-              const Icon = service.icon;
-              return (
+            {businessServices.map(service => (
                 <Link
                   key={service.slug}
                   to={`/services/${service.slug}`}
                   className="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-violet-500/30 transition-all duration-300"
                 >
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4`}>
-                    <Icon className="w-7 h-7 text-white" />
+                    <CmsIcon icon={service.icon} className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-violet-300 transition-colors">
                     {service.title}
@@ -166,8 +172,7 @@ export default function HomePage() {
                     {service.items.length} services <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Link>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
@@ -184,16 +189,14 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {influencerServices.map(service => {
-              const Icon = service.icon;
-              return (
+            {influencerServices.map(service => (
                 <Link
                   key={service.slug}
                   to={`/services/${service.slug}`}
                   className="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-pink-500/30 transition-all duration-300"
                 >
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4`}>
-                    <Icon className="w-7 h-7 text-white" />
+                    <CmsIcon icon={service.icon} className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-pink-300 transition-colors">
                     {service.title}
@@ -203,8 +206,7 @@ export default function HomePage() {
                     {service.items.length} services <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Link>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
@@ -246,7 +248,7 @@ export default function HomePage() {
                 Start Your Project <ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href="tel:+91XXXXXXXXXX"
+                href={`tel:${theme.phone.replace(/[^\d+]/g, '')}`}
                 className="inline-flex items-center gap-2 border border-white/20 px-8 py-3 rounded-full font-semibold hover:bg-white/5 transition-colors"
               >
                 Call Us Now

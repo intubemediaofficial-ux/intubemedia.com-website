@@ -1,47 +1,38 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Youtube, Facebook, Twitter, Linkedin, ArrowUp } from 'lucide-react';
-
-const footerLinks = [
-  {
-    title: 'Services',
-    links: [
-      { label: 'Website Development', href: '/services/website-app' },
-      { label: 'Digital Marketing', href: '/services/digital-marketing' },
-      { label: 'Branding & Creative', href: '/services/branding-creative' },
-      { label: 'AI & Automation', href: '/services/ai-automation' },
-      { label: 'IT Support', href: '/services/it-support-security' },
-    ],
-  },
-  {
-    title: 'Creator Solutions',
-    links: [
-      { label: 'Account Management', href: '/services/account-management' },
-      { label: 'Monetization', href: '/services/monetization' },
-      { label: 'Copyright Help', href: '/services/copyright-claims' },
-      { label: 'Content Production', href: '/services/content-production' },
-      { label: 'Growth Services', href: '/services/growth-services' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Packages', href: '/packages' },
-      { label: 'Contact', href: '/contact' },
-      { label: 'All Services', href: '/services' },
-    ],
-  },
-];
-
-const socials = [
-  { icon: <Instagram size={18} />, href: '#', label: 'Instagram' },
-  { icon: <Youtube size={18} />, href: '#', label: 'YouTube' },
-  { icon: <Facebook size={18} />, href: '#', label: 'Facebook' },
-  { icon: <Twitter size={18} />, href: '#', label: 'Twitter' },
-  { icon: <Linkedin size={18} />, href: '#', label: 'LinkedIn' },
-];
+import { useCms } from '../context/useCms';
 
 export default function Footer() {
+  const { services, theme } = useCms();
+  const footerLinks = [
+    {
+      title: 'Services',
+      links: services.filter(service => service.section === 'business').slice(0, 5)
+        .map(service => ({ label: service.title, href: `/services/${service.slug}` })),
+    },
+    {
+      title: 'Creator Solutions',
+      links: services.filter(service => service.section === 'influencer').slice(0, 5)
+        .map(service => ({ label: service.title, href: `/services/${service.slug}` })),
+    },
+    {
+      title: 'Company',
+      links: [
+        { label: 'About Us', href: '/about' },
+        { label: 'Packages', href: '/packages' },
+        { label: 'Contact', href: '/contact' },
+        { label: 'All Services', href: '/services' },
+      ],
+    },
+  ];
+  const socials = [
+    { icon: <Instagram size={18} />, href: theme.instagram, label: 'Instagram' },
+    { icon: <Youtube size={18} />, href: theme.youtube, label: 'YouTube' },
+    { icon: <Facebook size={18} />, href: theme.facebook, label: 'Facebook' },
+    { icon: <Twitter size={18} />, href: theme.twitter, label: 'Twitter' },
+    { icon: <Linkedin size={18} />, href: theme.linkedin, label: 'LinkedIn' },
+  ].filter(social => social.href);
+
   return (
     <footer className="relative border-t border-white/10 bg-black/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -49,25 +40,32 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-600 to-pink-500 flex items-center justify-center font-bold text-white text-lg">
-                iM
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-white text-lg"
+                style={{ backgroundImage: `linear-gradient(135deg, ${theme.primary_color}, ${theme.secondary_color})` }}
+              >
+                {theme.logo_short}
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
-                Intube Media
+              <span
+                className="text-xl font-bold bg-clip-text text-transparent"
+                style={{ backgroundImage: `linear-gradient(90deg, ${theme.primary_color}, ${theme.secondary_color})` }}
+              >
+                {theme.logo_text}
               </span>
             </Link>
             <p className="text-gray-400 text-sm max-w-sm mb-6">
-              The digital, technology and media network for business IT solutions,
-              creator management, media and entertainment.
+              {theme.footer_text}
             </p>
             <p className="text-xs text-violet-300 uppercase tracking-[0.16em] mb-6">
-              Digital • Technology • Creators • Media • Entertainment
+              {theme.tagline}
             </p>
             <div className="flex gap-3">
               {socials.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label={social.label}
                   className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-violet-500/30 transition-all"
                 >
@@ -123,7 +121,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} Intube Media. All rights reserved.
+            &copy; {new Date().getFullYear()} {theme.logo_text}. All rights reserved.
           </p>
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

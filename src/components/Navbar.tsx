@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
-import { businessServices, influencerServices } from '../data/services';
+import CmsIcon from './CmsIcon';
+import { useCms } from '../context/useCms';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -9,6 +10,9 @@ export default function Navbar() {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const { services, theme } = useCms();
+  const businessServices = services.filter(service => service.section === 'business');
+  const influencerServices = services.filter(service => service.section === 'influencer');
 
   useEffect(() => {
     setOpen(false);
@@ -31,11 +35,17 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-violet-600 to-pink-500 flex items-center justify-center font-bold text-white text-lg sm:text-xl">
-              iM
+            <div
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center font-bold text-white text-lg sm:text-xl"
+              style={{ backgroundImage: `linear-gradient(135deg, ${theme.primary_color}, ${theme.secondary_color})` }}
+            >
+              {theme.logo_short}
             </div>
-            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
-              Intube Media
+            <span
+              className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent"
+              style={{ backgroundImage: `linear-gradient(90deg, ${theme.primary_color}, ${theme.secondary_color})` }}
+            >
+              {theme.logo_text}
             </span>
           </Link>
 
@@ -63,37 +73,31 @@ export default function Navbar() {
                     <div>
                       <p className="text-xs font-semibold text-violet-400 uppercase tracking-wider mb-3">Business IT Solutions</p>
                       <div className="space-y-1">
-                        {businessServices.map(service => {
-                          const Icon = service.icon;
-                          return (
+                        {businessServices.map(service => (
                             <Link
                               key={service.slug}
                               to={`/services/${service.slug}`}
                               className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors group"
                             >
-                              <Icon className="w-4 h-4 text-gray-400 group-hover:text-violet-400" />
+                              <CmsIcon icon={service.icon} className="w-4 h-4 text-gray-400 group-hover:text-violet-400" />
                               <span className="text-sm text-gray-300 group-hover:text-white">{service.title}</span>
                             </Link>
-                          );
-                        })}
+                        ))}
                       </div>
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-pink-400 uppercase tracking-wider mb-3">Influencer & Creator</p>
                       <div className="space-y-1">
-                        {influencerServices.map(service => {
-                          const Icon = service.icon;
-                          return (
+                        {influencerServices.map(service => (
                             <Link
                               key={service.slug}
                               to={`/services/${service.slug}`}
                               className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors group"
                             >
-                              <Icon className="w-4 h-4 text-gray-400 group-hover:text-pink-400" />
+                              <CmsIcon icon={service.icon} className="w-4 h-4 text-gray-400 group-hover:text-pink-400" />
                               <span className="text-sm text-gray-300 group-hover:text-white">{service.title}</span>
                             </Link>
-                          );
-                        })}
+                        ))}
                       </div>
                     </div>
                   </div>

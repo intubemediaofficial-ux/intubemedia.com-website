@@ -30,6 +30,9 @@ const themeGroups = [
       { key: 'logo_text', label: 'Logo Text', type: 'text' },
       { key: 'tagline', label: 'Tagline', type: 'text' },
       { key: 'footer_text', label: 'Footer Text', type: 'text' },
+      { key: 'hero_badge', label: 'Hero Badge', type: 'text' },
+      { key: 'hero_title', label: 'Hero Title', type: 'text' },
+      { key: 'hero_subtitle', label: 'Hero Subtitle', type: 'text' },
     ],
   },
   {
@@ -38,6 +41,16 @@ const themeGroups = [
       { key: 'phone', label: 'Phone Number', type: 'text' },
       { key: 'email', label: 'Email Address', type: 'text' },
       { key: 'address', label: 'Address', type: 'text' },
+      { key: 'working_hours', label: 'Working Hours', type: 'text' },
+    ],
+  },
+  {
+    label: 'Homepage Stats',
+    fields: [
+      { key: 'stat_projects', label: 'Projects Delivered', type: 'text' },
+      { key: 'stat_clients', label: 'Happy Clients', type: 'text' },
+      { key: 'stat_team', label: 'Team Members', type: 'text' },
+      { key: 'stat_experience', label: 'Years Experience', type: 'text' },
     ],
   },
   {
@@ -46,6 +59,8 @@ const themeGroups = [
       { key: 'instagram', label: 'Instagram URL', type: 'text' },
       { key: 'youtube', label: 'YouTube URL', type: 'text' },
       { key: 'facebook', label: 'Facebook URL', type: 'text' },
+      { key: 'twitter', label: 'Twitter URL', type: 'text' },
+      { key: 'linkedin', label: 'LinkedIn URL', type: 'text' },
     ],
   },
 ];
@@ -58,13 +73,12 @@ export default function AdminTheme() {
 
   useEffect(() => {
     api.get('/api/theme').then(d => {
-      const obj: ThemeSettings = {};
-      if (Array.isArray(d)) {
-        d.forEach((item: { key: string; value: string }) => { obj[item.key] = item.value; });
-      }
-      setSettings(obj);
+      setSettings(d);
       setLoading(false);
-    }).catch(() => setLoading(false));
+    }).catch((error) => {
+      setMsg(error instanceof Error ? error.message : 'Unable to load theme settings');
+      setLoading(false);
+    });
   }, []);
 
   const handleSave = async () => {

@@ -1,7 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || (
+  import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.intubemedia.com/website-cms'
+);
 
 async function request(path: string, options: RequestInit = {}) {
   const token = localStorage.getItem('admin_token');
+  const publicAuthPaths = ['/api/auth/login', '/api/auth/forgot-password', '/api/auth/reset-password'];
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string> || {}),
@@ -10,7 +13,7 @@ async function request(path: string, options: RequestInit = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
   const res = await fetch(`${API_URL}${path}`, { ...options, headers });
-  if (res.status === 401) {
+  if (res.status === 401 && token && !publicAuthPaths.includes(path)) {
     localStorage.removeItem('admin_token');
     window.location.href = '/admin/login';
     throw new Error('Unauthorized');
