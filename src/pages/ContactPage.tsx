@@ -2,16 +2,13 @@ import { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { serviceCategories } from '../data/services';
-
-const contactInfo = [
-  { icon: Phone, label: 'Phone', value: '+91 XXXXX XXXXX', href: 'tel:+91XXXXXXXXXX' },
-  { icon: Mail, label: 'Email', value: 'hello@intubemedia.com', href: 'mailto:hello@intubemedia.com' },
-  { icon: MapPin, label: 'Office', value: 'India', href: '#' },
-  { icon: Clock, label: 'Hours', value: 'Mon - Sat, 10AM - 7PM IST', href: '#' },
-];
+import { api } from '../utils/api';
+import { useCms } from '../context/useCms';
 
 export default function ContactPage() {
+  const { services, theme } = useCms();
+  const [status, setStatus] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -20,9 +17,26 @@ export default function ContactPage() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const contactInfo = [
+    { icon: Phone, label: 'Phone', value: theme.phone, href: `tel:${theme.phone.replace(/[^\d+]/g, '')}` },
+    { icon: Mail, label: 'Email', value: theme.email, href: `mailto:${theme.email}` },
+    { icon: MapPin, label: 'Office', value: theme.address, href: undefined },
+    { icon: Clock, label: 'Hours', value: theme.working_hours, href: undefined },
+  ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Thank you! We will contact you soon.');
+    setStatus('');
+    setSubmitting(true);
+    try {
+      await api.post('/api/contact', formData);
+      setFormData({ name: '', phone: '', email: '', service: '', message: '' });
+      setStatus('Thank you! Your message has been sent.');
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Unable to send your message');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -100,7 +114,7 @@ export default function ContactPage() {
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-colors"
                       >
                         <option value="" className="bg-gray-900">Select a service</option>
-                        {serviceCategories.map(s => (
+                        {services.map(s => (
                           <option key={s.slug} value={s.title} className="bg-gray-900">{s.title}</option>
                         ))}
                       </select>
@@ -118,11 +132,16 @@ export default function ContactPage() {
                     />
                   </div>
 
+                  {status && (
+                    <p role="status" className="text-sm text-violet-200">{status}</p>
+                  )}
+
                   <button
                     type="submit"
+                    disabled={submitting}
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
                   >
-                    <Send className="w-5 h-5" /> Send Message
+                    <Send className="w-5 h-5" /> {submitting ? 'Sending...' : 'Send Message'}
                   </button>
                 </form>
               </div>
@@ -155,7 +174,7 @@ export default function ContactPage() {
                   Not sure what you need? Book a free consultation with our experts.
                 </p>
                 <a
-                  href="tel:+91XXXXXXXXXX"
+                  href={`tel:${theme.phone.replace(/[^\d+]/g, '')}`}
                   className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-6 py-2 rounded-full text-sm font-semibold hover:bg-white/20 transition-colors"
                 >
                   <Phone className="w-4 h-4" /> Call Now

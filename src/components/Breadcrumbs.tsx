@@ -19,6 +19,7 @@ const routeLabels: Record<string, string> = {
   contact: 'Contact',
   network: 'Our Network',
   'bainsla-music': 'Bainsla Music',
+  pages: 'Pages',
 };
 
 export default function Breadcrumbs() {

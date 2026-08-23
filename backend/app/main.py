@@ -1,25 +1,65 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from datetime import datetime, timedelta, timezone
+import hashlib
+import json
+import logging
+import os
+import secrets
+
+from fastapi import FastAPI, Depends, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
-import json
 
 from app.database import get_db, init_db
-from app.auth import verify_password, hash_password, create_access_token, get_current_admin
+from app.auth import (
+    create_access_token,
+    get_current_admin,
+    hash_password,
+    password_needs_rehash,
+    validate_password,
+    verify_password,
+)
+from app.mailer import send_password_reset_email
 
 app = FastAPI(title="Intube Media Admin API")
+logger = logging.getLogger(__name__)
 
-# Disable CORS. Do not remove this for full-stack development.
+allowed_origins = [
+    origin.strip()
+    for origin in os.environ.get(
+        "ALLOWED_ORIGINS",
+        "http://localhost:5173,http://localhost:4173,https://intubemedia.com,https://www.intubemedia.com",
+    ).split(",")
+    if origin.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_origins=allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
+
+@app.middleware("http")
+async def disable_api_caching(request: Request, call_next):
+    response = await call_next(request)
+    if request.url.path.startswith("/api/"):
+        response.headers["Cache-Control"] = "no-store"
+    return response
 
 @app.on_event("startup")
 async def startup():
+    if os.environ.get("ENVIRONMENT") == "production":
+        required_settings = [
+            "JWT_SECRET",
+            "ADMIN_EMAIL",
+            "ADMIN_INITIAL_PASSWORD",
+            "BREVO_API_KEY",
+            "PUBLIC_SITE_URL",
+        ]
+        missing_settings = [name for name in required_settings if not os.environ.get(name)]
+        if missing_settings:
+            raise RuntimeError(f"Missing production settings: {', '.join(missing_settings)}")
     await init_db()
 
 @app.get("/healthz")
@@ -36,12 +76,25 @@ class ChangePasswordRequest(BaseModel):
     old_password: str
     new_password: str
 
+class ForgotPasswordRequest(BaseModel):
+    identifier: str
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
+
 @app.post("/api/auth/login")
 async def login(req: LoginRequest, db=Depends(get_db)):
     cursor = await db.execute("SELECT * FROM admin_users WHERE username = ?", (req.username,))
     user = await cursor.fetchone()
     if not user or not verify_password(req.password, user["password_hash"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+    if password_needs_rehash(user["password_hash"]):
+        await db.execute(
+            "UPDATE admin_users SET password_hash = ? WHERE id = ?",
+            (hash_password(req.password), user["id"]),
+        )
+        await db.commit()
     token = create_access_token({"sub": user["username"], "id": user["id"]})
     return {"token": token, "username": user["username"]}
 
@@ -49,16 +102,107 @@ async def login(req: LoginRequest, db=Depends(get_db)):
 async def change_password(req: ChangePasswordRequest, admin=Depends(get_current_admin), db=Depends(get_db)):
     cursor = await db.execute("SELECT * FROM admin_users WHERE id = ?", (admin["id"],))
     user = await cursor.fetchone()
+    if not user:
+        raise HTTPException(status_code=401, detail="Admin account not found")
     if not verify_password(req.old_password, user["password_hash"]):
         raise HTTPException(status_code=400, detail="Current password is incorrect")
+    validate_password(req.new_password)
     new_hash = hash_password(req.new_password)
     await db.execute("UPDATE admin_users SET password_hash = ? WHERE id = ?", (new_hash, admin["id"]))
+    await db.execute(
+        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE admin_user_id = ? AND used_at IS NULL",
+        (admin["id"],),
+    )
     await db.commit()
     return {"message": "Password updated"}
 
+@app.post("/api/auth/forgot-password", status_code=status.HTTP_202_ACCEPTED)
+async def forgot_password(req: ForgotPasswordRequest, db=Depends(get_db)):
+    generic_response = {
+        "message": "If the account exists, a password reset link has been sent."
+    }
+    identifier = req.identifier.strip()
+    if not identifier:
+        return generic_response
+
+    cursor = await db.execute(
+        "SELECT * FROM admin_users WHERE username = ? OR lower(email) = lower(?)",
+        (identifier, identifier),
+    )
+    user = await cursor.fetchone()
+    if not user or not user["email"]:
+        return generic_response
+
+    recent_cursor = await db.execute(
+        """
+        SELECT id FROM password_reset_tokens
+        WHERE admin_user_id = ? AND created_at > datetime('now', '-60 seconds')
+        LIMIT 1
+        """,
+        (user["id"],),
+    )
+    if await recent_cursor.fetchone():
+        return generic_response
+
+    raw_token = secrets.token_urlsafe(32)
+    token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
+    expires_at = datetime.now(timezone.utc) + timedelta(minutes=30)
+    await db.execute(
+        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE admin_user_id = ? AND used_at IS NULL",
+        (user["id"],),
+    )
+    await db.execute(
+        "INSERT INTO password_reset_tokens (admin_user_id, token_hash, expires_at) VALUES (?, ?, ?)",
+        (user["id"], token_hash, expires_at.isoformat()),
+    )
+    await db.commit()
+
+    public_site_url = os.environ.get("PUBLIC_SITE_URL", "http://localhost:5173").rstrip("/")
+    reset_url = f"{public_site_url}/admin/reset-password?token={raw_token}"
+    try:
+        await send_password_reset_email(user["email"], reset_url)
+    except RuntimeError:
+        logger.exception("Unable to send admin password reset email")
+    return generic_response
+
+@app.post("/api/auth/reset-password")
+async def reset_password(req: ResetPasswordRequest, db=Depends(get_db)):
+    validate_password(req.new_password)
+    token_hash = hashlib.sha256(req.token.encode()).hexdigest()
+    now = datetime.now(timezone.utc).isoformat()
+    cursor = await db.execute(
+        """
+        SELECT id, admin_user_id
+        FROM password_reset_tokens
+        WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?
+        """,
+        (token_hash, now),
+    )
+    token = await cursor.fetchone()
+    if not token:
+        raise HTTPException(status_code=400, detail="Reset link is invalid or expired")
+
+    await db.execute(
+        "UPDATE admin_users SET password_hash = ? WHERE id = ?",
+        (hash_password(req.new_password), token["admin_user_id"]),
+    )
+    await db.execute(
+        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE id = ?",
+        (token["id"],),
+    )
+    await db.commit()
+    return {"message": "Password reset successfully"}
+
 @app.get("/api/auth/me")
-async def get_me(admin=Depends(get_current_admin)):
-    return {"username": admin["sub"], "id": admin["id"]}
+async def get_me(admin=Depends(get_current_admin), db=Depends(get_db)):
+    cursor = await db.execute(
+        "SELECT id, username, email FROM admin_users WHERE id = ?",
+        (admin["id"],),
+    )
+    user = await cursor.fetchone()
+    if not user:
+        raise HTTPException(status_code=401, detail="Admin account not found")
+    return dict(user)
 
 # ─── Services CRUD ──────────────────────────────────────
 
@@ -101,6 +245,27 @@ async def list_services(db=Depends(get_db)):
         )
         s["items"] = [dict(item) for item in await items_cursor.fetchall()]
         services.append(s)
+    return services
+
+@app.get("/api/public/services")
+async def list_public_services(db=Depends(get_db)):
+    cursor = await db.execute(
+        "SELECT * FROM services WHERE is_active = 1 ORDER BY sort_order, id"
+    )
+    rows = await cursor.fetchall()
+    services = []
+    for row in rows:
+        service = dict(row)
+        items_cursor = await db.execute(
+            """
+            SELECT * FROM service_items
+            WHERE service_id = ? AND is_active = 1
+            ORDER BY sort_order, id
+            """,
+            (service["id"],),
+        )
+        service["items"] = [dict(item) for item in await items_cursor.fetchall()]
+        services.append(service)
     return services
 
 @app.get("/api/services/{service_id}")
@@ -229,6 +394,21 @@ async def list_packages(db=Depends(get_db)):
         result.append(p)
     return result
 
+@app.get("/api/public/packages")
+async def list_public_packages(db=Depends(get_db)):
+    cursor = await db.execute(
+        "SELECT * FROM packages WHERE is_active = 1 ORDER BY sort_order, id"
+    )
+    rows = await cursor.fetchall()
+    result = []
+    for row in rows:
+        package = dict(row)
+        package["features"] = json.loads(package["features"])
+        package["is_popular"] = bool(package["is_popular"])
+        package["is_active"] = bool(package["is_active"])
+        result.append(package)
+    return result
+
 @app.post("/api/packages")
 async def create_package(req: PackageCreate, admin=Depends(get_current_admin), db=Depends(get_db)):
     await db.execute(
@@ -310,6 +490,10 @@ async def get_theme(db=Depends(get_db)):
     rows = await cursor.fetchall()
     return {row["key"]: row["value"] for row in rows}
 
+@app.get("/api/public/theme")
+async def get_public_theme(db=Depends(get_db)):
+    return await get_theme(db)
+
 @app.put("/api/theme")
 async def update_theme(req: ThemeUpdate, admin=Depends(get_current_admin), db=Depends(get_db)):
     for key, value in req.settings.items():
@@ -331,6 +515,7 @@ class PageCreate(BaseModel):
     is_active: bool = True
 
 class PageUpdate(BaseModel):
+    slug: Optional[str] = None
     title: Optional[str] = None
     content: Optional[str] = None
     meta_title: Optional[str] = None
@@ -345,6 +530,17 @@ async def list_pages(db=Depends(get_db)):
 @app.get("/api/pages/{slug}")
 async def get_page(slug: str, db=Depends(get_db)):
     cursor = await db.execute("SELECT * FROM pages WHERE slug = ?", (slug,))
+    row = await cursor.fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="Page not found")
+    return dict(row)
+
+@app.get("/api/public/pages/{slug}")
+async def get_public_page(slug: str, db=Depends(get_db)):
+    cursor = await db.execute(
+        "SELECT * FROM pages WHERE slug = ? AND is_active = 1",
+        (slug,),
+    )
     row = await cursor.fetchone()
     if not row:
         raise HTTPException(status_code=404, detail="Page not found")
@@ -389,10 +585,12 @@ async def dashboard_stats(admin=Depends(get_current_admin), db=Depends(get_db)):
     packages_count = (await (await db.execute("SELECT COUNT(*) FROM packages")).fetchone())[0]
     submissions_count = (await (await db.execute("SELECT COUNT(*) FROM contact_submissions")).fetchone())[0]
     unread_count = (await (await db.execute("SELECT COUNT(*) FROM contact_submissions WHERE is_read = 0")).fetchone())[0]
+    pages_count = (await (await db.execute("SELECT COUNT(*) FROM pages")).fetchone())[0]
     return {
         "services": services_count,
         "service_items": items_count,
         "packages": packages_count,
-        "contact_submissions": submissions_count,
+        "submissions": submissions_count,
         "unread_submissions": unread_count,
+        "pages": pages_count,
     }

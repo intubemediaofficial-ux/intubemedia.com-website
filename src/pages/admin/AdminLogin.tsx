@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import { api } from '../../utils/api';
 
@@ -57,7 +57,12 @@ export default function AdminLogin() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium text-gray-300">Password</label>
+              <Link to="/admin/forgot-password" className="text-sm text-violet-400 hover:text-violet-300">
+                Forgot password?
+              </Link>
+            </div>
             <div className="relative">
               <input
                 type={showPass ? 'text' : 'password'}

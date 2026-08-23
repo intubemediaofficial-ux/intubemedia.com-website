@@ -2,61 +2,11 @@ import { Link } from 'react-router-dom';
 import { CheckCircle2, Star } from 'lucide-react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-
-const packages = [
-  {
-    name: 'Startup Package',
-    tagline: 'Perfect for New Businesses',
-    color: 'from-blue-500 to-cyan-400',
-    features: [
-      'Professional Logo Design',
-      'Business Website (5 Pages)',
-      'Social Media Setup (3 Platforms)',
-      'Basic SEO Optimization',
-      'Google My Business Listing',
-      'Business Email Setup',
-      'Brand Identity Kit',
-      '1 Month Free Support',
-    ],
-  },
-  {
-    name: 'Business Growth Package',
-    tagline: 'Scale Your Business',
-    color: 'from-violet-500 to-pink-500',
-    popular: true,
-    features: [
-      'Google & Meta Ads Management',
-      'Custom CRM Setup',
-      'Website Maintenance & Updates',
-      'Social Media Management',
-      'AI Automation Integration',
-      'Monthly Analytics Reports',
-      'Content Strategy & Creation',
-      'Priority Support',
-      'SEO & Performance Optimization',
-      'Email Marketing Campaigns',
-    ],
-  },
-  {
-    name: 'Celebrity / Influencer Package',
-    tagline: 'For Top Creators & Celebrities',
-    color: 'from-amber-500 to-orange-500',
-    features: [
-      'Full Account Handling (All Platforms)',
-      'Brand Deals & Sponsorship Management',
-      'Copyright & Content Protection',
-      'Dedicated Content Production Team',
-      'PR & Media Management',
-      'Personal Branding Strategy',
-      'Revenue Growth Planning',
-      'Crisis Management',
-      'Collaboration Management',
-      'Monthly Growth Reports',
-    ],
-  },
-];
+import { useCms } from '../context/useCms';
 
 export default function PackagesPage() {
+  const { packages } = useCms();
+
   return (
     <>
       <SEO
@@ -86,12 +36,12 @@ export default function PackagesPage() {
               <div
                 key={pkg.name}
                 className={`relative bg-white/5 border rounded-3xl p-8 flex flex-col ${
-                  pkg.popular
+                  (pkg.is_popular ?? pkg.popular)
                     ? 'border-violet-500/50 scale-105 shadow-lg shadow-violet-500/10'
                     : 'border-white/10'
                 }`}
               >
-                {pkg.popular && (
+                {(pkg.is_popular ?? pkg.popular) && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <span className="inline-flex items-center gap-1 bg-gradient-to-r from-violet-600 to-pink-600 text-white text-sm font-semibold px-4 py-1.5 rounded-full">
                       <Star className="w-4 h-4" /> Most Popular
@@ -118,7 +68,7 @@ export default function PackagesPage() {
                 <Link
                   to="/contact"
                   className={`w-full text-center py-3 rounded-full font-semibold transition-all ${
-                    pkg.popular
+                    (pkg.is_popular ?? pkg.popular)
                       ? 'bg-gradient-to-r from-violet-600 to-pink-600 hover:opacity-90'
                       : 'border border-white/20 hover:bg-white/5'
                   }`}

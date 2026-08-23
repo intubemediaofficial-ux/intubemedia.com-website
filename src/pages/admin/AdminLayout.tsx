@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Settings, Package, Mail, FileText, LogOut,
-  Menu, X, ChevronRight, Palette,
+  Menu, X, ChevronRight, Palette, KeyRound,
 } from 'lucide-react';
 import { api } from '../../utils/api';
 
@@ -13,6 +13,7 @@ const sidebarLinks = [
   { label: 'Pages', href: '/admin/pages', icon: FileText },
   { label: 'Messages', href: '/admin/messages', icon: Mail },
   { label: 'Theme', href: '/admin/theme', icon: Palette },
+  { label: 'Account', href: '/admin/account', icon: KeyRound },
 ];
 
 export default function AdminLayout() {

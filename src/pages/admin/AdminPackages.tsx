@@ -7,14 +7,14 @@ interface Pkg {
   name: string;
   tagline: string;
   color: string;
-  is_popular: number;
+  is_popular: number | boolean;
   features: string;
   sort_order: number;
-  is_active: number;
+  is_active: number | boolean;
 }
 
 const emptyPkg: Pkg = {
-  name: '', tagline: '', color: 'violet', is_popular: 0,
+  name: '', tagline: '', color: 'from-blue-500 to-cyan-400', is_popular: 0,
   features: '', sort_order: 0, is_active: 1,
 };
 
@@ -26,7 +26,16 @@ export default function AdminPackages() {
 
   const load = () => {
     setLoading(true);
-    api.get('/api/packages').then(d => { setPackages(d); setLoading(false); }).catch(() => setLoading(false));
+    api.get('/api/packages').then(data => {
+      setPackages(data.map((pkg: Omit<Pkg, 'features'> & { features: string[] }) => ({
+        ...pkg,
+        features: pkg.features.join('\n'),
+      })));
+      setLoading(false);
+    }).catch((error) => {
+      setMsg(error instanceof Error ? error.message : 'Unable to load packages');
+      setLoading(false);
+    });
   };
 
   useEffect(() => { load(); }, []);
@@ -35,10 +44,16 @@ export default function AdminPackages() {
     if (!editing) return;
     setMsg('');
     try {
+      const payload = {
+        ...editing,
+        features: editing.features.split('\n').map(feature => feature.trim()).filter(Boolean),
+        is_popular: Boolean(editing.is_popular),
+        is_active: Boolean(editing.is_active),
+      };
       if (editing.id) {
-        await api.put(`/api/packages/${editing.id}`, editing);
+        await api.put(`/api/packages/${editing.id}`, payload);
       } else {
-        await api.post('/api/packages', editing);
+        await api.post('/api/packages', payload);
       }
       setEditing(null);
       load();

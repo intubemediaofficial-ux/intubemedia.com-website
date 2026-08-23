@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FileText, Plus, Edit2, Trash2, Save, X } from 'lucide-react';
+import { FileText, Plus, Edit2, Trash2, Save, X, ExternalLink } from 'lucide-react';
 import { api } from '../../utils/api';
 
 interface Page {
@@ -24,7 +24,10 @@ export default function AdminPages() {
 
   const load = () => {
     setLoading(true);
-    api.get('/api/pages').then(d => { setPages(d); setLoading(false); }).catch(() => setLoading(false));
+    api.get('/api/pages').then(d => { setPages(d); setLoading(false); }).catch((error) => {
+      setMsg(error instanceof Error ? error.message : 'Unable to load pages');
+      setLoading(false);
+    });
   };
 
   useEffect(() => { load(); }, []);
@@ -79,7 +82,7 @@ export default function AdminPages() {
             </div>
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Content (HTML supported)</label>
+            <label className="block text-sm text-gray-400 mb-1">Content</label>
             <textarea value={editing.content} onChange={e => setEditing({ ...editing, content: e.target.value })} rows={12}
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-violet-500" />
           </div>
@@ -147,6 +150,15 @@ export default function AdminPages() {
               <span className={`text-xs px-2 py-0.5 rounded-full ${page.is_active ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>
                 {page.is_active ? 'Active' : 'Inactive'}
               </span>
+              <a
+                href={`/pages/${page.slug}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-gray-400 hover:text-cyan-400 p-1"
+                aria-label={`View ${page.title}`}
+              >
+                <ExternalLink className="w-4 h-4" />
+              </a>
               <button onClick={() => setEditing(page)} className="text-gray-400 hover:text-white p-1"><Edit2 className="w-4 h-4" /></button>
               <button onClick={() => handleDelete(page.id!)} className="text-gray-400 hover:text-red-400 p-1"><Trash2 className="w-4 h-4" /></button>
             </div>

@@ -2,11 +2,13 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import SEO from '../../components/SEO';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import { serviceCategories } from '../../data/services';
+import CmsIcon from '../../components/CmsIcon';
+import { useCms } from '../../context/useCms';
 
 export default function ServicePage() {
   const { slug } = useParams<{ slug: string }>();
-  const service = serviceCategories.find(s => s.slug === slug);
+  const { services } = useCms();
+  const service = services.find(s => s.slug === slug);
 
   if (!service) {
     return (
@@ -19,16 +21,15 @@ export default function ServicePage() {
     );
   }
 
-  const Icon = service.icon;
-  const relatedServices = serviceCategories.filter(
+  const relatedServices = services.filter(
     s => s.section === service.section && s.slug !== service.slug
   );
 
   return (
     <>
       <SEO
-        title={service.metaTitle}
-        description={service.metaDescription}
+        title={service.meta_title}
+        description={service.meta_description}
         path={`/services/${service.slug}`}
       />
 
@@ -43,7 +44,7 @@ export default function ServicePage() {
 
           <div className="flex items-center gap-4 mb-6 mt-4">
             <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center`}>
-              <Icon className="w-8 h-8 text-white" />
+              <CmsIcon icon={service.icon} className="w-8 h-8 text-white" />
             </div>
             <div>
               <p className="text-sm font-medium text-violet-400 uppercase tracking-wider">{service.tagline}</p>
@@ -62,15 +63,13 @@ export default function ServicePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold mb-10">Our {service.title}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {service.items.map((item, index) => {
-              const ItemIcon = item.icon;
-              return (
+            {service.items.map((item, index) => (
                 <div
-                  key={index}
+                  key={item.id ?? index}
                   className="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-violet-500/30 transition-all duration-300"
                 >
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.color} bg-opacity-20 flex items-center justify-center mb-4`}>
-                    <ItemIcon className="w-6 h-6 text-white" />
+                    <CmsIcon icon={item.icon} className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2 group-hover:text-violet-300 transition-colors">
                     {item.name}
@@ -79,8 +78,7 @@ export default function ServicePage() {
                     {item.description}
                   </p>
                 </div>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
@@ -110,16 +108,14 @@ export default function ServicePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold mb-8">Related Services</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {relatedServices.map(related => {
-              const RelatedIcon = related.icon;
-              return (
+            {relatedServices.map(related => (
                 <Link
                   key={related.slug}
                   to={`/services/${related.slug}`}
                   className="group flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-violet-500/30 transition-all"
                 >
                   <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${related.color} flex items-center justify-center flex-shrink-0`}>
-                    <RelatedIcon className="w-5 h-5 text-white" />
+                    <CmsIcon icon={related.icon} className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <h3 className="font-semibold group-hover:text-violet-300 transition-colors">{related.title}</h3>
@@ -127,8 +123,7 @@ export default function ServicePage() {
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-500 ml-auto group-hover:text-violet-400 transition-colors" />
                 </Link>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>

@@ -1,0 +1,775 @@
+{
+  "services": [
+    {
+      "slug": "website-app",
+      "title": "Website & App Services",
+      "icon": "Globe",
+      "color": "from-blue-500 to-cyan-400",
+      "section": "business",
+      "tagline": "Build Your Digital Presence",
+      "description": "From stunning business websites to powerful mobile apps, we build scalable digital products that help your business thrive online. Our expert developers use the latest technologies to create fast, secure, and user-friendly solutions.",
+      "meta_title": "Website & App Development Services | Intube Media",
+      "meta_description": "Professional website development, e-commerce, mobile apps, CRM/ERP software, booking systems, and AI chatbot integration by Intube Media.",
+      "sort_order": 0,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Globe",
+          "name": "Business Website Development",
+          "description": "Custom-designed responsive websites that represent your brand professionally and convert visitors into customers.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "ShoppingCart",
+          "name": "E-commerce Website",
+          "description": "Full-featured online stores with secure payment gateways, inventory management, and seamless shopping experience.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "Database",
+          "name": "Custom CRM/ERP Software",
+          "description": "Tailored business management software to streamline operations, manage customers, and boost productivity.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Smartphone",
+          "name": "Android & iOS App Development",
+          "description": "Native and cross-platform mobile applications designed for performance and user engagement.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "CalendarCheck",
+          "name": "Booking & Appointment Systems",
+          "description": "Smart scheduling solutions with automated reminders, calendar sync, and online payment integration.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "UtensilsCrossed",
+          "name": "Restaurant / Hotel Management Software",
+          "description": "Complete hospitality management with reservations, billing, menu management, and analytics.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "Bot",
+          "name": "AI Chatbot Integration",
+          "description": "Intelligent chatbots that handle customer queries 24/7, improving response times and customer satisfaction.",
+          "sort_order": 6,
+          "is_active": true
+        },
+        {
+          "icon": "QrCode",
+          "name": "QR Code & Billing Systems",
+          "description": "Digital billing and QR-based solutions for contactless payments, menus, and customer interactions.",
+          "sort_order": 7,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "digital-marketing",
+      "title": "Digital Marketing",
+      "icon": "Target",
+      "color": "from-green-500 to-emerald-400",
+      "section": "business",
+      "tagline": "Grow Your Online Reach",
+      "description": "Data-driven digital marketing strategies to increase your online visibility, drive targeted traffic, and maximize ROI. We help businesses of all sizes dominate search engines and social platforms.",
+      "meta_title": "Digital Marketing Services - SEO, Ads, Social Media | Intube Media",
+      "meta_description": "Boost your business with SEO, Google Ads, Meta Ads, YouTube Marketing, social media management, and email marketing from Intube Media.",
+      "sort_order": 1,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Search",
+          "name": "SEO (Google Ranking)",
+          "description": "On-page and off-page SEO strategies to rank your website higher on Google and drive organic traffic.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Target",
+          "name": "Google Ads Management",
+          "description": "Strategic PPC campaigns on Google Search, Display, and Shopping to maximize your ad spend.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "Facebook",
+          "name": "Meta Ads (Facebook/Instagram)",
+          "description": "Targeted advertising on Facebook and Instagram to reach your ideal audience and drive conversions.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Youtube",
+          "name": "YouTube Marketing",
+          "description": "Video marketing strategies including YouTube Ads, channel optimization, and content promotion.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Share2",
+          "name": "Social Media Handling",
+          "description": "Complete social media management including content creation, posting schedules, and community engagement.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "FileText",
+          "name": "Content Strategy",
+          "description": "Strategic content planning and creation that attracts, engages, and converts your target audience.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "Mail",
+          "name": "Email & WhatsApp Marketing",
+          "description": "Automated email campaigns and WhatsApp business solutions for direct customer communication.",
+          "sort_order": 6,
+          "is_active": true
+        },
+        {
+          "icon": "MapPin",
+          "name": "Local SEO & Google My Business",
+          "description": "Optimize your local presence to attract nearby customers through Google Maps and local search.",
+          "sort_order": 7,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "branding-creative",
+      "title": "Branding & Creative",
+      "icon": "Palette",
+      "color": "from-pink-500 to-rose-400",
+      "section": "business",
+      "tagline": "Design That Stands Out",
+      "description": "Creative branding and design solutions that tell your story and make a lasting impression. From logos to cinematic videos, we bring your brand vision to life.",
+      "meta_title": "Branding & Creative Design Services | Intube Media",
+      "meta_description": "Logo design, brand identity, packaging, video editing, ad shoots, commercial production, drone shoots, and animation services by Intube Media.",
+      "sort_order": 2,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Palette",
+          "name": "Logo Design",
+          "description": "Unique, memorable logos that capture your brand essence and work across all media.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Brush",
+          "name": "Brand Identity Kit",
+          "description": "Complete brand guidelines including colors, typography, imagery style, and brand voice.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "Package",
+          "name": "Product Packaging Design",
+          "description": "Eye-catching packaging designs that stand out on shelves and reinforce brand recognition.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Video",
+          "name": "Video Editing",
+          "description": "Professional video editing for social media, YouTube, ads, and corporate presentations.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Camera",
+          "name": "Ad Shoots",
+          "description": "High-quality advertising shoots for products, services, and brand campaigns.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "Clapperboard",
+          "name": "Commercial Video Production",
+          "description": "End-to-end commercial video production from concept to final delivery.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "Plane",
+          "name": "Drone Shoots",
+          "description": "Aerial videography and photography for stunning perspectives and cinematic content.",
+          "sort_order": 6,
+          "is_active": true
+        },
+        {
+          "icon": "Sparkles",
+          "name": "Animation & Motion Graphics",
+          "description": "2D/3D animation and motion graphics for explainer videos, ads, and social media.",
+          "sort_order": 7,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "it-support-security",
+      "title": "IT Support & Security",
+      "icon": "Shield",
+      "color": "from-orange-500 to-amber-400",
+      "section": "business",
+      "tagline": "Protect & Maintain Your Business",
+      "description": "Comprehensive IT support and cybersecurity services to keep your business running smoothly and protect against digital threats.",
+      "meta_title": "IT Support & Cyber Security Services | Intube Media",
+      "meta_description": "Website security, server management, data backup, cyber security, business email setup, domain hosting, and cloud storage services by Intube Media.",
+      "sort_order": 3,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Shield",
+          "name": "Website Security",
+          "description": "SSL certificates, malware scanning, firewall setup, and regular security audits for your website.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Server",
+          "name": "Server Management",
+          "description": "Reliable server setup, monitoring, and maintenance to ensure 99.9% uptime.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "HardDrive",
+          "name": "Data Backup Solutions",
+          "description": "Automated backup systems with disaster recovery plans to protect your business data.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Lock",
+          "name": "Cyber Security",
+          "description": "Advanced security measures including penetration testing, threat monitoring, and incident response.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "MailCheck",
+          "name": "Business Email Setup",
+          "description": "Professional email solutions with your domain, including setup, migration, and management.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "Cloud",
+          "name": "Domain & Hosting Services",
+          "description": "Reliable domain registration and web hosting with high performance and scalability.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "HeadphonesIcon",
+          "name": "Cloud Storage Setup",
+          "description": "Secure cloud storage solutions for easy file sharing, collaboration, and data access.",
+          "sort_order": 6,
+          "is_active": true
+        },
+        {
+          "icon": "Headphones",
+          "name": "Technical Support Team",
+          "description": "Dedicated IT support team available to resolve technical issues and maintain your systems.",
+          "sort_order": 7,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "ai-automation",
+      "title": "AI & Automation",
+      "icon": "Cpu",
+      "color": "from-violet-500 to-purple-400",
+      "section": "business",
+      "tagline": "Automate & Scale with AI",
+      "description": "Leverage the power of artificial intelligence and automation to streamline operations, enhance customer experience, and gain competitive advantage.",
+      "meta_title": "AI & Business Automation Services | Intube Media",
+      "meta_description": "AI customer support, AI voice calling, video generation, business automation, social media AI content, and analytics dashboard by Intube Media.",
+      "sort_order": 4,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Bot",
+          "name": "AI Customer Support",
+          "description": "AI-powered customer support bots that handle queries, complaints, and FAQs automatically.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Phone",
+          "name": "AI Voice Calling",
+          "description": "Automated voice calling systems for customer outreach, reminders, and surveys.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "MonitorPlay",
+          "name": "AI Video Generation",
+          "description": "Create professional marketing videos using AI tools — fast, scalable, and cost-effective.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Zap",
+          "name": "Business Automation",
+          "description": "Automate repetitive tasks across your business to save time and reduce errors.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Sparkles",
+          "name": "AI Social Media Content",
+          "description": "AI-generated social media posts, captions, and creative content for consistent branding.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "Workflow",
+          "name": "Workflow Automation",
+          "description": "Streamline business workflows with automated triggers, notifications, and task management.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "BarChart3",
+          "name": "AI Analytics Dashboard",
+          "description": "Smart dashboards with AI-powered insights to make data-driven business decisions.",
+          "sort_order": 6,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "account-management",
+      "title": "Account Management",
+      "icon": "UserCircle",
+      "color": "from-pink-500 to-rose-400",
+      "section": "influencer",
+      "tagline": "Professional Social Media Management",
+      "description": "Let our expert team manage your social media presence across all platforms. We handle everything from content planning to community engagement so you can focus on creating.",
+      "meta_title": "Social Media Account Management | Intube Media",
+      "meta_description": "Instagram, YouTube, Facebook, Snapchat account management and personal branding services for influencers and creators by Intube Media.",
+      "sort_order": 5,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Instagram",
+          "name": "Instagram Account Management",
+          "description": "Complete Instagram management including content strategy, posting, stories, reels, and engagement.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Youtube",
+          "name": "YouTube Channel Management",
+          "description": "End-to-end YouTube channel management with upload scheduling, SEO, and audience growth.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "Facebook",
+          "name": "Facebook Page Management",
+          "description": "Professional Facebook page management with regular posts, ads, and community building.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Smartphone",
+          "name": "Snapchat / Moj Management",
+          "description": "Platform-specific content creation and management for Snapchat and Moj audiences.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "UserCircle",
+          "name": "Personal Branding",
+          "description": "Build a strong personal brand identity that resonates with your audience and attracts opportunities.",
+          "sort_order": 4,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "account-protection",
+      "title": "Account Protection",
+      "icon": "ShieldCheck",
+      "color": "from-red-500 to-orange-400",
+      "section": "influencer",
+      "tagline": "Keep Your Accounts Safe",
+      "description": "Protect your social media accounts from hackers, impersonators, and policy violations. We provide comprehensive security and recovery services for influencers and creators.",
+      "meta_title": "Social Media Account Protection & Recovery | Intube Media",
+      "meta_description": "Account recovery, blue tick verification guidance, copyright protection, fake account removal, and security setup for creators by Intube Media.",
+      "sort_order": 6,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "ShieldCheck",
+          "name": "Account Recovery Support",
+          "description": "Expert assistance in recovering hacked, disabled, or locked social media accounts.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "BadgeCheck",
+          "name": "Blue Tick Guidance",
+          "description": "Step-by-step guidance to get verified on Instagram, YouTube, Twitter, and other platforms.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "Copyright",
+          "name": "Copyright Protection",
+          "description": "Protect your original content from unauthorized use with copyright registration and monitoring.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Trash2",
+          "name": "Fake Account Removal",
+          "description": "Report and remove fake accounts impersonating you or your brand across platforms.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Lock",
+          "name": "Security Setup (2FA etc.)",
+          "description": "Set up two-factor authentication, login alerts, and other security measures for your accounts.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "Users",
+          "name": "Community Guideline Support",
+          "description": "Navigate platform policies and resolve community guideline violations or content restrictions.",
+          "sort_order": 5,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "monetization",
+      "title": "Monetization Services",
+      "icon": "DollarSign",
+      "color": "from-emerald-500 to-green-400",
+      "section": "influencer",
+      "tagline": "Turn Your Influence Into Income",
+      "description": "Maximize your earning potential with our comprehensive monetization services. We connect you with brands, manage sponsorships, and help you build sustainable revenue streams.",
+      "meta_title": "Creator Monetization & Brand Deals | Intube Media",
+      "meta_description": "Brand deals, sponsorship management, paid promotions, affiliate marketing, YouTube & Instagram monetization services for influencers by Intube Media.",
+      "sort_order": 7,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Handshake",
+          "name": "Brand Deals",
+          "description": "Connect with top brands for lucrative partnerships and sponsored content opportunities.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "DollarSign",
+          "name": "Sponsorship Management",
+          "description": "End-to-end sponsorship management from negotiation to delivery and payment.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "Megaphone",
+          "name": "Paid Promotions",
+          "description": "Strategic paid promotion campaigns that deliver value to brands while maintaining authenticity.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Link2",
+          "name": "Affiliate Marketing Setup",
+          "description": "Set up and optimize affiliate marketing programs for passive income generation.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Youtube",
+          "name": "YouTube Monetization Help",
+          "description": "Guidance on YouTube Partner Program, AdSense optimization, and multiple revenue streams.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "Instagram",
+          "name": "Instagram Monetization Guidance",
+          "description": "Leverage Instagram features like Reels bonuses, badges, subscriptions, and shopping.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "TrendingUp",
+          "name": "Revenue Growth Strategy",
+          "description": "Custom strategies to diversify and grow your revenue across platforms and opportunities.",
+          "sort_order": 6,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "copyright-claims",
+      "title": "Copyright & Claims",
+      "icon": "Copyright",
+      "color": "from-amber-500 to-yellow-400",
+      "section": "influencer",
+      "tagline": "Protect Your Content Rights",
+      "description": "Handle copyright claims, strikes, and licensing issues with expert support. We help creators navigate the complex world of content rights and intellectual property.",
+      "meta_title": "Copyright Claims & Content Protection | Intube Media",
+      "meta_description": "Video copyright claim support, audio claim removal, music licensing, strike handling, and content ownership services for creators by Intube Media.",
+      "sort_order": 8,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "AlertTriangle",
+          "name": "Video Copyright Claim Support",
+          "description": "Expert handling of Content ID claims, disputes, and counter-notifications on YouTube.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Music",
+          "name": "Audio Claim Removal",
+          "description": "Remove or resolve audio copyright claims on your videos across platforms.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "FileCheck",
+          "name": "Music Licensing",
+          "description": "Obtain proper music licenses for your content to avoid copyright issues.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Copyright",
+          "name": "Copyright Strike Handling",
+          "description": "Professional assistance in resolving copyright strikes and preventing channel termination.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Upload",
+          "name": "Re-upload Protection",
+          "description": "Monitor and protect your content from being re-uploaded by others without permission.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "FileSignature",
+          "name": "Content Ownership Registration",
+          "description": "Register your original content for legal protection and ownership proof.",
+          "sort_order": 5,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "content-production",
+      "title": "Content Production",
+      "icon": "Clapperboard",
+      "color": "from-cyan-500 to-blue-400",
+      "section": "influencer",
+      "tagline": "Create Content That Goes Viral",
+      "description": "Professional content production services from script to screen. Our creative team helps you produce high-quality content that captivates audiences and drives engagement.",
+      "meta_title": "Content Production & Video Creation Services | Intube Media",
+      "meta_description": "Reel editing, viral content planning, script writing, thumbnails, podcast setup, studio setup, cinematic shoots, and AI content creation by Intube Media.",
+      "sort_order": 9,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "Scissors",
+          "name": "Reel Editing",
+          "description": "Trending reel edits with effects, transitions, and music that maximize views and engagement.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Flame",
+          "name": "Viral Content Planning",
+          "description": "Data-driven content strategies designed to maximize reach and go viral on social platforms.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "PenTool",
+          "name": "Script Writing",
+          "description": "Engaging scripts for YouTube videos, reels, ads, and brand collaborations.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "Image",
+          "name": "Thumbnail Designing",
+          "description": "Click-worthy thumbnails designed to boost CTR and stand out in feeds and search results.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Mic",
+          "name": "Podcast Setup",
+          "description": "Complete podcast setup including equipment guidance, recording, editing, and distribution.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "MonitorPlay",
+          "name": "Studio Setup",
+          "description": "Professional studio setup consultation for lighting, audio, cameras, and streaming.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "Clapperboard",
+          "name": "Cinematic Shoots",
+          "description": "High-production-value cinematic shoots for music videos, brand films, and premium content.",
+          "sort_order": 6,
+          "is_active": true
+        },
+        {
+          "icon": "Sparkles",
+          "name": "AI Voice & AI Video Creation",
+          "description": "Leverage AI tools for voice cloning, AI avatars, and automated video production.",
+          "sort_order": 7,
+          "is_active": true
+        }
+      ]
+    },
+    {
+      "slug": "growth-services",
+      "title": "Growth Services",
+      "icon": "LineChart",
+      "color": "from-violet-500 to-indigo-400",
+      "section": "influencer",
+      "tagline": "Accelerate Your Growth",
+      "description": "Strategic growth services to expand your audience, increase engagement, and establish your presence in the creator economy. Data-driven approaches for sustainable growth.",
+      "meta_title": "Influencer Growth & Analytics Services | Intube Media",
+      "meta_description": "Organic growth strategy, trend research, hashtag research, collaboration management, influencer networking, and audience analytics by Intube Media.",
+      "sort_order": 10,
+      "is_active": true,
+      "items": [
+        {
+          "icon": "TrendingUp",
+          "name": "Organic Growth Strategy",
+          "description": "Sustainable growth strategies that build genuine audience connections without paid shortcuts.",
+          "sort_order": 0,
+          "is_active": true
+        },
+        {
+          "icon": "Search",
+          "name": "Trend Research",
+          "description": "Stay ahead of trends with our research team monitoring viral content and emerging opportunities.",
+          "sort_order": 1,
+          "is_active": true
+        },
+        {
+          "icon": "Hash",
+          "name": "Hashtag Research",
+          "description": "Optimized hashtag strategies to maximize content discoverability and reach on every platform.",
+          "sort_order": 2,
+          "is_active": true
+        },
+        {
+          "icon": "GitMerge",
+          "name": "Collaboration Management",
+          "description": "Find and manage collaborations with other creators to cross-pollinate audiences.",
+          "sort_order": 3,
+          "is_active": true
+        },
+        {
+          "icon": "Network",
+          "name": "Influencer Networking",
+          "description": "Connect with industry peers, brands, and media through our influencer network.",
+          "sort_order": 4,
+          "is_active": true
+        },
+        {
+          "icon": "BarChart3",
+          "name": "Audience Analytics",
+          "description": "Deep analytics on your audience demographics, behavior, and engagement patterns.",
+          "sort_order": 5,
+          "is_active": true
+        },
+        {
+          "icon": "Newspaper",
+          "name": "PR & Media Coverage",
+          "description": "Get featured in media publications, news outlets, and industry platforms for wider recognition.",
+          "sort_order": 6,
+          "is_active": true
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "name": "Startup Package",
+      "tagline": "Perfect for New Businesses",
+      "color": "from-blue-500 to-cyan-400",
+      "is_popular": false,
+      "features": [
+        "Professional Logo Design",
+        "Business Website (5 Pages)",
+        "Social Media Setup (3 Platforms)",
+        "Basic SEO Optimization",
+        "Google My Business Listing",
+        "Business Email Setup",
+        "Brand Identity Kit",
+        "1 Month Free Support"
+      ],
+      "sort_order": 0,
+      "is_active": true
+    },
+    {
+      "name": "Business Growth Package",
+      "tagline": "Scale Your Business",
+      "color": "from-violet-500 to-pink-500",
+      "is_popular": true,
+      "features": [
+        "Google & Meta Ads Management",
+        "Custom CRM Setup",
+        "Website Maintenance & Updates",
+        "Social Media Management",
+        "AI Automation Integration",
+        "Monthly Analytics Reports",
+        "Content Strategy & Creation",
+        "Priority Support",
+        "SEO & Performance Optimization",
+        "Email Marketing Campaigns"
+      ],
+      "sort_order": 1,
+      "is_active": true
+    },
+    {
+      "name": "Celebrity / Influencer Package",
+      "tagline": "For Top Creators & Celebrities",
+      "color": "from-amber-500 to-orange-500",
+      "is_popular": false,
+      "features": [
+        "Full Account Handling (All Platforms)",
+        "Brand Deals & Sponsorship Management",
+        "Copyright & Content Protection",
+        "Dedicated Content Production Team",
+        "PR & Media Management",
+        "Personal Branding Strategy",
+        "Revenue Growth Planning",
+        "Crisis Management",
+        "Collaboration Management",
+        "Monthly Growth Reports"
+      ],
+      "sort_order": 2,
+      "is_active": true
+    }
+  ]
+}

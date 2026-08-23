@@ -21,7 +21,10 @@ export default function AdminMessages() {
 
   const load = () => {
     setLoading(true);
-    api.get('/api/contact-submissions').then(d => { setSubs(d); setLoading(false); }).catch(() => setLoading(false));
+    api.get('/api/contact-submissions').then(d => { setSubs(d); setLoading(false); }).catch((error) => {
+      setMsg(error instanceof Error ? error.message : 'Unable to load messages');
+      setLoading(false);
+    });
   };
 
   useEffect(() => { load(); }, []);

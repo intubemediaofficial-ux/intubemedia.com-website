@@ -29,7 +29,7 @@ interface Service {
 }
 
 const emptyService: Service = {
-  slug: '', title: '', icon: '💼', color: 'violet', section: 'business',
+  slug: '', title: '', icon: 'Briefcase', color: 'from-violet-500 to-purple-500', section: 'business',
   tagline: '', description: '', meta_title: '', meta_description: '',
   sort_order: 0, is_active: 1, items: [],
 };
@@ -42,12 +42,16 @@ export default function AdminServices() {
   const [services, setServices] = useState<Service[]>([]);
   const [editing, setEditing] = useState<Service | null>(null);
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [addingItemServiceId, setAddingItemServiceId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState('');
 
   const load = () => {
     setLoading(true);
-    api.get('/api/services').then(d => { setServices(d); setLoading(false); }).catch(() => setLoading(false));
+    api.get('/api/services').then(d => { setServices(d); setLoading(false); }).catch((error) => {
+      setMsg(error instanceof Error ? error.message : 'Unable to load services');
+      setLoading(false);
+    });
   };
 
   useEffect(() => { load(); }, []);
@@ -89,8 +93,10 @@ export default function AdminServices() {
       }
       load();
       setMsg('Item saved!');
+      return true;
     } catch (err) {
       setMsg(err instanceof Error ? err.message : 'Save failed');
+      return false;
     }
   };
 
@@ -124,7 +130,7 @@ export default function AdminServices() {
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-violet-500" />
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">Icon (emoji)</label>
+              <label className="block text-sm text-gray-400 mb-1">Icon (Lucide name or emoji)</label>
               <input value={editing.icon} onChange={e => setEditing({ ...editing, icon: e.target.value })}
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-violet-500" />
             </div>
@@ -234,12 +240,25 @@ export default function AdminServices() {
                   <div className="flex items-center justify-between mb-3">
                     <p className="text-sm font-medium text-gray-300">Service Items</p>
                     <button
-                      onClick={() => handleSaveItem({ ...emptyItem, sort_order: (service.items?.length || 0) + 1 }, service.id!)}
+                      onClick={() => setAddingItemServiceId(service.id!)}
                       className="flex items-center gap-1 text-xs text-violet-400 hover:text-violet-300"
                     >
                       <Plus className="w-3 h-3" /> Add Item
                     </button>
                   </div>
+                  {addingItemServiceId === service.id && (
+                    <div className="mb-2">
+                      <ServiceItemRow
+                        item={{ ...emptyItem, sort_order: (service.items?.length || 0) + 1 }}
+                        serviceId={service.id!}
+                        onSave={handleSaveItem}
+                        onDelete={handleDeleteItem}
+                        initialEditing
+                        onCancel={() => setAddingItemServiceId(null)}
+                        onSaved={() => setAddingItemServiceId(null)}
+                      />
+                    </div>
+                  )}
                   {service.items && service.items.length > 0 ? (
                     <div className="space-y-2">
                       {service.items.map(item => (
@@ -259,12 +278,15 @@ export default function AdminServices() {
   );
 }
 
-function ServiceItemRow({ item, serviceId, onSave, onDelete }: {
+function ServiceItemRow({ item, serviceId, onSave, onDelete, initialEditing = false, onCancel, onSaved }: {
   item: ServiceItem; serviceId: number;
-  onSave: (item: ServiceItem, serviceId: number) => void;
+  onSave: (item: ServiceItem, serviceId: number) => Promise<boolean>;
   onDelete: (id: number) => void;
+  initialEditing?: boolean;
+  onCancel?: () => void;
+  onSaved?: () => void;
 }) {
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(initialEditing);
   const [data, setData] = useState(item);
 
   if (editing) {
@@ -278,10 +300,21 @@ function ServiceItemRow({ item, serviceId, onSave, onDelete }: {
         </div>
         <input value={data.description} onChange={e => setData({ ...data, description: e.target.value })} placeholder="Description"
           className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-violet-500" />
-        <div className="flex gap-2">
-          <button onClick={() => { onSave(data, serviceId); setEditing(false); }}
+        <div className="flex items-center gap-3">
+          <input type="number" value={data.sort_order} onChange={e => setData({ ...data, sort_order: Number(e.target.value) })}
+            className="w-24 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-violet-500" aria-label="Sort order" />
+          <label className="flex items-center gap-2 text-xs text-gray-300">
+            <input type="checkbox" checked={Boolean(data.is_active)} onChange={e => setData({ ...data, is_active: e.target.checked ? 1 : 0 })} />
+            Active
+          </label>
+          <button onClick={async () => {
+            if (await onSave(data, serviceId)) {
+              setEditing(false);
+              onSaved?.();
+            }
+          }}
             className="text-xs bg-violet-600 px-3 py-1 rounded-lg">Save</button>
-          <button onClick={() => setEditing(false)} className="text-xs text-gray-400 px-3 py-1">Cancel</button>
+          <button onClick={() => { setEditing(false); onCancel?.(); }} className="text-xs text-gray-400 px-3 py-1">Cancel</button>
         </div>
       </div>
     );
