@@ -85,7 +85,10 @@ class ResetPasswordRequest(BaseModel):
 
 @app.post("/api/auth/login")
 async def login(req: LoginRequest, db=Depends(get_db)):
-    cursor = await db.execute("SELECT * FROM admin_users WHERE username = ?", (req.username,))
+    cursor = await db.execute(
+        "SELECT * FROM admin_users WHERE lower(username) = lower(?) OR lower(email) = lower(?)",
+        (req.username, req.username),
+    )
     user = await cursor.fetchone()
     if not user or not verify_password(req.password, user["password_hash"]):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
