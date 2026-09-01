@@ -32,6 +32,21 @@ class AdminApiTest(unittest.TestCase):
         self.client_context.__exit__(None, None, None)
 
     def test_admin_and_public_cms_flows(self):
+        for identifier in ("ADMIN@EXAMPLE.COM", "Admin"):
+            login = self.client.post(
+                "/api/auth/login",
+                json={"username": identifier, "password": "InitialPass123!"},
+            )
+            self.assertEqual(login.status_code, 200)
+            self.assertEqual(login.json()["username"], "admin")
+        self.assertEqual(
+            self.client.post(
+                "/api/auth/login",
+                json={"username": "other@example.com", "password": "InitialPass123!"},
+            ).status_code,
+            401,
+        )
+
         services = self.client.get("/api/public/services")
         self.assertEqual(services.status_code, 200)
         self.assertEqual(len(services.json()), 11)

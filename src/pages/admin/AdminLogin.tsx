@@ -45,13 +45,13 @@ export default function AdminLogin() {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Username</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Username or Email</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500"
-              placeholder="admin"
+              placeholder="you@example.com"
               required
             />
           </div>
