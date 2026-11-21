@@ -118,6 +118,51 @@ async def init_db():
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS partner_applications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                full_name TEXT NOT NULL,
+                business_name TEXT NOT NULL DEFAULT '',
+                email TEXT NOT NULL,
+                phone TEXT NOT NULL DEFAULT '',
+                whatsapp TEXT NOT NULL DEFAULT '',
+                country TEXT NOT NULL DEFAULT '',
+                category TEXT NOT NULL DEFAULT '',
+                catalog_size TEXT NOT NULL DEFAULT '',
+                music_links TEXT NOT NULL DEFAULT '',
+                about TEXT NOT NULL DEFAULT '',
+                distribution_needs TEXT NOT NULL DEFAULT '',
+                status TEXT NOT NULL DEFAULT 'pending',
+                admin_note TEXT NOT NULL DEFAULT '',
+                ip_address TEXT NOT NULL DEFAULT '',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                reviewed_at TIMESTAMP
+            )
+        """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS partner_users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                application_id INTEGER REFERENCES partner_applications(id) ON DELETE SET NULL,
+                name TEXT NOT NULL DEFAULT '',
+                business_name TEXT NOT NULL DEFAULT '',
+                email TEXT UNIQUE NOT NULL,
+                password_hash TEXT,
+                is_active INTEGER NOT NULL DEFAULT 1,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_login_at TIMESTAMP
+            )
+        """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS partner_password_tokens (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                partner_user_id INTEGER NOT NULL REFERENCES partner_users(id) ON DELETE CASCADE,
+                token_hash TEXT UNIQUE NOT NULL,
+                purpose TEXT NOT NULL DEFAULT 'reset',
+                expires_at TIMESTAMP NOT NULL,
+                used_at TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
         await db.commit()
 
         # Seed default admin if not exists
@@ -227,7 +272,7 @@ async def init_db():
             "hero_subtitle": "Intube Media is the umbrella network for digital agency services, IT solutions, influencer management, media and entertainment businesses.",
             "hero_badge": "Digital • Technology • Creators • Media • Entertainment",
             "phone": "+91 XXXXX XXXXX",
-            "email": "hello@intubemedia.com",
+            "email": "business@intubemedia.com",
             "address": "India",
             "working_hours": "Mon - Sat, 10AM - 7PM IST",
             "stat_projects": "500+",

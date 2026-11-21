@@ -1,85 +1,78 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowUpRight, LogIn, Menu, X } from 'lucide-react';
 import Logo from './site/Logo';
 
 const links = [
   { label: 'Home', to: '/' },
   { label: 'Services', to: '/services' },
-  { label: 'Artists', to: '/artists' },
   { label: 'Platforms', to: '/platforms' },
-  { label: 'About Us', to: '/about' },
+  { label: 'Artists', to: '/artists' },
+  { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
+  const { pathname } = useLocation();
 
+  useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
-    setOpen(false);
-  }, [location.pathname, location.hash]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${isActive ? 'bg-brand-pale text-brand' : 'text-navy/80 hover:text-brand'}`;
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-all ${scrolled || open ? 'border-brand-line bg-white/95 shadow-sm backdrop-blur-lg' : 'border-transparent bg-white/70 backdrop-blur'}`}
-    >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled || open ? 'border-b border-white/10 bg-ink/80 backdrop-blur-xl' : 'bg-transparent'}`}>
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
         <Logo />
-
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-          {links.map(link => (
-            <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClass}>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-3 lg:flex">
-          <Link to="/#our-network" className="rounded-xl border border-brand-line px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-brand hover:text-brand">
-            Our Network
-          </Link>
-          <Link to="/contact" className="inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:bg-brand-dark">
-            Partner With Us <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <button
-          className="rounded-lg p-2 text-navy lg:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="max-h-[80vh] overflow-y-auto border-t border-brand-line bg-white lg:hidden">
-          <nav className="space-y-1 px-4 py-4" aria-label="Mobile">
-            {links.map(link => (
-              <NavLink key={link.to} to={link.to} end={link.to === '/'} className={({ isActive }) => `block rounded-lg px-3 py-2.5 font-semibold ${isActive ? 'bg-brand-pale text-brand' : 'text-navy'}`}>
+        <ul className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1 backdrop-blur lg:flex">
+          {links.map((link) => (
+            <li key={link.to}>
+              <NavLink
+                to={link.to}
+                end={link.to === '/'}
+                className={({ isActive }) => `block rounded-full px-4 py-2 text-sm font-semibold transition ${isActive ? 'bg-white/10 text-white' : 'text-white/65 hover:text-white'}`}
+              >
                 {link.label}
               </NavLink>
+            </li>
+          ))}
+        </ul>
+        <div className="hidden items-center gap-2 lg:flex">
+          <Link to="/partner/login" className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-white/10">
+            <LogIn className="h-4 w-4" /> Partner Sign In
+          </Link>
+          <Link to="/partner/apply" className="group inline-flex items-center gap-2 rounded-full bg-aurora px-5 py-2.5 text-sm font-bold text-white shadow-glow transition hover:brightness-110">
+            Request Access <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+        <button type="button" onClick={() => setOpen((v) => !v)} className="grid h-11 w-11 place-items-center rounded-full border border-white/15 text-white lg:hidden" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </nav>
+      {open && (
+        <div className="h-[calc(100svh-5rem)] overflow-y-auto border-t border-white/10 bg-ink px-5 pb-10 pt-6 lg:hidden">
+          <ul className="space-y-1">
+            {links.map((link) => (
+              <li key={link.to}>
+                <NavLink to={link.to} end={link.to === '/'} className={({ isActive }) => `block rounded-2xl px-4 py-4 font-display text-2xl font-bold ${isActive ? 'bg-white/10 text-white' : 'text-white/70'}`}>
+                  {link.label}
+                </NavLink>
+              </li>
             ))}
-            <Link to="/#our-network" className="block rounded-lg px-3 py-2.5 font-semibold text-navy">
-              Our Network
-            </Link>
-            <Link to="/contact" className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white">
-              Partner With Us <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </nav>
+          </ul>
+          <div className="mt-8 grid gap-3">
+            <Link to="/partner/apply" className="inline-flex items-center justify-center gap-2 rounded-full bg-aurora px-6 py-4 font-bold text-white">Request Access <ArrowUpRight className="h-4 w-4" /></Link>
+            <Link to="/partner/login" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-4 font-bold text-white"><LogIn className="h-4 w-4" /> Partner Sign In</Link>
+          </div>
         </div>
       )}
     </header>

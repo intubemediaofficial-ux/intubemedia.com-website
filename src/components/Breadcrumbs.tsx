@@ -20,9 +20,9 @@ export default function Breadcrumbs() {
 
   return (
     <nav aria-label="Breadcrumb">
-      <ol className="flex flex-wrap items-center gap-2 text-sm text-muted">
+      <ol className="flex flex-wrap items-center gap-2 text-sm text-mist">
         <li>
-          <Link to="/" className="flex items-center gap-1 transition-colors hover:text-brand">
+          <Link to="/" className="flex items-center gap-1 transition-colors hover:text-white">
             <Home className="h-4 w-4" />
             Home
           </Link>
@@ -34,11 +34,11 @@ export default function Breadcrumbs() {
 
           return (
             <li key={path} className="flex items-center gap-2">
-              <ChevronRight className="h-4 w-4 text-brand/40" />
+              <ChevronRight className="h-4 w-4 text-white/25" />
               {isLast ? (
-                <span className="font-semibold capitalize text-navy">{label}</span>
+                <span className="font-semibold capitalize text-white">{label}</span>
               ) : (
-                <Link to={path === '/network' ? '/#our-network' : path} className="capitalize transition-colors hover:text-brand">
+                <Link to={path === '/network' ? '/#our-network' : path} className="capitalize transition-colors hover:text-white">
                   {label}
                 </Link>
               )}

@@ -23,27 +23,21 @@ export default function ArtistsPage() {
         eyebrow="Artists"
         title="The voices behind"
         highlight="our network."
-        text="Singers, producers and label channels who trust Intube Media and Bainsla Music to release, protect and grow their music."
+        description="Singers, producers and label channels who trust Intube Media and Bainsla Music to release, protect and grow their music."
       >
-        <Link to="/contact" className={btnPrimary}>Join as an Artist <ArrowRight className="h-4 w-4" /></Link>
+        <Link to="/partner/apply" className={btnPrimary}>Request Partner Access <ArrowRight className="h-4 w-4" /></Link>
       </PageHero>
+      <ArtistsGrid />
+      <LabelChannels />
 
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Roster" title="Featured artists" />
-          <ArtistsGrid />
-          <LabelChannels />
-        </div>
-      </section>
-
-      <section className="bg-brand-pale py-20">
+      <section className="py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <SectionHeading eyebrow="For Artists" title="Your talent." highlight="Our reach."
-            text="Independent or signed, new or established — if you make music, we would love to hear it." />
+          <SectionHeading align="left" eyebrow="For Artists" title="Your talent." highlight="Our reach."
+            description="Independent or signed, new or established — if you make music, we would love to hear it." />
           <ul className="grid gap-4">
             {perks.map(perk => (
-              <li key={perk} className="flex items-center gap-4 rounded-2xl border border-brand-line bg-white p-5 font-semibold text-navy shadow-card">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-pale text-brand"><Mic2 className="h-5 w-5" /></span>
+              <li key={perk} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-ink-800/70 p-5 font-semibold text-white shadow-card">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-brand-light"><Mic2 className="h-5 w-5" /></span>
                 {perk}
               </li>
             ))}

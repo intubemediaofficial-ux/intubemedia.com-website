@@ -20,9 +20,13 @@ from app.auth import (
     verify_password,
 )
 from app.mailer import send_password_reset_email
+from app.partners import router as partners_router
+from app.uploads import router as uploads_router
 
 app = FastAPI(title="Intube Media Admin API")
 logger = logging.getLogger(__name__)
+app.include_router(partners_router)
+app.include_router(uploads_router)
 
 allowed_origins = [
     origin.strip()
@@ -589,6 +593,8 @@ async def dashboard_stats(admin=Depends(get_current_admin), db=Depends(get_db)):
     submissions_count = (await (await db.execute("SELECT COUNT(*) FROM contact_submissions")).fetchone())[0]
     unread_count = (await (await db.execute("SELECT COUNT(*) FROM contact_submissions WHERE is_read = 0")).fetchone())[0]
     pages_count = (await (await db.execute("SELECT COUNT(*) FROM pages")).fetchone())[0]
+    pending_partners = (await (await db.execute("SELECT COUNT(*) FROM partner_applications WHERE status = 'pending'")).fetchone())[0]
+    partners_count = (await (await db.execute("SELECT COUNT(*) FROM partner_users WHERE is_active = 1")).fetchone())[0]
     return {
         "services": services_count,
         "service_items": items_count,
@@ -596,4 +602,6 @@ async def dashboard_stats(admin=Depends(get_current_admin), db=Depends(get_db)):
         "submissions": submissions_count,
         "unread_submissions": unread_count,
         "pages": pages_count,
+        "pending_partner_applications": pending_partners,
+        "partners": partners_count,
     }

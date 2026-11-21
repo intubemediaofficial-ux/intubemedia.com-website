@@ -21,7 +21,7 @@
 }
 
 .site {
-  font-family: 'DM Sans', Arial, sans-serif;
+  font-family: 'Manrope', Arial, sans-serif;
 }
 
 .site h1,
@@ -30,13 +30,75 @@
 .site h4,
 .site h5,
 .site h6 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: -0.02em;
+  font-family: 'Sora', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.text-aurora {
+  background: linear-gradient(100deg, #8b9bff 0%, #22d3ee 45%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-aurora {
+  background: linear-gradient(100deg, #5b6cff 0%, #3ab8ff 50%, #a855f7 100%);
+}
+
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.border-gradient {
+  position: relative;
+}
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(140deg, rgba(139, 155, 255, 0.55), rgba(34, 211, 238, 0.1) 40%, rgba(168, 85, 247, 0.45));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .site-grid-bg {
   background-image:
-    linear-gradient(rgba(8, 124, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(8, 124, 255, 0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(rgba(139, 155, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 155, 255, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.mask-fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .animate-kenburns, .animate-marquee, .animate-spinslow, .animate-floaty, .animate-eq { animation: none !important; }
 }

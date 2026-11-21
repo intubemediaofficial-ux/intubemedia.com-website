@@ -83,6 +83,12 @@ def decode_token(token: str) -> dict:
 
 async def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     payload = decode_token(credentials.credentials)
-    if not payload.get("id") or not payload.get("sub"):
+    if not payload.get("id") or not payload.get("sub") or payload.get("role") == "partner":
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    return payload
+
+async def get_current_partner(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+    payload = decode_token(credentials.credentials)
+    if payload.get("role") != "partner" or not payload.get("pid"):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     return payload

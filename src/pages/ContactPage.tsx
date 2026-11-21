@@ -14,7 +14,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Have a song, a channel"
         highlight="or an idea?"
-        text="Tell us what you are working on. Our team replies to every message and will guide you to the right service or platform."
+        description="Tell us what you are working on. Our team replies to every message and will guide you to the right service or platform."
       />
       <ContactSection />
     </>
