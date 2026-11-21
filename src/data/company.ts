@@ -2,9 +2,6 @@ import type { LucideIcon } from 'lucide-react';
 import {
   AudioLines,
   BarChart3,
-  Bot,
-  Camera,
-  Database,
   Clapperboard,
   FileText,
   Globe2,
@@ -15,7 +12,6 @@ import {
   Music2,
   Radio,
   Rocket,
-  ShoppingBag,
   ShieldCheck,
   Smartphone,
   Sparkles,
@@ -32,62 +28,51 @@ export interface CompanyService {
   title: string;
   summary: string;
   points: string[];
+  group: string;
 }
+
+export const serviceGroups = ['Music & Distribution', 'YouTube CMS & Rights', 'Live Streaming', 'OTT & Apps', 'Production & Tech'];
 
 export const companyServices: CompanyService[] = [
   {
-    id: 'music-distribution',
-    number: '01',
-    icon: Globe2,
-    label: 'Distribution',
-    title: 'Worldwide Music Distribution',
+    id: 'music-distribution', number: '01', icon: Globe2, group: 'Music & Distribution', label: 'Distribution', title: 'Worldwide Music Distribution',
     summary: 'We prepare every release — audio, artwork, credits and metadata — and deliver it to the streaming and social platforms listeners already use.',
-    points: ['Release planning and scheduling', 'Metadata, ISRC and credit checks', 'Store, social and short-video delivery'],
+    points: ['Spotify, Apple Music, JioSaavn, Amazon & 150+ stores', 'Metadata, ISRC/UPC and credit checks', 'Instagram, Facebook & short-video music'],
   },
   {
-    id: 'youtube-cms',
-    number: '02',
-    icon: ShieldCheck,
-    label: 'YouTube CMS',
-    title: 'YouTube CMS & Content ID',
-    summary: 'Our own CMS platform protects partner catalogues on YouTube, manages claims and turns channel data into clear monthly revenue reports.',
-    points: ['Content ID asset protection', 'Claim and dispute handling', 'Channel analytics and revenue reports'],
+    id: 'artist-label', number: '02', icon: Users, group: 'Music & Distribution', label: 'Artists & Labels', title: 'Artist & Label Development',
+    summary: 'From a first single to a full label catalogue, we help artists and labels plan releases, grow audiences and move catalogues safely.',
+    points: ['Artist onboarding and release planning', 'Catalogue migration from other distributors', 'Playlist pitching and promotion'],
   },
   {
-    id: 'artist-label',
-    number: '03',
-    icon: Users,
-    label: 'Artists & Labels',
-    title: 'Artist & Label Development',
-    summary: 'From a first single to a full label catalogue, we help artists and channel owners shape their sound, schedule releases and build loyal audiences.',
-    points: ['Artist onboarding and guidance', 'Label and channel management', 'Release strategy and promotion'],
+    id: 'youtube-cms', number: '03', icon: LayoutDashboard, group: 'YouTube CMS & Rights', label: 'YouTube CMS', title: 'Multi-Channel YouTube CMS',
+    summary: 'Our own CMS links every partner channel to one dashboard — manage dozens of channels, assets and permissions from a single login.',
+    points: ['All channels managed in one place', 'Channel linking and permissions', 'Channel analytics across the network'],
   },
   {
-    id: 'production',
-    number: '04',
-    icon: Clapperboard,
-    label: 'Production',
-    title: 'Music & Video Production',
-    summary: 'Recording, mixing, music videos and shoots handled by a team that understands regional folk, Rasiya, devotional and modern pop audiences.',
+    id: 'content-id', number: '04', icon: ShieldCheck, group: 'YouTube CMS & Rights', label: 'Content ID', title: 'Content ID, Claims & Revenue',
+    summary: 'We protect your catalogue on YouTube with Content ID, handle claims and disputes, and turn earnings into clear monthly reports.',
+    points: ['Content ID asset protection', 'Claim and dispute handling', 'Revenue and payment reports'],
+  },
+  {
+    id: 'intubelive-service', number: '05', icon: Radio, group: 'Live Streaming', label: 'IntubeLive', title: '24/7 YouTube Live Streaming',
+    summary: 'IntubeLive keeps YouTube lives running around the clock from the cloud — playlists, schedules and many channels, with no PC at home.',
+    points: ['24/7 lives from pre-recorded videos', 'Weekly planner for 20+ channels', '₹1,000 / $10 per live channel a month'],
+  },
+  {
+    id: 'ott-apps', number: '06', icon: MonitorPlay, group: 'OTT & Apps', label: 'OTT & Apps', title: 'OTT, Music & Drama Apps',
+    summary: 'We run our own OTT, music streaming and micro-drama apps, so partner content reaches viewers on phones, TVs and the web.',
+    points: ['Intube Play OTT publishing', 'Intube Music streaming', 'Intube Drama vertical series'],
+  },
+  {
+    id: 'production', number: '07', icon: Clapperboard, group: 'Production & Tech', label: 'Production', title: 'Music & Video Production',
+    summary: 'Recording, mixing, music videos and shoots by a team that knows folk, Rasiya, devotional and modern pop audiences.',
     points: ['Song recording and mixing', 'Music video and shoot production', 'Thumbnails, posters and edits'],
   },
   {
-    id: 'streaming',
-    number: '05',
-    icon: MonitorPlay,
-    label: 'Streaming',
-    title: 'OTT, Live & Streaming',
-    summary: 'We run our own OTT, music streaming, micro-drama and 24/7 live broadcasting platforms, so partner content reaches viewers on every screen.',
-    points: ['OTT and app publishing', 'Round-the-clock YouTube lives', 'Music and drama streaming'],
-  },
-  {
-    id: 'technology',
-    number: '06',
-    icon: Rocket,
-    label: 'Technology',
-    title: 'Digital Growth & Technology',
-    summary: 'Websites, apps, dashboards and AI-powered creator tools built in-house to help artists, labels and businesses grow online.',
-    points: ['Websites, apps and dashboards', 'Creator and SEO tools', 'Digital marketing and growth'],
+    id: 'technology', number: '08', icon: Rocket, group: 'Production & Tech', label: 'Technology', title: 'Digital Growth & Technology',
+    summary: 'Websites, apps, dashboards and creator tools built in-house to help artists, labels and businesses grow online.',
+    points: ['Websites, apps and dashboards', 'Creator, tag and SEO tools', 'Digital marketing and growth'],
   },
 ];
 
@@ -260,51 +245,6 @@ export const ecosystem: EcosystemProduct[] = [
     icon: Video,
     description: 'Free HD video meetings for teams, artists and partners, hosted on our own servers.',
     highlights: ['HD calls', 'Self-hosted'],
-  },
-  {
-    name: 'CamGuard',
-    domain: 'camguard.intubemedia.com',
-    url: 'https://camguard.intubemedia.com/',
-    category: 'Safety App',
-    icon: Camera,
-    description: 'A free hidden-camera detector that scans with your phone’s lens, Wi-Fi and Bluetooth.',
-    highlights: ['Lens & IR scan', 'Wi-Fi scan'],
-  },
-  {
-    name: 'Bainsla Music Distribution',
-    domain: 'song.bainslamusic.com',
-    url: 'https://song.bainslamusic.com/',
-    category: 'Distribution Dashboard',
-    icon: AudioLines,
-    description: 'The release dashboard where partner artists and labels upload songs, track deliveries and follow royalties.',
-    highlights: ['Release upload', 'Royalty tracking'],
-  },
-  {
-    name: 'Intube Commerce',
-    domain: 'ecom.intubemedia.com',
-    url: 'https://ecom.intubemedia.com/',
-    category: 'E-commerce',
-    icon: ShoppingBag,
-    description: 'Our online store and order management system for products, merchandise and digital goods.',
-    highlights: ['Online store', 'Order management'],
-  },
-  {
-    name: 'Intube Data',
-    domain: 'data.intubemedia.com',
-    url: 'https://data.intubemedia.com/',
-    category: 'Data & Analytics',
-    icon: Database,
-    description: 'An internal data dashboard that brings channel, catalogue and business numbers into one view.',
-    highlights: ['Dashboards', 'Business reports'],
-  },
-  {
-    name: 'Intube AI',
-    domain: 'ai.intubemedia.com',
-    url: 'https://ai.intubemedia.com/',
-    category: 'AI & Automation',
-    icon: Bot,
-    description: 'AI and device-automation tools that help our team run social and channel workflows at scale.',
-    highlights: ['Automation', 'AI tools'],
   },
 ];
 

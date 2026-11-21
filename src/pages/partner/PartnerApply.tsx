@@ -3,11 +3,19 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, CheckCircle2, Loader2 } from 'lucide-react';
 import SEO from '../../components/SEO';
 import Turnstile from '../../components/site/Turnstile';
+import CountrySelect from '../../components/site/CountrySelect';
 import { partnerApi } from '../../utils/partnerApi';
 import PartnerAuthLayout, { Field, fieldClass, Notice } from './PartnerAuthLayout';
 
-const categories = ['Independent artist', 'Record label', 'Music producer', 'YouTube channel / creator', 'Publisher', 'Distributor / aggregator', 'Other'];
-const catalogSizes = ['Just starting (1-10 releases)', '11-50 releases', '51-200 releases', '201-1,000 releases', '1,000+ releases'];
+const categories = ['Artist', 'Record label', 'Distributor / aggregator', 'Music producer', 'Publisher', 'YouTube channel / creator', 'Other'];
+const nameLabel: Record<string, string> = { Artist: 'Artist name', 'Record label': 'Label name', 'Distributor / aggregator': 'Company name', 'Music producer': 'Producer / studio name', Publisher: 'Publishing company', 'YouTube channel / creator': 'Channel name' };
+const catalogSizes = ['Just starting (1-10 releases)', '11-50 releases', '51-200 releases', '201-1,000 releases', '1,000+ releases', '2,000+ releases', '5,000+ releases', '10,000+ releases', '50,000+ releases'];
+const OTHER = 'Other (type number)';
+const needOptions = [
+  'Spotify, Apple Music, JioSaavn & all stores', 'Instagram & Facebook music', 'YouTube Music & Art Track', 'YouTube Content ID',
+  'YouTube CMS / channel management', 'Claims & disputes', 'Royalty & revenue reports', 'Release planning', 'Catalogue migration',
+  'Caller tune (CRBT)', 'Lyrics sync', 'Playlist pitching & promotion', '24/7 live streaming (IntubeLive)', 'Music video & production',
+];
 
 const empty = {
   full_name: '', business_name: '', email: '', phone: '', whatsapp: '', country: 'India', category: '', catalog_size: '',
@@ -21,6 +29,9 @@ export default function PartnerApply() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
+  const [catalogOther, setCatalogOther] = useState('');
+  const [needs, setNeeds] = useState<string[]>([]);
+  const toggleNeed = (n: string) => setNeeds((list) => (list.includes(n) ? list.filter((x) => x !== n) : [...list, n]));
 
   const update = (key: keyof typeof empty) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const value = e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value;
@@ -33,7 +44,9 @@ export default function PartnerApply() {
     if (!token) { setError('Please complete the security check.'); return; }
     setSending(true);
     try {
-      await partnerApi.post('/api/partner/apply', { ...form, turnstile_token: token });
+      const catalog_size = form.catalog_size === OTHER ? `${catalogOther.trim()} releases` : form.catalog_size;
+      const distribution_needs = [needs.length ? `Needs: ${needs.join(', ')}` : '', form.distribution_needs.trim()].filter(Boolean).join('\n');
+      await partnerApi.post('/api/partner/apply', { ...form, catalog_size, distribution_needs, turnstile_token: token });
       setDone(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -65,26 +78,43 @@ export default function PartnerApply() {
           <p className="mt-2 text-sm text-mist">Already a partner? <Link to="/partner/login" className="font-bold text-white underline-offset-4 hover:underline">Sign in</Link></p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <Field label="Full name" required><input required minLength={2} value={form.full_name} onChange={update('full_name')} className={fieldClass} placeholder="Your full name" autoComplete="name" /></Field>
-            <Field label="Artist / label / business" required><input required value={form.business_name} onChange={update('business_name')} className={fieldClass} placeholder="Artist or label name" autoComplete="organization" /></Field>
-            <Field label="Business email" required><input required type="email" value={form.email} onChange={update('email')} className={fieldClass} placeholder="you@label.com" autoComplete="email" /></Field>
-            <Field label="Phone" required><input required type="tel" minLength={6} value={form.phone} onChange={update('phone')} className={fieldClass} placeholder="+91" autoComplete="tel" /></Field>
-            <Field label="WhatsApp"><input type="tel" value={form.whatsapp} onChange={update('whatsapp')} className={fieldClass} placeholder="+91 (if different)" /></Field>
-            <Field label="Country" required><input required value={form.country} onChange={update('country')} className={fieldClass} autoComplete="country-name" /></Field>
-            <Field label="Category" required>
+            <Field label="I am a" required>
               <select required value={form.category} onChange={update('category')} className={fieldClass}>
-                <option value="">Select account type</option>
+                <option value="">Artist, label or distributor?</option>
                 {categories.map((c) => <option key={c}>{c}</option>)}
               </select>
             </Field>
-            <Field label="Catalog size" required>
+            <Field label={nameLabel[form.category] || 'Artist / label / business name'} required className="sm:col-span-2"><input required value={form.business_name} onChange={update('business_name')} className={fieldClass} placeholder={form.category === 'Artist' ? 'Your stage name' : 'Name you release music under'} autoComplete="organization" /></Field>
+            <Field label="Business email" required><input required type="email" value={form.email} onChange={update('email')} className={fieldClass} placeholder="you@label.com" autoComplete="email" /></Field>
+            <Field label="Phone" required><input required type="tel" minLength={6} value={form.phone} onChange={update('phone')} className={fieldClass} placeholder="+91" autoComplete="tel" /></Field>
+            <Field label="WhatsApp"><input type="tel" value={form.whatsapp} onChange={update('whatsapp')} className={fieldClass} placeholder="+91 (if different)" /></Field>
+            <Field label="Country" required><CountrySelect value={form.country} onChange={(country) => setForm((f) => ({ ...f, country }))} className={fieldClass} /></Field>
+            <Field label="Catalog size" required className={form.catalog_size === OTHER ? '' : 'sm:col-span-2'}>
               <select required value={form.catalog_size} onChange={update('catalog_size')} className={fieldClass}>
                 <option value="">Approximate releases</option>
                 {catalogSizes.map((c) => <option key={c}>{c}</option>)}
+                <option>{OTHER}</option>
               </select>
             </Field>
-            <Field label="Music links" className="sm:col-span-2"><textarea rows={2} value={form.music_links} onChange={update('music_links')} className={`${fieldClass} resize-none`} placeholder="YouTube, Spotify, Instagram or website links" /></Field>
-            <Field label="About your music" className="sm:col-span-2"><textarea rows={3} value={form.about} onChange={update('about')} className={`${fieldClass} resize-none`} placeholder="Genre, language, artists and audience" /></Field>
-            <Field label="Music distribution needs" className="sm:col-span-2"><textarea rows={3} value={form.distribution_needs} onChange={update('distribution_needs')} className={`${fieldClass} resize-none`} placeholder="Stores, YouTube CMS / Content ID, release plan, catalogue migration…" /></Field>
+            {form.catalog_size === OTHER && (
+              <Field label="Number of releases" required><input required inputMode="numeric" value={catalogOther} onChange={(e) => setCatalogOther(e.target.value)} className={fieldClass} placeholder="e.g. 25,000" /></Field>
+            )}
+            <Field label="Music links" className="sm:col-span-2"><textarea rows={2} value={form.music_links} onChange={update('music_links')} className={`${fieldClass} resize-none`} placeholder="YouTube channel, Spotify artist page, Instagram or website" /></Field>
+            <Field label="About your music" className="sm:col-span-2"><textarea rows={3} value={form.about} onChange={update('about')} className={`${fieldClass} resize-none`} placeholder="Genre and language (e.g. Haryanvi, Rajasthani folk, Bhajan), main artists, releases per month and audience" /></Field>
+            <div className="sm:col-span-2">
+              <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-white/70">Music distribution needs <span className="normal-case tracking-normal text-white/40">(pick all that apply)</span></span>
+              <div className="flex flex-wrap gap-2">
+                {needOptions.map((n) => {
+                  const on = needs.includes(n);
+                  return (
+                    <button key={n} type="button" aria-pressed={on} onClick={() => toggleNeed(n)} className={`rounded-full border px-3.5 py-2 text-xs font-semibold transition duration-300 ${on ? 'border-transparent bg-aurora text-white shadow-glow' : 'border-white/12 bg-white/[0.04] text-white/75 hover:border-white/30 hover:text-white'}`}>
+                      {on && <CheckCircle2 className="-ml-0.5 mr-1 inline h-3.5 w-3.5" />}{n}
+                    </button>
+                  );
+                })}
+              </div>
+              <textarea rows={2} value={form.distribution_needs} onChange={update('distribution_needs')} className={`${fieldClass} mt-3 resize-none`} placeholder="Anything else? Current distributor, release plan, number of YouTube channels…" />
+            </div>
             <input type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={update('website')} className="hidden" aria-hidden="true" />
           </div>
           <label className="mt-5 flex items-start gap-3 text-sm text-mist">

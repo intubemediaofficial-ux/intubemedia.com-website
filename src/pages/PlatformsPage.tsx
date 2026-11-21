@@ -8,7 +8,7 @@ export default function PlatformsPage() {
     <>
       <SEO
         title="Our Platforms — CMS, Intube Play, Intube Music, IntubeLive & More | Intube Media"
-        description="Explore the platforms built and run by Intube Media: YouTube CMS for multi-channel management, IntubeLive 24/7 live streaming, Intube Play OTT, Intube Music, Intube Drama, Bainsla Music, commerce, data and creator tools."
+        description="Explore the platforms built and run by Intube Media: YouTube CMS for multi-channel management, IntubeLive 24/7 live streaming, Intube Play OTT, Intube Music, Intube Drama, Bainsla Music and creator tools."
         path="/platforms"
       />
       <PageHero

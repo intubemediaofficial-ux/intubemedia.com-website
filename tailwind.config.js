@@ -15,8 +15,8 @@ export default {
   			mist: '#a3abcc'
   		},
   		fontFamily: {
-  			display: ['Sora', 'sans-serif'],
-  			body: ['Manrope', 'Arial', 'sans-serif']
+  			display: ['Clash Display', 'Satoshi', 'sans-serif'],
+  			body: ['Satoshi', 'Arial', 'sans-serif']
   		},
   		boxShadow: {
   			glow: '0 0 0 1px rgba(139,155,255,0.15), 0 20px 80px -20px rgba(91,108,255,0.55)',
@@ -29,6 +29,10 @@ export default {
   			kenburns: { from: { transform: 'scale(1.02)' }, to: { transform: 'scale(1.14)' } },
   			progress: { from: { transform: 'scaleX(0)' }, to: { transform: 'scaleX(1)' } },
   			spinslow: { to: { transform: 'rotate(360deg)' } },
+  			drift1: { '0%,100%': { transform: 'translate(0,0) scale(1)' }, '33%': { transform: 'translate(12vw,8vh) scale(1.15)' }, '66%': { transform: 'translate(-6vw,14vh) scale(0.9)' } },
+  			drift2: { '0%,100%': { transform: 'translate(0,0) scale(1)' }, '50%': { transform: 'translate(-14vw,-10vh) scale(1.2)' } },
+  			bubble: { '0%': { transform: 'translateY(0) translateX(0) rotate(0deg)', opacity: '0' }, '10%': { opacity: '1' }, '50%': { transform: 'translateY(-55vh) translateX(18px) rotate(8deg)' }, '90%': { opacity: '1' }, '100%': { transform: 'translateY(-115vh) translateX(-12px) rotate(-6deg)', opacity: '0' } },
+  			shine: { from: { backgroundPosition: '200% 0' }, to: { backgroundPosition: '-200% 0' } },
   			rise: { from: { opacity: '0', transform: 'translateY(24px)' }, to: { opacity: '1', transform: 'translateY(0)' } }
   		},
   		animation: {
@@ -38,6 +42,9 @@ export default {
   			kenburns: 'kenburns 9s ease-out forwards',
   			progress: 'progress linear forwards',
   			spinslow: 'spinslow 14s linear infinite',
+  			drift1: 'drift1 26s ease-in-out infinite',
+  			drift2: 'drift2 32s ease-in-out infinite',
+  			shine: 'shine 6s linear infinite',
   			rise: 'rise 0.9s cubic-bezier(.2,.7,.2,1) both'
   		}
   	}

@@ -5,7 +5,7 @@ import NetworkSection from '../components/NetworkSection';
 import HeroSlider from '../components/site/HeroSlider';
 import { LogoMark } from '../components/site/Logo';
 import {
-  ArtistsGrid, ContactSection, CtaPanel, EcosystemGrid, HighlightsBar, JourneySection, LabelChannels, PlatformsStrip, ProductShowcases, ServicesGrid,
+  ArtistsGrid, ClaritySection, ContactSection, CtaPanel, FaqSection, EcosystemGrid, HighlightsBar, JourneySection, LabelChannels, PlatformsStrip, ProductShowcases, ServicesGrid,
 } from '../components/site/sections';
 import { btnGhost, btnPrimary, EqBars, Glow, Reveal, SectionHeading } from '../components/site/ui';
 import { ecosystem } from '../data/company';
@@ -87,7 +87,7 @@ function PartnerPortalTeaser() {
               </div>
             </div>
             <div className="relative min-h-[320px] border-t border-white/10 lg:border-l lg:border-t-0">
-              <img src="/images/platforms/song.jpg" alt="Partner distribution dashboard" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-left-top opacity-80" />
+              <img src="/images/hero/hero-global.jpg" alt="Partner distribution dashboard" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-80" />
               <div className="absolute inset-0 bg-gradient-to-r from-ink-800 via-ink-800/30 to-transparent" />
             </div>
           </div>
@@ -116,7 +116,9 @@ export default function HomePage() {
       <LabelChannels />
       <NetworkSection />
       <JourneySection />
+      <ClaritySection />
       <PartnerPortalTeaser />
+      <FaqSection />
       <CtaPanel />
       <ContactSection />
     </>
