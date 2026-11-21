@@ -33,7 +33,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
             <SectionHeading align="left" eyebrow="Our Story" title="From regional roots" highlight="to a full network." />
-            <div className="mt-8 space-y-4 leading-relaxed text-mist">
+            <div className="mt-8 space-y-4 leading-relaxed text-coal-600">
               <p>
                 Our journey began with folk and Rasiya music — songs that families played at weddings and festivals but rarely found on global platforms. We set out to change that by putting regional artists on the same stores and channels as everyone else.
               </p>
@@ -46,21 +46,21 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
-            <div className="rounded-3xl bg-aurora p-8 text-white shadow-glow">
-              <Target className="h-8 w-8 text-brand-light" />
-              <h3 className="mt-5 text-xl font-bold">Our Mission</h3>
+            <div className="rounded-3xl bg-accent p-8 text-white shadow-[0_30px_60px_-30px_rgba(225,29,42,0.8)]">
+              <Target className="h-8 w-8 text-white" />
+              <h3 className="mt-5 font-display text-xl font-bold uppercase">Our Mission</h3>
               <p className="mt-3 text-sm leading-relaxed text-white/80">Give every artist the reach, protection and income that their music deserves — without the confusion.</p>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-card">
-              <Eye className="h-8 w-8 text-brand-cyan" />
-              <h3 className="mt-5 text-xl font-bold text-white">Our Vision</h3>
-              <p className="mt-3 text-sm leading-relaxed text-mist">A connected home for Indian music and entertainment, built on technology we own and run ourselves.</p>
+            <div className="card-lift rounded-3xl border border-coal-200 bg-white p-8">
+              <Eye className="h-8 w-8 text-accent" />
+              <h3 className="mt-5 font-display text-xl font-bold uppercase text-coal">Our Vision</h3>
+              <p className="mt-3 text-sm leading-relaxed text-coal-600">A connected home for Indian music and entertainment, built on technology we own and run ourselves.</p>
             </div>
             {values.map(({ icon: Icon, title, text }) => (
-              <div key={title} className="rounded-3xl border border-white/10 bg-ink-800/70 p-7 shadow-card sm:last:col-span-2">
-                <Icon className="h-7 w-7 text-brand-cyan" />
-                <h3 className="mt-4 text-lg font-bold text-white">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-mist">{text}</p>
+              <div key={title} className="card-lift rounded-3xl border border-coal-200 bg-white p-7 sm:last:col-span-2">
+                <Icon className="h-7 w-7 text-accent" />
+                <h3 className="mt-4 font-display text-lg font-bold uppercase text-coal">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-coal-600">{text}</p>
               </div>
             ))}
           </div>

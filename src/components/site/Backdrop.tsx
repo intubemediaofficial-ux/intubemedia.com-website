@@ -52,3 +52,22 @@ export default function Backdrop() {
     </div>
   );
 }
+
+const DOTS = [
+  { l: '4%', t: '18%', s: 10, c: '#e11d2a', d: 13 }, { l: '9%', t: '62%', s: 6, c: '#1d2b6b', d: 17 },
+  { l: '93%', t: '12%', s: 12, c: '#e11d2a', d: 15 }, { l: '88%', t: '48%', s: 7, c: '#1d2b6b', d: 19 },
+  { l: '96%', t: '78%', s: 9, c: '#e11d2a', d: 16 }, { l: '2%', t: '88%', s: 8, c: '#e11d2a', d: 21 },
+  { l: '50%', t: '96%', s: 6, c: '#1d2b6b', d: 18 }, { l: '72%', t: '30%', s: 5, c: '#ff8a3d', d: 14 },
+];
+
+export function LightBackdrop() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      <div className="absolute -left-40 top-[30%] h-[46vh] w-[46vh] animate-drift1 rounded-full bg-accent/[0.07] blur-[110px]" />
+      <div className="absolute -right-40 top-[60%] h-[50vh] w-[50vh] animate-drift2 rounded-full bg-navy/[0.07] blur-[120px]" />
+      {DOTS.map((d, i) => (
+        <span key={i} className="float-dot" style={{ left: d.l, top: d.t, width: d.s, height: d.s, background: d.c, opacity: 0.55, '--dur': `${d.d}s`, '--delay': `${-i * 2}s` } as CSSProperties} />
+      ))}
+    </div>
+  );
+}

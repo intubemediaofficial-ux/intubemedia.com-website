@@ -21,8 +21,7 @@
 }
 
 .site {
-  font-family: 'Satoshi', Arial, sans-serif;
-  font-feature-settings: 'ss01';
+  font-family: 'Poppins', Arial, sans-serif;
 }
 
 .site h1,
@@ -31,20 +30,20 @@
 .site h4,
 .site h5,
 .site h6 {
-  font-family: 'Clash Display', 'Satoshi', sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-family: 'Changa', 'Poppins', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .text-aurora {
-  background: linear-gradient(100deg, #8b9bff 0%, #22d3ee 45%, #a855f7 100%);
+  background: linear-gradient(100deg, #ff4d4d 0%, #e11d2a 45%, #ff8a3d 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .bg-aurora {
-  background: linear-gradient(100deg, #5b6cff 0%, #3ab8ff 50%, #a855f7 100%);
+  background: linear-gradient(100deg, #e11d2a 0%, #ff3b3b 55%, #ff7a3d 100%);
 }
 
 .glass {
@@ -130,4 +129,21 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; clip-path: none; transition: none; }
   .bubble-icon, .text-shine, .animate-drift1, .animate-drift2, .animate-kenburns, .animate-marquee, .animate-spinslow, .animate-floaty, .animate-eq { animation: none !important; }
+}
+
+.text-red-grad {
+  background: linear-gradient(100deg, #e11d2a 0%, #ff4d3d 60%, #ff8a3d 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.sec-bar { display: block; height: 3px; width: 64px; border-radius: 9999px; background: linear-gradient(90deg, #e11d2a, #ff8a3d); }
+.confetti { position: relative; display: inline-block; width: 26px; height: 22px; }
+.confetti i { position: absolute; border-radius: 9999px; }
+.card-lift { transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s cubic-bezier(.16,1,.3,1), border-color .3s; }
+.card-lift:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(18, 19, 24, .35); }
+.float-dot { position: absolute; border-radius: 9999px; animation: floatdot var(--dur, 14s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+@keyframes floatdot { 0%,100% { transform: translate(0,0); } 33% { transform: translate(18px,-26px); } 66% { transform: translate(-14px,16px); } }
+.mask-fade-y { -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent); }
+.no-scrollbar { scrollbar-width: none; } .no-scrollbar::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .float-dot, .animate-wallup, .animate-walldown, .animate-pagein, .animate-dropdown, .animate-drawer { animation: none !important; }
 }

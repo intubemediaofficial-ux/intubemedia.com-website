@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
+import ServiceDetailPage from './pages/ServiceDetailPage';
 import ArtistsPage from './pages/ArtistsPage';
 import PlatformsPage from './pages/PlatformsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -40,7 +41,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<ServicesPage />} />
-            <Route path="/services/:slug" element={<Navigate to="/services" replace />} />
+            <Route path="/services/:slug" element={<ServiceDetailPage />} />
             <Route path="/packages" element={<Navigate to="/services" replace />} />
             <Route path="/artists" element={<ArtistsPage />} />
             <Route path="/platforms" element={<PlatformsPage />} />

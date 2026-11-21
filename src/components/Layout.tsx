@@ -2,7 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import Backdrop from './site/Backdrop';
+import { LightBackdrop } from './site/Backdrop';
 
 export default function Layout() {
   const { pathname, hash } = useLocation();
@@ -19,11 +19,11 @@ export default function Layout() {
   }, [pathname, hash]);
 
   return (
-    <div className="site min-h-screen overflow-x-hidden bg-ink text-white antialiased">
-      <Backdrop />
+    <div className="site min-h-screen overflow-x-hidden bg-white text-coal antialiased">
+      <LightBackdrop />
       <div className="relative z-10">
         <Navbar />
-        <main>
+        <main key={pathname} className="animate-pagein">
           <Outlet />
         </main>
         <Footer />
