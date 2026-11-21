@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import SEO from '../components/SEO';
-import { CtaPanel, JourneySection, PlatformsStrip, ServicesGrid } from '../components/site/sections';
+import { CtaPanel, JourneySection, PlatformsStrip, ProductShowcases, ServicesGrid } from '../components/site/sections';
 import { PageHero, btnPrimary } from '../components/site/ui';
 
 export default function ServicesPage() {
@@ -16,15 +16,12 @@ export default function ServicesPage() {
         eyebrow="Our Services"
         title="Everything your music needs,"
         highlight="handled by one team."
-        text="From the first recording to the monthly revenue report, our services cover distribution, rights, production, streaming and growth for artists, labels and creators."
+        description="From the first recording to the monthly revenue report, our services cover distribution, rights, production, streaming and growth for artists, labels and creators."
       >
         <Link to="/contact" className={btnPrimary}>Talk to Our Team <ArrowRight className="h-4 w-4" /></Link>
       </PageHero>
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <ServicesGrid detailed />
-        </div>
-      </section>
+      <ServicesGrid detailed />
+      <ProductShowcases />
       <PlatformsStrip />
       <JourneySection />
       <CtaPanel />

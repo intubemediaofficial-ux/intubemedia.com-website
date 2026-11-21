@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || (
+export const API_URL = import.meta.env.VITE_API_URL || (
   import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.intubemedia.com/website-cms'
 );
 
@@ -31,3 +31,20 @@ export const api = {
   put: (path: string, data: unknown) => request(path, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (path: string) => request(path, { method: 'DELETE' }),
 };
+
+export async function uploadImage(file: File): Promise<string> {
+  const token = localStorage.getItem('admin_token');
+  const body = new FormData();
+  body.append('file', file);
+  const res = await fetch(`${API_URL}/api/uploads`, {
+    method: 'POST',
+    body,
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Upload failed' }));
+    throw new Error(err.detail || 'Upload failed');
+  }
+  const data = await res.json();
+  return data.path as string;
+}

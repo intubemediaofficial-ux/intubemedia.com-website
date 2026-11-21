@@ -22,6 +22,13 @@ import AdminTheme from './pages/admin/AdminTheme';
 import AdminForgotPassword from './pages/admin/AdminForgotPassword';
 import AdminResetPassword from './pages/admin/AdminResetPassword';
 import AdminAccount from './pages/admin/AdminAccount';
+import AdminPartners from './pages/admin/AdminPartners';
+import AdminHeroSlider from './pages/admin/AdminHeroSlider';
+import PartnerApply from './pages/partner/PartnerApply';
+import PartnerLogin from './pages/partner/PartnerLogin';
+import PartnerForgotPassword from './pages/partner/PartnerForgotPassword';
+import PartnerResetPassword from './pages/partner/PartnerResetPassword';
+import PartnerDashboard from './pages/partner/PartnerDashboard';
 import { CmsProvider } from './context/CmsProvider';
 
 function App() {
@@ -43,6 +50,14 @@ function App() {
             <Route path="/pages/:slug" element={<CmsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
+          <Route path="/partner" element={<Navigate to="/partner/login" replace />} />
+          <Route path="/partner/apply" element={<PartnerApply />} />
+          <Route path="/partner/login" element={<PartnerLogin />} />
+          <Route path="/partner/forgot-password" element={<PartnerForgotPassword />} />
+          <Route path="/partner/reset-password" element={<PartnerResetPassword />} />
+          <Route path="/partner/dashboard" element={<PartnerDashboard />} />
+          <Route path="/login" element={<Navigate to="/partner/login" replace />} />
+          <Route path="/register" element={<Navigate to="/partner/apply" replace />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
           <Route path="/admin/reset-password" element={<AdminResetPassword />} />
@@ -51,6 +66,8 @@ function App() {
             <Route path="services" element={<AdminServices />} />
             <Route path="packages" element={<AdminPackages />} />
             <Route path="pages" element={<AdminPages />} />
+            <Route path="partners" element={<AdminPartners />} />
+            <Route path="hero" element={<AdminHeroSlider />} />
             <Route path="messages" element={<AdminMessages />} />
             <Route path="theme" element={<AdminTheme />} />
             <Route path="account" element={<AdminAccount />} />

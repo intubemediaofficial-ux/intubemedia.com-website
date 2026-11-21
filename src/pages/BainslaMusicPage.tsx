@@ -21,13 +21,13 @@ export default function BainslaMusicPage() {
         path="/network/bainsla-music"
       />
 
-      <section className="relative overflow-hidden bg-brand-pale pb-20 pt-28 sm:pt-32">
+      <section className="relative overflow-hidden pb-20 pt-28 sm:pt-32">
         <div className="site-grid-bg absolute inset-0 opacity-70" />
         <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Breadcrumbs />
           <div className="mt-8 grid items-center gap-10 lg:grid-cols-[260px_1fr] lg:gap-14">
-            <div className="flex min-h-64 items-center justify-center rounded-3xl bg-gradient-to-br from-navy via-navy-800 to-brand p-10 shadow-soft">
+            <div className="flex min-h-64 items-center justify-center rounded-3xl bg-gradient-to-br from-brand/70 via-ink-700 to-brand-violet/60 p-10 shadow-glow">
               <img
                 src="/images/bainsla-music-logo.png"
                 alt="Bainsla Music logo"
@@ -35,13 +35,13 @@ export default function BainslaMusicPage() {
               />
             </div>
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-brand">
+              <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-brand-cyan">
                 <Music2 className="h-4 w-4" />
                 Intube Media Network
               </div>
-              <h1 className="mb-3 text-4xl font-extrabold leading-tight text-navy md:text-6xl">Bainsla Music Private Limited</h1>
-              <p className="mb-6 text-xl font-semibold text-brand md:text-2xl">Music & Entertainment</p>
-              <p className="max-w-3xl text-lg leading-relaxed text-muted">
+              <h1 className="mb-3 text-4xl font-extrabold leading-tight text-white md:text-6xl">Bainsla Music Private Limited</h1>
+              <p className="mb-6 text-xl font-semibold text-brand-cyan md:text-2xl">Music & Entertainment</p>
+              <p className="max-w-3xl text-lg leading-relaxed text-mist">
                 Bainsla Music is a dedicated music and entertainment company within the Intube Media network. It develops music, artists, labels and digital audiences across regional, devotional and contemporary Indian music.
               </p>
             </div>
@@ -49,12 +49,12 @@ export default function BainslaMusicPage() {
         </div>
       </section>
 
-      <section className="bg-white py-20">
+      <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-brand">Capabilities</p>
-            <h2 className="mb-4 text-3xl font-extrabold text-navy md:text-4xl">What Bainsla Music Does</h2>
-            <p className="text-muted">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-brand-cyan">Capabilities</p>
+            <h2 className="mb-4 text-3xl font-extrabold text-white md:text-4xl">What Bainsla Music Does</h2>
+            <p className="text-mist">
               Specialized music operations built to connect creators, catalogues and original entertainment with digital audiences.
             </p>
           </div>
@@ -63,12 +63,12 @@ export default function BainslaMusicPage() {
             {capabilities.map(capability => {
               const Icon = capability.icon;
               return (
-                <div key={capability.title} className="rounded-3xl border border-brand-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:shadow-soft">
+                <div key={capability.title} className="rounded-3xl border border-white/10 bg-ink-800/70 p-7 shadow-card transition hover:-translate-y-1 hover:shadow-glow">
                   <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-light">
                     <Icon className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="mb-2 text-xl font-bold text-navy">{capability.title}</h3>
-                  <p className="text-sm leading-relaxed text-muted">{capability.description}</p>
+                  <h3 className="mb-2 text-xl font-bold text-white">{capability.title}</h3>
+                  <p className="text-sm leading-relaxed text-mist">{capability.description}</p>
                 </div>
               );
             })}
@@ -76,12 +76,12 @@ export default function BainslaMusicPage() {
         </div>
       </section>
 
-      <section className="bg-white pb-20">
+      <section className="pb-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[2rem] bg-gradient-to-br from-navy via-navy-800 to-brand p-8 text-center md:p-14">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-brand-light">Explore Bainsla Music</p>
+          <div className="rounded-[2rem] bg-gradient-to-br from-brand/70 via-ink-700 to-brand-violet/60 p-8 text-center md:p-14">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-white/80">Explore Bainsla Music</p>
             <h2 className="mb-5 text-3xl font-extrabold text-white md:text-4xl">Discover the Official Music Network</h2>
-            <p className="mx-auto mb-8 max-w-2xl text-blue-100/80">
+            <p className="mx-auto mb-8 max-w-2xl text-white/80">
               Visit Bainsla Music for its latest music, artists, labels, videos and entertainment releases.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
@@ -89,13 +89,13 @@ export default function BainslaMusicPage() {
                 href="https://bainslamusic.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-3.5 font-semibold text-navy transition hover:bg-brand-pale"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 font-semibold text-ink transition hover:bg-white/90"
               >
                 Visit Official Website <ExternalLink className="h-5 w-5" />
               </a>
               <Link
                 to="/#our-network"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 px-8 py-3.5 font-semibold text-white transition hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-8 py-3.5 font-semibold text-white transition hover:bg-white/10"
               >
                 <ArrowLeft className="h-5 w-5" /> Back to Our Network
               </Link>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import {
+  Handshake,
+  SlidersHorizontal,
   LayoutDashboard, Settings, Package, Mail, FileText, LogOut,
   Menu, X, ChevronRight, Palette, KeyRound,
 } from 'lucide-react';
@@ -11,6 +13,8 @@ const sidebarLinks = [
   { label: 'Services', href: '/admin/services', icon: Settings },
   { label: 'Packages', href: '/admin/packages', icon: Package },
   { label: 'Pages', href: '/admin/pages', icon: FileText },
+  { label: 'Partners', href: '/admin/partners', icon: Handshake },
+  { label: 'Hero Slider', href: '/admin/hero', icon: SlidersHorizontal },
   { label: 'Messages', href: '/admin/messages', icon: Mail },
   { label: 'Theme', href: '/admin/theme', icon: Palette },
   { label: 'Account', href: '/admin/account', icon: KeyRound },

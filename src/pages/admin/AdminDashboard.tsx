@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Settings, Package, Mail, FileText, Palette, BarChart3 } from 'lucide-react';
+import { Handshake, Settings, Package, Mail, FileText, Palette, BarChart3 } from 'lucide-react';
 import { api } from '../../utils/api';
 
 interface Stats {
@@ -8,6 +8,8 @@ interface Stats {
   packages: number;
   submissions: number;
   unread_submissions: number;
+  pending_partner_applications?: number;
+  partners?: number;
   pages: number;
 }
 
@@ -23,6 +25,7 @@ export default function AdminDashboard() {
     { label: 'Packages', value: stats?.packages ?? '-', icon: Package, href: '/admin/packages', color: 'from-pink-600 to-pink-400' },
     { label: 'Messages', value: stats?.submissions ?? '-', icon: Mail, href: '/admin/messages', color: 'from-blue-600 to-blue-400', badge: stats?.unread_submissions },
     { label: 'Pages', value: stats?.pages ?? '-', icon: FileText, href: '/admin/pages', color: 'from-emerald-600 to-emerald-400' },
+    { label: 'Partners', value: stats?.partners ?? '-', icon: Handshake, href: '/admin/partners', color: 'from-amber-600 to-amber-400', badge: stats?.pending_partner_applications },
   ];
 
   return (

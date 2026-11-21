@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Eye, HeartHandshake, Layers, ShieldCheck, Target } from 'lucide-react';
 import SEO from '../components/SEO';
 import NetworkSection from '../components/NetworkSection';
-import { JourneySection, CtaPanel } from '../components/site/sections';
+import { JourneySection, CtaPanel, ProductShowcases } from '../components/site/sections';
 import { PageHero, SectionHeading, btnPrimary, btnGhost } from '../components/site/ui';
 
 const values = [
@@ -23,17 +23,17 @@ export default function AboutPage() {
         eyebrow="About Us"
         title="We help Indian music"
         highlight="reach every screen."
-        text="Intube Media is a music, media and technology company. We distribute songs, protect rights on YouTube, run our own streaming platforms and build tools that make life easier for artists, labels and creators."
+        description="Intube Media is a music, media and technology company. We distribute songs, protect rights on YouTube, run our own streaming platforms and build tools that make life easier for artists, labels and creators."
       >
         <Link to="/contact" className={btnPrimary}>Work With Us <ArrowRight className="h-4 w-4" /></Link>
         <Link to="/platforms" className={btnGhost}>See Our Platforms</Link>
       </PageHero>
 
-      <section className="bg-white py-20 sm:py-24">
+      <section className="py-20 sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
-            <SectionHeading eyebrow="Our Story" title="From regional roots" highlight="to a full network." />
-            <div className="-mt-4 space-y-4 leading-relaxed text-muted">
+            <SectionHeading align="left" eyebrow="Our Story" title="From regional roots" highlight="to a full network." />
+            <div className="mt-8 space-y-4 leading-relaxed text-mist">
               <p>
                 Our journey began with folk and Rasiya music — songs that families played at weddings and festivals but rarely found on global platforms. We set out to change that by putting regional artists on the same stores and channels as everyone else.
               </p>
@@ -46,27 +46,28 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
-            <div className="rounded-3xl bg-navy p-8 text-white shadow-soft">
+            <div className="rounded-3xl bg-aurora p-8 text-white shadow-glow">
               <Target className="h-8 w-8 text-brand-light" />
               <h3 className="mt-5 text-xl font-bold">Our Mission</h3>
-              <p className="mt-3 text-sm leading-relaxed text-blue-100/80">Give every artist the reach, protection and income that their music deserves — without the confusion.</p>
+              <p className="mt-3 text-sm leading-relaxed text-white/80">Give every artist the reach, protection and income that their music deserves — without the confusion.</p>
             </div>
-            <div className="rounded-3xl border border-brand-line bg-brand-pale p-8 shadow-card">
-              <Eye className="h-8 w-8 text-brand" />
-              <h3 className="mt-5 text-xl font-bold text-navy">Our Vision</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">A connected home for Indian music and entertainment, built on technology we own and run ourselves.</p>
+            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-card">
+              <Eye className="h-8 w-8 text-brand-cyan" />
+              <h3 className="mt-5 text-xl font-bold text-white">Our Vision</h3>
+              <p className="mt-3 text-sm leading-relaxed text-mist">A connected home for Indian music and entertainment, built on technology we own and run ourselves.</p>
             </div>
             {values.map(({ icon: Icon, title, text }) => (
-              <div key={title} className="rounded-3xl border border-brand-line bg-white p-7 shadow-card sm:last:col-span-2">
-                <Icon className="h-7 w-7 text-brand" />
-                <h3 className="mt-4 text-lg font-bold text-navy">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{text}</p>
+              <div key={title} className="rounded-3xl border border-white/10 bg-ink-800/70 p-7 shadow-card sm:last:col-span-2">
+                <Icon className="h-7 w-7 text-brand-cyan" />
+                <h3 className="mt-4 text-lg font-bold text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-mist">{text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      <ProductShowcases />
       <NetworkSection />
       <JourneySection />
       <CtaPanel />

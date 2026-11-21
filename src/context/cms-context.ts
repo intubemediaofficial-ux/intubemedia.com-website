@@ -54,7 +54,7 @@ export const defaultTheme: CmsTheme = {
   hero_title: 'Transform Your Digital Presence With Us',
   hero_subtitle: 'Intube Media is the umbrella network for digital agency services, IT solutions, influencer management, media and entertainment businesses.',
   phone: '+91 XXXXX XXXXX',
-  email: 'hello@intubemedia.com',
+  email: 'business@intubemedia.com',
   address: 'India',
   working_hours: 'Mon - Sat, 10AM - 7PM IST',
   stat_projects: '500+',

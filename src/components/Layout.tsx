@@ -18,7 +18,7 @@ export default function Layout() {
   }, [pathname, hash]);
 
   return (
-    <div className="site min-h-screen overflow-x-hidden bg-white text-navy antialiased">
+    <div className="site min-h-screen overflow-x-hidden bg-ink text-white antialiased">
       <Navbar />
       <main>
         <Outlet />
