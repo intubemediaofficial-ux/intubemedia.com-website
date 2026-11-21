@@ -8,9 +8,4 @@ export const platformShots: Record<string, string> = {
   'tag.bainslamusic.com': '/images/platforms/tags.jpg',
   'tools.bainslamusic.com': '/images/platforms/tools.jpg',
   'meet.bainslamusic.com': '/images/platforms/meet.jpg',
-  'camguard.intubemedia.com': '/images/platforms/camguard.jpg',
-  'song.bainslamusic.com': '/images/platforms/song.jpg',
-  'ecom.intubemedia.com': '/images/platforms/ecom.jpg',
-  'data.intubemedia.com': '/images/platforms/data.jpg',
-  'ai.intubemedia.com': '/images/platforms/ai.jpg',
 };

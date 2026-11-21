@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, CheckCircle2, Mail, MapPin, Radio, Youtube, LayoutDashboard, Activity, PlayCircle } from 'lucide-react';
 import { useCms } from '../../context/useCms';
-import { artists, companyServices, ecosystem, journey, labelChannels, storePlatforms, highlights } from '../../data/company';
+import { useState } from 'react';
+import { artists, companyServices, serviceGroups, ecosystem, journey, labelChannels, storePlatforms, highlights } from '../../data/company';
 import { platformShots } from '../../data/platformShots';
 import ContactForm from './ContactForm';
 import { BrowserFrame, btnGhost, btnLight, btnPrimary, Eyebrow, Glow, Reveal, SectionHeading } from './ui';
@@ -45,29 +46,37 @@ export function PlatformsStrip() {
 }
 
 export function ServicesGrid({ detailed = false }: { detailed?: boolean }) {
+  const [group, setGroup] = useState('All');
+  const tabs = ['All', ...serviceGroups];
+  const list = group === 'All' ? companyServices : companyServices.filter((s) => s.group === group);
   return (
     <section id="services" className="relative py-24 sm:py-32">
       <Glow className="left-[-10%] top-40 h-96 w-96 bg-brand/20" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionHeading eyebrow="What we do" title="More than distribution." highlight="A full music & media company." description="Six connected services — run by one team, on our own platforms — so artists, labels and channels can grow without juggling vendors." />
-        <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {companyServices.map((service, i) => {
+        <SectionHeading eyebrow="What we do" title="Five businesses." highlight="One music & media company." description="Distribution, YouTube CMS, live streaming, OTT apps and production — each run by its own specialist team, all connected under Intube Media." />
+        <div className="mx-auto mt-12 flex max-w-full gap-2 overflow-x-auto rounded-full border border-white/10 bg-white/[0.03] p-1.5 backdrop-blur sm:w-fit [scrollbar-width:none]">
+          {tabs.map((t) => (
+            <button key={t} type="button" onClick={() => setGroup(t)} className={`shrink-0 rounded-full px-5 py-2.5 text-sm font-bold transition duration-300 ${group === t ? 'bg-white text-ink shadow-[0_8px_30px_-8px_rgba(255,255,255,0.5)]' : 'text-white/65 hover:bg-white/10 hover:text-white'}`}>{t}</button>
+          ))}
+        </div>
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {list.map((service, i) => {
             const Icon = service.icon;
             return (
-              <Reveal key={service.id} delay={i * 70}>
-                <article id={service.id} className="border-gradient group relative h-full overflow-hidden rounded-3xl bg-ink-800/70 p-8 transition duration-500 hover:-translate-y-1 hover:bg-ink-700/70">
+              <Reveal key={`${group}-${service.id}`} delay={i * 60}>
+                <article id={service.id} className="border-gradient group relative flex h-full flex-col overflow-hidden rounded-[2rem] bg-ink-800/70 p-7 backdrop-blur transition duration-500 hover:-translate-y-1.5 hover:bg-ink-700/70">
                   <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand/0 blur-3xl transition duration-700 group-hover:bg-brand/30" />
                   <div className="flex items-start justify-between">
-                    <span className="grid h-14 w-14 place-items-center rounded-2xl bg-aurora text-white shadow-glow"><Icon className="h-6 w-6" /></span>
-                    <span className="font-display text-sm font-bold text-white/25">{service.number}</span>
+                    <span className="grid h-12 w-12 place-items-center rounded-2xl bg-aurora text-white shadow-glow"><Icon className="h-5 w-5" /></span>
+                    <span className="rounded-full border border-white/10 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/55">{service.group}</span>
                   </div>
-                  <p className="mt-7 text-xs font-bold uppercase tracking-[0.22em] text-brand-cyan">{service.label}</p>
-                  <h3 className="mt-2 text-2xl font-bold text-white">{service.title}</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-mist">{service.summary}</p>
+                  <p className="mt-7 text-xs font-bold uppercase tracking-[0.22em] text-brand-cyan">{service.number} · {service.label}</p>
+                  <h3 className="mt-2 text-xl font-semibold text-white">{service.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-mist">{service.summary}</p>
                   {detailed && (
                     <ul className="mt-6 space-y-2.5">
                       {service.points.map((point) => (
-                        <li key={point} className="flex items-center gap-2.5 text-sm text-white/85"><CheckCircle2 className="h-4 w-4 text-brand-cyan" />{point}</li>
+                        <li key={point} className="flex items-start gap-2.5 text-sm text-white/85"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-cyan" />{point}</li>
                       ))}
                     </ul>
                   )}
@@ -347,6 +356,73 @@ export function ContactSection() {
           </div>
         </Reveal>
         <Reveal delay={120}><ContactForm /></Reveal>
+      </div>
+    </section>
+  );
+}
+
+const faqs = [
+  { q: 'Which stores do you deliver music to?', a: 'Spotify, Apple Music, JioSaavn, Amazon Music, YouTube Music, Instagram and Facebook, Wynk, Gaana and 150+ stores and social platforms worldwide.' },
+  { q: 'Is Intube Media open to every artist?', a: 'We work with selected artists, labels and distributors. Send a partner request with your catalogue and links — our team reviews every application personally and replies by email.' },
+  { q: 'What is the difference between YouTube CMS and IntubeLive?', a: 'YouTube CMS manages and protects your channels and catalogue — Content ID, claims, analytics and revenue. IntubeLive is our cloud software that keeps YouTube lives running 24/7 from pre-recorded videos.' },
+  { q: 'Can I move my catalogue from another distributor?', a: 'Yes. We migrate releases with their existing ISRC/UPC codes so stream counts and history stay with your songs.' },
+  { q: 'How do I see my royalties?', a: 'Approved partners sign in to a private dashboard with release status, channel reports and monthly revenue statements.' },
+  { q: 'How much does IntubeLive cost?', a: '₹1,000 or $10 per live channel a month. 5 lives are ₹5,000 ($50) and 10 lives are ₹10,000 ($100), with a 3-day free trial.' },
+];
+
+export function FaqSection() {
+  return (
+    <section id="faq" className="relative py-24 sm:py-32">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <SectionHeading align="left" eyebrow="Questions" title="Have a question?" highlight="We have answers." description="Everything artists, labels and channel owners usually ask before working with us." />
+          <Link to="/contact" className={`${btnGhost} mt-8`}>Ask our team <ArrowUpRight className="h-4 w-4" /></Link>
+        </div>
+        <div className="space-y-3">
+          {faqs.map((f, i) => (
+            <Reveal key={f.q} delay={i * 50}>
+              <details className="group rounded-3xl border border-white/10 bg-ink-800/60 p-6 backdrop-blur transition duration-500 open:bg-ink-700/60 hover:border-white/20">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold text-white">
+                  {f.q}
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-xl transition duration-500 group-open:rotate-45 group-open:bg-white group-open:text-ink">+</span>
+                </summary>
+                <p className="mt-4 leading-relaxed text-mist">{f.a}</p>
+              </details>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function ClaritySection() {
+  const items = [
+    { k: 'Monthly', t: 'Revenue statements', d: 'Store, YouTube and Content ID earnings in one clear report.' },
+    { k: 'Live', t: 'Release tracking', d: 'See when every song is delivered, live and claimed.' },
+    { k: '1 login', t: 'All your channels', d: 'Every linked channel and asset in a single CMS view.' },
+    { k: 'Real people', t: 'Partner support', d: 'A named team on email and WhatsApp — no ticket queues.' },
+  ];
+  return (
+    <section className="relative py-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <Reveal>
+          <div className="border-gradient relative overflow-hidden rounded-[2.5rem] bg-ink-800/70 p-8 backdrop-blur sm:p-14">
+            <Glow className="-right-20 -top-20 h-80 w-80 bg-brand-hot/25" />
+            <div className="relative grid gap-12 lg:grid-cols-2 lg:items-center">
+              <SectionHeading align="left" eyebrow="Transparency" title="Clarity for the" highlight="business of music." description="Know what you earn, where your music is and who is handling it. Every partner gets the same reports our own label uses." />
+              <div className="grid gap-4 sm:grid-cols-2">
+                {items.map((x) => (
+                  <div key={x.t} className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition duration-500 hover:-translate-y-1 hover:border-white/25">
+                    <p className="font-display text-2xl font-semibold text-aurora">{x.k}</p>
+                    <p className="mt-2 font-bold text-white">{x.t}</p>
+                    <p className="mt-1 text-sm text-mist">{x.d}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

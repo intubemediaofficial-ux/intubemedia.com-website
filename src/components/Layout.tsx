@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import Backdrop from './site/Backdrop';
 
 export default function Layout() {
   const { pathname, hash } = useLocation();
@@ -19,11 +20,14 @@ export default function Layout() {
 
   return (
     <div className="site min-h-screen overflow-x-hidden bg-ink text-white antialiased">
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
+      <Backdrop />
+      <div className="relative z-10">
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
