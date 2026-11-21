@@ -52,6 +52,7 @@ export default function Navbar() {
   const tone = solid ? 'text-coal' : 'text-white';
 
   return (
+    <>
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid ? 'bg-white/95 shadow-[0_10px_40px_-20px_rgba(18,19,24,0.35)] backdrop-blur-xl' : 'bg-gradient-to-b from-black/50 to-transparent'}`}>
       <div className="h-[3px] w-full bg-gradient-to-r from-accent via-[#ff4d3d] to-[#ff8a3d]" />
       <nav className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8" onMouseLeave={() => setHover(null)}>
@@ -103,8 +104,9 @@ export default function Navbar() {
           <Menu className="h-5 w-5" />
         </button>
       </nav>
+    </header>
       {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-[60] lg:hidden">
           <button type="button" aria-label="Close menu" onClick={() => setOpen(false)} className="absolute inset-0 animate-rise bg-coal/60 backdrop-blur-sm" />
           <aside className="absolute right-0 top-0 flex h-full w-[86%] max-w-sm animate-drawer flex-col overflow-y-auto bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-coal-200 px-5 py-4">
@@ -142,6 +144,6 @@ export default function Navbar() {
           </aside>
         </div>
       )}
-    </header>
+    </>
   );
 }
