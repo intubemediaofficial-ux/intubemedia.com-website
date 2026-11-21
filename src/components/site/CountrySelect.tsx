@@ -21,6 +21,8 @@ export default function CountrySelect({ value, onChange, className = '' }: { val
   const input = useRef<HTMLInputElement>(null);
   const filtered = q ? countries.filter((c) => c.name.toLowerCase().includes(q.toLowerCase()) || c.code.toLowerCase() === q.toLowerCase()) : countries;
   const current = countries.find((c) => c.name === value);
+  const list = useRef<HTMLUListElement>(null);
+  useEffect(() => { if (open) list.current?.querySelector(`#country-opt-${active}`)?.scrollIntoView({ block: 'nearest' }); }, [active, open]);
 
   useEffect(() => {
     const close = (e: MouseEvent) => { if (box.current && !box.current.contains(e.target as Node)) setOpen(false); };
@@ -45,6 +47,10 @@ export default function CountrySelect({ value, onChange, className = '' }: { val
             <input
               ref={input}
               autoFocus
+              role="combobox"
+              aria-expanded
+              aria-controls="country-listbox"
+              aria-activedescendant={filtered[active] ? `country-opt-${active}` : undefined}
               value={q}
               onChange={(e) => { setQ(e.target.value); setActive(0); }}
               onKeyDown={(e) => {
@@ -57,10 +63,10 @@ export default function CountrySelect({ value, onChange, className = '' }: { val
               className="w-full bg-transparent py-3 text-sm text-white outline-none placeholder:text-white/35"
             />
           </div>
-          <ul role="listbox" className="max-h-64 overflow-y-auto py-1">
+          <ul ref={list} id="country-listbox" role="listbox" className="max-h-64 overflow-y-auto py-1">
             {filtered.length === 0 && <li className="px-4 py-3 text-sm text-white/50">No country found</li>}
             {filtered.map((c, i) => (
-              <li key={c.code} role="option" aria-selected={c.name === value}>
+              <li key={c.code} id={`country-opt-${i}`} role="option" aria-selected={i === active}>
                 <button type="button" onMouseEnter={() => setActive(i)} onClick={() => pick(c.name)} className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition ${i === active ? 'bg-white/10 text-white' : 'text-white/80'}`}>
                   <span className="text-base">{flag(c.code)}</span>
                   <span className="flex-1">{c.name}</span>
