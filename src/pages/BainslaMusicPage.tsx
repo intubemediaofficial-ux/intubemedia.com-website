@@ -21,27 +21,27 @@ export default function BainslaMusicPage() {
         path="/network/bainsla-music"
       />
 
-      <section className="pt-28 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-950/40 via-transparent to-violet-950/40" />
-        <div className="absolute top-20 right-10 w-80 h-80 bg-red-600/10 rounded-full blur-3xl" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <section className="relative overflow-hidden bg-brand-pale pb-20 pt-28 sm:pt-32">
+        <div className="site-grid-bg absolute inset-0 opacity-70" />
+        <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Breadcrumbs />
-          <div className="mt-8 grid lg:grid-cols-[260px_1fr] gap-10 lg:gap-14 items-center">
-            <div className="rounded-3xl min-h-64 flex items-center justify-center bg-gradient-to-br from-red-950/80 via-black to-emerald-950/60 border border-white/10 p-10">
+          <div className="mt-8 grid items-center gap-10 lg:grid-cols-[260px_1fr] lg:gap-14">
+            <div className="flex min-h-64 items-center justify-center rounded-3xl bg-gradient-to-br from-navy via-navy-800 to-brand p-10 shadow-soft">
               <img
                 src="/images/bainsla-music-logo.png"
                 alt="Bainsla Music logo"
-                className="w-44 h-44 rounded-full border-4 border-white/20 shadow-2xl"
+                className="h-44 w-44 rounded-full border-4 border-white/20 shadow-2xl"
               />
             </div>
             <div>
-              <div className="inline-flex items-center gap-2 text-red-300 font-semibold text-sm uppercase tracking-wider mb-4">
-                <Music2 className="w-4 h-4" />
+              <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-brand">
+                <Music2 className="h-4 w-4" />
                 Intube Media Network
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-3">Bainsla Music Private Limited</h1>
-              <p className="text-xl md:text-2xl text-red-300 font-semibold mb-6">Music & Entertainment</p>
-              <p className="text-lg text-gray-300 leading-relaxed max-w-3xl">
+              <h1 className="mb-3 text-4xl font-extrabold leading-tight text-navy md:text-6xl">Bainsla Music Private Limited</h1>
+              <p className="mb-6 text-xl font-semibold text-brand md:text-2xl">Music & Entertainment</p>
+              <p className="max-w-3xl text-lg leading-relaxed text-muted">
                 Bainsla Music is a dedicated music and entertainment company within the Intube Media network. It develops music, artists, labels and digital audiences across regional, devotional and contemporary Indian music.
               </p>
             </div>
@@ -49,26 +49,26 @@ export default function BainslaMusicPage() {
         </div>
       </section>
 
-      <section className="py-20 border-y border-white/5 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-12">
-            <p className="text-violet-400 font-semibold text-sm uppercase tracking-wider mb-2">Capabilities</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Bainsla Music Does</h2>
-            <p className="text-gray-400">
+      <section className="bg-white py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 max-w-3xl">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-brand">Capabilities</p>
+            <h2 className="mb-4 text-3xl font-extrabold text-navy md:text-4xl">What Bainsla Music Does</h2>
+            <p className="text-muted">
               Specialized music operations built to connect creators, catalogues and original entertainment with digital audiences.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {capabilities.map(capability => {
               const Icon = capability.icon;
               return (
-                <div key={capability.title} className="rounded-2xl bg-white/5 border border-white/10 p-6 hover:border-red-500/30 hover:bg-white/[0.07] transition-colors">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-pink-600 flex items-center justify-center mb-5">
-                    <Icon className="w-6 h-6 text-white" />
+                <div key={capability.title} className="rounded-3xl border border-brand-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:shadow-soft">
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-light">
+                    <Icon className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{capability.title}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed">{capability.description}</p>
+                  <h3 className="mb-2 text-xl font-bold text-navy">{capability.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted">{capability.description}</p>
                 </div>
               );
             })}
@@ -76,28 +76,28 @@ export default function BainslaMusicPage() {
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-red-950/50 via-black/40 to-violet-950/40 p-8 md:p-14 text-center">
-            <p className="text-red-300 font-semibold text-sm uppercase tracking-wider mb-3">Explore Bainsla Music</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-5">Discover the Official Music Network</h2>
-            <p className="text-gray-300 max-w-2xl mx-auto mb-8">
+      <section className="bg-white pb-20">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-[2rem] bg-gradient-to-br from-navy via-navy-800 to-brand p-8 text-center md:p-14">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-brand-light">Explore Bainsla Music</p>
+            <h2 className="mb-5 text-3xl font-extrabold text-white md:text-4xl">Discover the Official Music Network</h2>
+            <p className="mx-auto mb-8 max-w-2xl text-blue-100/80">
               Visit Bainsla Music for its latest music, artists, labels, videos and entertainment releases.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <a
                 href="https://bainslamusic.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex justify-center items-center gap-2 bg-gradient-to-r from-red-600 to-pink-600 px-8 py-3.5 rounded-full font-semibold hover:opacity-90 transition-opacity"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-3.5 font-semibold text-navy transition hover:bg-brand-pale"
               >
-                Visit Official Website <ExternalLink className="w-5 h-5" />
+                Visit Official Website <ExternalLink className="h-5 w-5" />
               </a>
               <Link
                 to="/#our-network"
-                className="inline-flex justify-center items-center gap-2 border border-white/20 px-8 py-3.5 rounded-full font-semibold hover:bg-white/5 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 px-8 py-3.5 font-semibold text-white transition hover:bg-white/10"
               >
-                <ArrowLeft className="w-5 h-5" /> Back to Our Network
+                <ArrowLeft className="h-5 w-5" /> Back to Our Network
               </Link>
             </div>
           </div>

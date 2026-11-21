@@ -26,15 +26,15 @@ export default function CmsPage() {
   }, [slug]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-gray-400">Loading...</div>;
+    return <div className="flex min-h-screen items-center justify-center text-muted">Loading...</div>;
   }
 
   if (!page) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Page Not Found</h1>
-          <Link to="/" className="text-violet-400 hover:text-violet-300">Go back home</Link>
+          <h1 className="mb-4 text-4xl font-extrabold text-navy">Page Not Found</h1>
+          <Link to="/" className="font-semibold text-brand hover:text-brand-dark">Go back home</Link>
         </div>
       </div>
     );
@@ -47,16 +47,16 @@ export default function CmsPage() {
         description={page.meta_description || page.content.slice(0, 160)}
         path={`/pages/${page.slug}`}
       />
-      <section className="pt-28 pb-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-900/20 via-transparent to-pink-900/20" />
+      <section className="relative overflow-hidden bg-brand-pale pb-16 pt-28 sm:pt-32">
+        <div className="site-grid-bg absolute inset-0 opacity-70" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Breadcrumbs />
-          <h1 className="text-4xl md:text-5xl font-bold mt-6">{page.title}</h1>
+          <h1 className="mt-6 text-4xl font-extrabold text-navy md:text-5xl">{page.title}</h1>
         </div>
       </section>
-      <section className="pb-20">
+      <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="whitespace-pre-wrap text-gray-300 leading-8">{page.content}</div>
+          <div className="whitespace-pre-wrap text-lg leading-8 text-muted">{page.content}</div>
         </div>
       </section>
     </>

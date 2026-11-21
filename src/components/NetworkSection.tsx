@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, ExternalLink, Music2, Network, X } from 'lucide-react';
+import { Eyebrow } from './site/ui';
 
 const focusAreas = [
   'Music Distribution',
@@ -33,113 +34,110 @@ export default function NetworkSection() {
 
   return (
     <>
-      <section id="our-network" className="scroll-mt-20 py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/40 via-transparent to-red-950/30" />
-        <div className="absolute top-16 right-0 w-80 h-80 bg-red-600/10 rounded-full blur-3xl" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl mb-12">
-            <div className="inline-flex items-center gap-2 text-violet-300 font-semibold text-sm uppercase tracking-wider mb-3">
-              <Network className="w-4 h-4" />
-              Our Network
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-5">
-              Building Businesses Across
-              <span className="bg-gradient-to-r from-violet-400 via-pink-400 to-red-400 bg-clip-text text-transparent"> Media, Technology & Entertainment</span>
-            </h2>
-            <p className="text-gray-300 text-lg leading-relaxed mb-4">
-              Intube Media brings together specialized businesses and brands across digital technology, creator services, media and entertainment.
-            </p>
-            <p className="text-gray-400 leading-relaxed">
-              Each company operates with its own expertise while being connected through the wider Intube Media network.
-            </p>
-          </div>
+      <section id="our-network" className="relative scroll-mt-20 overflow-hidden bg-brand-pale py-20 sm:py-24">
+        <div className="site-grid-bg absolute inset-0 opacity-60" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <Eyebrow><Network className="h-3.5 w-3.5" /> Intube Media Network</Eyebrow>
+              <h2 className="text-3xl font-extrabold leading-[1.1] text-navy sm:text-4xl lg:text-5xl">
+                Building businesses across
+                <span className="block text-brand">media, technology & entertainment.</span>
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted">
+                Intube Media brings together specialised businesses and brands across digital technology, creator services, media and entertainment.
+              </p>
+              <p className="mt-4 leading-relaxed text-muted">
+                Each company operates with its own expertise while being connected through the wider Intube Media network.
+              </p>
 
-          <div className="max-w-5xl grid sm:grid-cols-2 gap-4 mb-6">
-            <div className="rounded-2xl border border-violet-500/20 bg-violet-500/[0.07] p-5">
-              <p className="text-xs text-violet-300 uppercase tracking-wider mb-2">Digital & Technology</p>
-              <p className="text-lg font-semibold">Intube Media</p>
-            </div>
-            <div className="rounded-2xl border border-red-500/20 bg-red-500/[0.07] p-5">
-              <p className="text-xs text-red-300 uppercase tracking-wider mb-2">Music & Entertainment</p>
-              <p className="text-lg font-semibold">Bainsla Music Private Limited</p>
-            </div>
-          </div>
-
-          <article className="max-w-5xl rounded-3xl border border-white/10 bg-white/[0.04] overflow-hidden shadow-2xl shadow-red-950/20">
-            <button
-              type="button"
-              onClick={() => setQuickViewOpen(true)}
-              className="group w-full text-left grid lg:grid-cols-[280px_1fr] hover:bg-white/[0.03] transition-colors"
-              aria-label="Quick view Bainsla Music Private Limited"
-            >
-              <div className="relative min-h-64 lg:min-h-full flex items-center justify-center p-10 bg-gradient-to-br from-red-950/80 via-black to-emerald-950/60 overflow-hidden">
-                <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.16),_transparent_62%)]" />
-                <img
-                  src="/images/bainsla-music-logo.png"
-                  alt="Bainsla Music logo"
-                  className="relative w-40 h-40 rounded-full border-4 border-white/20 shadow-2xl group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-
-              <div className="p-7 md:p-10">
-                <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-semibold uppercase tracking-wider">
-                    <Music2 className="w-3.5 h-3.5" />
-                    Music & Entertainment
-                  </span>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider">Intube Media Network</span>
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                <div className="rounded-2xl border border-brand-line bg-white p-5 shadow-card">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-wider text-brand">Digital & Technology</p>
+                  <p className="font-display text-lg font-bold text-navy">Intube Media</p>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-2">BAINSLA MUSIC</h3>
-                <p className="text-sm text-red-300 font-semibold uppercase tracking-[0.2em] mb-5">Private Limited</p>
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  A dedicated music company within the Intube Media network, connecting artists, labels, music and audiences.
-                </p>
-                <p className="text-sm text-gray-400 leading-relaxed mb-3">
-                  Bainsla Music Private Limited is a music and entertainment company focused on music distribution, music production, artist development, digital music platforms and original content.
-                </p>
-                <p className="text-sm text-gray-400 leading-relaxed mb-6">
-                  The company works across regional, devotional and contemporary Indian music while building and managing artists, music labels and digital audiences.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {focusAreas.map(area => (
-                    <span key={area} className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-gray-300">
-                      {area}
-                    </span>
-                  ))}
+                <div className="rounded-2xl border border-brand-line bg-white p-5 shadow-card">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-wider text-brand">Music & Entertainment</p>
+                  <p className="font-display text-lg font-bold text-navy">Bainsla Music Private Limited</p>
                 </div>
               </div>
-            </button>
+            </div>
 
-            <div className="px-7 md:px-10 py-6 border-t border-white/10 bg-black/20 flex flex-col sm:flex-row sm:items-center gap-3">
+            <article className="overflow-hidden rounded-3xl border border-brand-line bg-white shadow-soft lg:col-span-7">
               <button
                 type="button"
                 onClick={() => setQuickViewOpen(true)}
-                className="inline-flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-pink-600 px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="group block w-full text-left"
+                aria-haspopup="dialog"
               >
-                Quick View <Building2 className="w-4 h-4" />
+                <div className="relative overflow-hidden bg-gradient-to-br from-navy via-navy-800 to-brand p-7 md:p-10">
+                  <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-light/30 blur-3xl transition group-hover:scale-110" />
+                  <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center">
+                    <img
+                      src="/images/bainsla-music-logo.png"
+                      alt="Bainsla Music logo"
+                      className="h-20 w-20 rounded-2xl border-4 border-white/20 shadow-xl"
+                    />
+                    <div>
+                      <p className="mb-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-brand-light">
+                        <Music2 className="h-4 w-4" /> Network Company
+                      </p>
+                      <h3 className="text-2xl font-extrabold text-white md:text-3xl">Bainsla Music Private Limited</h3>
+                      <p className="mt-1 text-sm text-blue-100/80">Music & Entertainment</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-7 md:p-10">
+                  <p className="mb-3 text-lg font-semibold text-navy">
+                    A dedicated music company within the Intube Media network, connecting artists, labels, music and audiences.
+                  </p>
+                  <p className="mb-3 text-sm leading-relaxed text-muted">
+                    Bainsla Music Private Limited is a music and entertainment company focused on music distribution, music production, artist development, digital music platforms and original content.
+                  </p>
+                  <p className="mb-6 text-sm leading-relaxed text-muted">
+                    The company works across regional, devotional and contemporary Indian music while building and managing artists, music labels and digital audiences.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {focusAreas.map(area => (
+                      <span key={area} className="rounded-lg border border-brand-line bg-brand-pale px-3 py-1.5 text-xs font-semibold text-navy/80">
+                        {area}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </button>
-              <a
-                href="https://bainslamusic.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex justify-center items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold hover:bg-white/5 transition-colors"
-              >
-                Visit Website <ExternalLink className="w-4 h-4" />
-              </a>
-              <Link
-                to="/network/bainsla-music"
-                className="sm:ml-auto inline-flex justify-center items-center gap-2 px-3 py-2 text-sm font-semibold text-violet-300 hover:text-white transition-colors"
-              >
-                View Company Details <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </article>
+
+              <div className="flex flex-col gap-3 border-t border-brand-line bg-brand-pale/60 px-7 py-6 sm:flex-row sm:items-center md:px-10">
+                <button
+                  type="button"
+                  onClick={() => setQuickViewOpen(true)}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
+                >
+                  Quick View <Building2 className="h-4 w-4" />
+                </button>
+                <a
+                  href="https://bainslamusic.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-brand-line bg-white px-6 py-3 text-sm font-semibold text-navy transition hover:border-brand hover:text-brand"
+                >
+                  Visit Website <ExternalLink className="h-4 w-4" />
+                </a>
+                <Link
+                  to="/network/bainsla-music"
+                  className="inline-flex items-center justify-center gap-2 px-3 py-2 text-sm font-semibold text-brand transition hover:text-brand-dark sm:ml-auto"
+                >
+                  View Company Details <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
       {quickViewOpen && (
         <div
-          className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-navy/70 p-4 backdrop-blur-md"
           onMouseDown={() => setQuickViewOpen(false)}
           role="presentation"
         >
@@ -147,72 +145,67 @@ export default function NetworkSection() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="bainsla-quick-view-title"
-            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/15 bg-[#0b0b18] shadow-2xl"
+            className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl bg-white shadow-2xl"
             onMouseDown={event => event.stopPropagation()}
           >
-            <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-br from-red-900/50 via-violet-900/30 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-br from-navy via-navy-800 to-brand" />
             <button
               type="button"
               onClick={() => setQuickViewOpen(false)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/40 border border-white/15 flex items-center justify-center text-gray-300 hover:text-white hover:bg-black/70 transition-colors"
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition hover:bg-white/25"
               aria-label="Close quick view"
             >
-              <X className="w-5 h-5" />
+              <X className="h-5 w-5" />
             </button>
 
             <div className="relative p-6 sm:p-9">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-8">
+              <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end">
                 <img
                   src="/images/bainsla-music-logo.png"
                   alt="Bainsla Music logo"
-                  className="w-24 h-24 rounded-full border-4 border-white/20 shadow-xl"
+                  className="h-24 w-24 rounded-2xl border-4 border-white shadow-xl"
                 />
                 <div>
-                  <p className="text-xs text-red-300 font-semibold uppercase tracking-[0.2em] mb-2">Intube Media Network Company</p>
-                  <h2 id="bainsla-quick-view-title" className="text-2xl sm:text-3xl font-bold">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-brand sm:text-brand-light">Intube Media Network Company</p>
+                  <h2 id="bainsla-quick-view-title" className="text-2xl font-extrabold text-navy sm:text-3xl">
                     Bainsla Music Private Limited
                   </h2>
                 </div>
               </div>
 
-              <dl className="grid sm:grid-cols-2 gap-4 mb-7">
-                <div className="rounded-xl bg-white/5 border border-white/10 p-4">
-                  <dt className="text-xs uppercase tracking-wider text-gray-500 mb-1">Industry</dt>
-                  <dd className="text-gray-200 font-medium">Music & Entertainment</dd>
-                </div>
-                <div className="rounded-xl bg-white/5 border border-white/10 p-4">
-                  <dt className="text-xs uppercase tracking-wider text-gray-500 mb-1">Network</dt>
-                  <dd className="text-gray-200 font-medium">Intube Media</dd>
-                </div>
-                <div className="sm:col-span-2 rounded-xl bg-white/5 border border-white/10 p-4">
-                  <dt className="text-xs uppercase tracking-wider text-gray-500 mb-1">Specialisation</dt>
-                  <dd className="text-gray-200 font-medium">Music Distribution, Production, Artists & Labels</dd>
-                </div>
-                <div className="sm:col-span-2 rounded-xl bg-white/5 border border-white/10 p-4">
-                  <dt className="text-xs uppercase tracking-wider text-gray-500 mb-1">Website</dt>
-                  <dd className="text-gray-200 font-medium">bainslamusic.com</dd>
-                </div>
+              <dl className="mb-7 grid gap-4 sm:grid-cols-2">
+                {[
+                  ['Industry', 'Music & Entertainment', ''],
+                  ['Network', 'Intube Media', ''],
+                  ['Specialisation', 'Music Distribution, Production, Artists & Labels', 'sm:col-span-2'],
+                  ['Website', 'bainslamusic.com', 'sm:col-span-2'],
+                ].map(([label, value, span]) => (
+                  <div key={label} className={`rounded-xl border border-brand-line bg-brand-pale p-4 ${span}`}>
+                    <dt className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">{label}</dt>
+                    <dd className="font-semibold text-navy">{value}</dd>
+                  </div>
+                ))}
               </dl>
 
-              <p className="text-gray-300 leading-relaxed mb-8">
+              <p className="mb-8 leading-relaxed text-muted">
                 Bainsla Music is a dedicated music and entertainment company within the Intube Media network, focused on developing music, artists, labels and digital entertainment audiences.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <a
                   href="https://bainslamusic.com/"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 inline-flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-red-600 to-pink-600 px-7 py-3.5 font-semibold hover:opacity-90 transition-opacity"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 font-semibold text-white transition hover:bg-brand-dark"
                 >
-                  Visit Bainsla Music <ExternalLink className="w-5 h-5" />
+                  Visit Bainsla Music <ExternalLink className="h-5 w-5" />
                 </a>
                 <Link
                   to="/network/bainsla-music"
                   onClick={() => setQuickViewOpen(false)}
-                  className="inline-flex justify-center items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 font-semibold hover:bg-white/5 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-brand-line px-7 py-3.5 font-semibold text-navy transition hover:border-brand hover:text-brand"
                 >
-                  Company Details <ArrowRight className="w-5 h-5" />
+                  Company Details <ArrowRight className="h-5 w-5" />
                 </Link>
               </div>
             </div>
