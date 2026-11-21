@@ -102,7 +102,7 @@ export default function AdminPartners() {
         <div className="space-y-2">
           {list.length === 0 && <div className="py-20 text-center text-gray-500">No applications.</div>}
           {list.map((a) => (
-            <button key={a.id} type="button" onClick={() => { setSelected(a); setSetupUrl(''); }} className={`w-full rounded-xl border p-4 text-left transition ${selected?.id === a.id ? 'border-violet-500 bg-violet-500/10' : 'border-white/10 bg-white/5 hover:bg-white/10'}`}>
+            <button key={a.id} type="button" onClick={() => { setSelected(a); setNote(a.admin_note || ''); setSetupUrl(''); }} className={`w-full rounded-xl border p-4 text-left transition ${selected?.id === a.id ? 'border-violet-500 bg-violet-500/10' : 'border-white/10 bg-white/5 hover:bg-white/10'}`}>
               <div className="flex items-center justify-between gap-2">
                 <span className="truncate font-semibold">{a.full_name}</span>
                 <span className={`rounded-full px-2 py-0.5 text-xs capitalize ${badge[a.status] || ''}`}>{a.status}</span>
