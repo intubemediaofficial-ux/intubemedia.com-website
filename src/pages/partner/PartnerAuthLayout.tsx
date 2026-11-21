@@ -15,7 +15,7 @@ export default function PartnerAuthLayout({ children, title, highlight, text }: 
   return (
     <div className="site min-h-screen bg-ink text-white antialiased lg:grid lg:grid-cols-[1.05fr_1fr]">
       <aside className="noise relative hidden overflow-hidden lg:block">
-        <img src="/images/artists/dg-mawai.jpg" alt="" className="absolute inset-0 h-full w-full animate-kenburns object-cover opacity-60" />
+        <img src="/images/hero/partner-stage.jpg" alt="" className="absolute inset-0 h-full w-full animate-kenburns object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink/80 to-brand/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
         <div className="absolute -left-32 top-1/3 h-96 w-96 rounded-full bg-brand/40 blur-[120px]" />

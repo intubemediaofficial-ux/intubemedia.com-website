@@ -11,7 +11,7 @@ interface SEOProps {
 
 const SITE_NAME = 'Intube Media';
 const BASE_URL = 'https://intubemedia.com';
-const DEFAULT_IMAGE = '/images/artists/dg-mawai.jpg';
+const DEFAULT_IMAGE = '/images/hero/hero-control.jpg';
 
 export default function SEO({ title, description, path = '/', type = 'website', image = DEFAULT_IMAGE, jsonLd }: SEOProps) {
   const url = `${BASE_URL}${path}`;
