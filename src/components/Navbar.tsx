@@ -125,7 +125,7 @@ export default function Navbar() {
                     )}
                   </div>
                   {g.items && (
-                    <div className={`grid transition-all duration-500 ${expanded === g.label ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                    <div className={`grid transition-all duration-500 ${expanded === g.label ? 'visible grid-rows-[1fr] opacity-100' : 'invisible grid-rows-[0fr] opacity-0'}`}>
                       <ul className="overflow-hidden">
                         {g.items.map((item) => (
                           <li key={item.label}><ItemLink item={item} onClick={() => setOpen(false)} className="block px-6 py-2.5 text-sm font-medium text-coal-600 hover:text-accent" /></li>
