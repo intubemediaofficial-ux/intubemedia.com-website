@@ -1,262 +1,175 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Users, Briefcase, Award, Clock } from 'lucide-react';
+import { ArrowRight, BadgeCheck, Headphones, Play, TrendingUp } from 'lucide-react';
 import SEO from '../components/SEO';
 import NetworkSection from '../components/NetworkSection';
-import CmsIcon from '../components/CmsIcon';
-import { useCms } from '../context/useCms';
+import { EqBars, Eyebrow, SectionHeading, btnGhost, btnPrimary } from '../components/site/ui';
+import {
+  ArtistsGrid,
+  ContactSection,
+  CtaPanel,
+  EcosystemGrid,
+  JourneySection,
+  PlatformsStrip,
+  ServicesGrid,
+} from '../components/site/sections';
+import { artists, highlights } from '../data/company';
 
-const trustedBrands = ['Google', 'Meta', 'YouTube', 'Amazon', 'Flipkart', 'Zomato', 'Swiggy', 'PhonePe'];
+const stats = [
+  { value: '10', label: 'Platforms we own & run' },
+  { value: '24/7', label: 'Live streaming' },
+  { value: '4', label: 'Streaming apps' },
+  { value: '1', label: 'Team, end to end' },
+];
+
+function Hero() {
+  const [lead, ...rest] = artists;
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-b from-brand-pale to-white pb-20 pt-28 sm:pt-36">
+      <div className="site-grid-bg absolute inset-0 opacity-70" />
+      <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
+      <div className="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-brand-light/15 blur-3xl" />
+
+      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div>
+          <Eyebrow>India&apos;s Music, Media &amp; Tech Network</Eyebrow>
+          <h1 className="text-4xl font-extrabold leading-[1.05] text-navy sm:text-5xl lg:text-6xl xl:text-[4.25rem]">
+            Indian music,
+            <span className="block bg-gradient-to-r from-brand to-brand-light bg-clip-text pb-1 text-transparent">on every screen.</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+            Intube Media distributes, protects and streams music for artists and labels — with our own YouTube CMS, OTT, music and live platforms working together under one roof.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link to="/contact" className={btnPrimary}>Release Your Music <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/platforms" className={btnGhost}><Play className="h-4 w-4" /> Explore Our Platforms</Link>
+          </div>
+          <div className="mt-10 grid max-w-xl grid-cols-2 gap-4">
+            {highlights.map(({ icon: Icon, title, text }) => (
+              <div key={title} className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-brand shadow-card">
+                  <Icon className="h-4 w-4" />
+                </span>
+                <span>
+                  <span className="block text-sm font-bold text-navy">{title}</span>
+                  <span className="block text-xs text-muted">{text}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-lg">
+          <div className="relative overflow-hidden rounded-[2rem] border-8 border-white bg-navy shadow-soft">
+            <img src={lead.image} alt={`${lead.name} — ${lead.genre}`} className="aspect-[4/3] w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6">
+              <p className="inline-block rounded-full bg-brand px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Now trending</p>
+              <p className="mt-1 font-display text-2xl font-extrabold text-white">{lead.name}</p>
+              <p className="text-sm text-blue-100/80">{lead.genre}</p>
+              <EqBars className="mt-4 h-8" bars={28} />
+            </div>
+          </div>
+
+          <div className="absolute -left-4 top-8 hidden animate-floaty items-center gap-3 rounded-2xl bg-white p-3 pr-5 shadow-soft sm:flex">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"><TrendingUp className="h-5 w-5" /></span>
+            <span><span className="block text-xs text-muted">Monthly streams</span><span className="font-display font-extrabold text-navy">Growing fast</span></span>
+          </div>
+          <div className="absolute -right-4 bottom-24 hidden animate-floaty items-center gap-3 rounded-2xl bg-white p-3 pr-5 shadow-soft [animation-delay:1.5s] sm:flex">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-pale text-brand"><BadgeCheck className="h-5 w-5" /></span>
+            <span><span className="block text-xs text-muted">Content ID</span><span className="font-display font-extrabold text-navy">Protected</span></span>
+          </div>
+
+          <div className="mt-5 flex items-center gap-3 rounded-2xl border border-brand-line bg-white p-3 shadow-card">
+            <div className="flex shrink-0 -space-x-3">
+              {rest.map(artist => (
+                <img key={artist.slug} src={artist.image} alt={artist.name} className="h-10 w-10 rounded-full border-2 border-white object-cover" />
+              ))}
+            </div>
+            <p className="text-sm text-muted"><span className="font-bold text-navy">Artists &amp; labels</span> already growing with us</p>
+            <Headphones className="ml-auto hidden h-5 w-5 text-brand sm:block" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function About() {
+  return (
+    <section id="about" className="scroll-mt-20 bg-white py-20 sm:py-24">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div>
+          <SectionHeading eyebrow="About Intube Media" title="One network for music," highlight="media and technology."
+            text="We started by helping regional artists get their songs online. Today Intube Media is a full network: a record label, a YouTube CMS, streaming apps, live broadcasting and creator tools — all built and run by our own team in India." />
+          <p className="-mt-6 leading-relaxed text-muted">
+            That means fewer middlemen, faster releases and clear reporting. Artists keep ownership of their work, while we handle delivery, rights protection and growth across every screen.
+          </p>
+          <Link to="/about" className={`${btnGhost} mt-8`}>More About Us <ArrowRight className="h-4 w-4" /></Link>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {stats.map((stat, index) => (
+            <div key={stat.label} className={`rounded-3xl border border-brand-line p-7 shadow-card ${index === 0 || index === 3 ? 'bg-navy text-white' : 'bg-brand-pale'}`}>
+              <p className={`font-display text-4xl font-extrabold sm:text-5xl ${index === 0 || index === 3 ? 'text-brand-light' : 'text-brand'}`}>{stat.value}</p>
+              <p className={`mt-2 text-sm font-semibold ${index === 0 || index === 3 ? 'text-blue-100/80' : 'text-navy/70'}`}>{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function HomePage() {
-  const { services, theme } = useCms();
-  const businessServices = services.filter(service => service.section === 'business');
-  const influencerServices = services.filter(service => service.section === 'influencer');
-  const stats = [
-    { icon: Briefcase, value: theme.stat_projects, label: 'Projects Delivered' },
-    { icon: Users, value: theme.stat_clients, label: 'Happy Clients' },
-    { icon: Award, value: theme.stat_team, label: 'Team Members' },
-    { icon: Clock, value: theme.stat_experience, label: 'Years Experience' },
-  ];
-
   return (
     <>
       <SEO
-        title="Intube Media — Digital Agency | IT Solutions | Influencer Management"
-        description="Intube Media is a digital, technology and media network offering digital agency services, IT solutions, influencer management and entertainment businesses."
+        title="Intube Media — Music Distribution, YouTube CMS & Streaming Network"
+        description="Intube Media is an Indian music, media and technology network: worldwide music distribution, YouTube CMS and Content ID, artist development, OTT streaming, live broadcasting and creator tools."
         path="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Intube Media',
+          url: 'https://intubemedia.com',
+          description: 'Indian music, media and technology network.',
+        }}
       />
+      <Hero />
+      <PlatformsStrip />
+      <About />
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-2 mb-6">
-                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: theme.accent_color }} />
-                <span className="text-sm text-violet-300">{theme.hero_badge}</span>
-              </div>
-              <p className="text-sm font-semibold text-gray-300 uppercase tracking-[0.16em] mb-4">
-                Digital Agency • IT Solutions • Influencer Management
-              </p>
-
-              <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-violet-300 to-pink-300 bg-clip-text text-transparent"
-                style={{
-                  fontFamily: theme.heading_font,
-                  backgroundImage: `linear-gradient(90deg, #ffffff, ${theme.primary_color}, ${theme.secondary_color})`,
-                }}
-              >
-                {theme.hero_title}
-              </h1>
-
-              <p className="text-lg text-gray-300 mb-8 max-w-xl leading-relaxed">
-                {theme.hero_subtitle}
-              </p>
-
-              <div className="flex flex-wrap gap-4 mb-12">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
-                >
-                  Get Started <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
-                  to="/services/digital-marketing"
-                  className="inline-flex items-center gap-2 border border-white/20 px-8 py-3 rounded-full font-semibold hover:bg-white/5 transition-colors"
-                >
-                  Explore Services
-                </Link>
-              </div>
-
-              <div className="flex flex-wrap gap-6">
-                {[
-                  'Business IT Solutions',
-                  'Digital Marketing',
-                  'Influencer Management',
-                  'AI Automation',
-                ].map(item => (
-                  <div key={item} className="flex items-center gap-2 text-sm text-gray-300">
-                    <CheckCircle2 className="w-4 h-4 text-green-400" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="hidden lg:block relative">
-              <div className="relative rounded-2xl overflow-hidden">
-                <img
-                  src="/images/hero-team.jpg"
-                  alt="Intube Media Team"
-                  className="w-full h-auto rounded-2xl"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050510] via-transparent to-transparent" />
-              </div>
-
-              <div className="absolute -bottom-4 -left-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-4">
-                <p className="text-2xl font-bold">{theme.stat_projects}</p>
-                <p className="text-sm text-gray-300">Projects Delivered</p>
-              </div>
-              <div className="absolute -top-4 -right-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl p-4">
-                <p className="text-2xl font-bold">{theme.stat_clients}</p>
-                <p className="text-sm text-gray-300">Happy Clients</p>
-              </div>
-            </div>
+      <section id="services" className="scroll-mt-20 bg-brand-pale py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <SectionHeading eyebrow="What We Do" title="Services built for" highlight="artists & labels." text="Everything a release needs — from studio to store, channel to royalty report." />
+            <Link to="/services" className={`${btnGhost} mb-12 self-start lg:self-auto`}>All Services <ArrowRight className="h-4 w-4" /></Link>
           </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 pt-12 border-t border-white/10">
-            {stats.map(stat => {
-              const StatIcon = stat.icon;
-              return (
-                <div key={stat.label} className="text-center">
-                  <StatIcon className="w-8 h-8 text-violet-400 mx-auto mb-3" />
-                  <p className="text-3xl font-bold">{stat.value}</p>
-                  <p className="text-sm text-gray-400 mt-1">{stat.label}</p>
-                </div>
-              );
-            })}
-          </div>
+          <ServicesGrid />
         </div>
       </section>
 
-      {/* Trusted By */}
-      <section className="py-12 border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-gray-500 uppercase tracking-widest mb-8">Trusted By Leading Brands</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-            {trustedBrands.map(brand => (
-              <span key={brand} className="text-lg font-bold text-gray-600 hover:text-gray-400 transition-colors">
-                {brand}
-              </span>
-            ))}
+      <section id="artists" className="scroll-mt-20 bg-white py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <SectionHeading eyebrow="Our Artists" title="Voices we are" highlight="proud to amplify." text="Folk, Rasiya and devotional artists releasing through the Intube Media and Bainsla Music network." />
+            <Link to="/artists" className={`${btnGhost} mb-12 self-start lg:self-auto`}>View Roster <ArrowRight className="h-4 w-4" /></Link>
           </div>
+          <ArtistsGrid />
         </div>
       </section>
 
-      {/* Business Services Overview */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-violet-400 font-semibold text-sm uppercase tracking-wider mb-2">What We Offer</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Business IT Solutions</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              End-to-end digital solutions for businesses — from website development to AI automation.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {businessServices.map(service => (
-                <Link
-                  key={service.slug}
-                  to={`/services/${service.slug}`}
-                  className="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-violet-500/30 transition-all duration-300"
-                >
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4`}>
-                    <CmsIcon icon={service.icon} className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-violet-300 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">{service.description}</p>
-                  <div className="flex items-center gap-2 text-violet-400 text-sm font-medium">
-                    {service.items.length} services <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-            ))}
-          </div>
+      <section id="platforms" className="scroll-mt-20 bg-brand-pale py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading eyebrow="Our Ecosystem" title="Platforms we build" highlight="and run ourselves." center
+            text="This is what Intube Media does every day — each product below is owned and operated by our team." />
+          <EcosystemGrid />
         </div>
       </section>
 
-      {/* Influencer Services Overview */}
-      <section className="py-20 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-pink-400 font-semibold text-sm uppercase tracking-wider mb-2">For Creators & Influencers</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Influencer & Creator Solutions</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Complete creator management — from account growth to monetization and content production.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {influencerServices.map(service => (
-                <Link
-                  key={service.slug}
-                  to={`/services/${service.slug}`}
-                  className="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-pink-500/30 transition-all duration-300"
-                >
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4`}>
-                    <CmsIcon icon={service.icon} className="w-7 h-7 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-pink-300 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">{service.description}</p>
-                  <div className="flex items-center gap-2 text-pink-400 text-sm font-medium">
-                    {service.items.length} services <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      <JourneySection />
       <NetworkSection />
-
-      {/* Packages Preview */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-violet-400 font-semibold text-sm uppercase tracking-wider mb-2">Pricing</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Premium All-in-One Packages</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto mb-8">
-            Choose a package that fits your needs — from startups to established businesses and top creators.
-          </p>
-          <Link
-            to="/packages"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
-          >
-            View Packages <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-violet-900/40 to-pink-900/40 border border-white/10 rounded-3xl p-8 md:p-16 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Ready to Grow Your Business?
-            </h2>
-            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-              Partner with India's fastest growing digital agency. Let us help you build, market, and scale your brand.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
-              >
-                Start Your Project <ArrowRight className="w-5 h-5" />
-              </Link>
-              <a
-                href={`tel:${theme.phone.replace(/[^\d+]/g, '')}`}
-                className="inline-flex items-center gap-2 border border-white/20 px-8 py-3 rounded-full font-semibold hover:bg-white/5 transition-colors"
-              >
-                Call Us Now
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CtaPanel />
+      <ContactSection />
     </>
   );
 }

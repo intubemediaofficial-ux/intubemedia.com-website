@@ -3,18 +3,8 @@ import { ChevronRight, Home } from 'lucide-react';
 
 const routeLabels: Record<string, string> = {
   services: 'Services',
-  'website-app': 'Website & App Services',
-  'digital-marketing': 'Digital Marketing',
-  'branding-creative': 'Branding & Creative',
-  'it-support-security': 'IT Support & Security',
-  'ai-automation': 'AI & Automation',
-  'account-management': 'Account Management',
-  'account-protection': 'Account Protection',
-  monetization: 'Monetization Services',
-  'copyright-claims': 'Copyright & Claims',
-  'content-production': 'Content Production',
-  'growth-services': 'Growth Services',
-  packages: 'Packages',
+  artists: 'Artists',
+  platforms: 'Platforms',
   about: 'About Us',
   contact: 'Contact',
   network: 'Our Network',
@@ -29,26 +19,26 @@ export default function Breadcrumbs() {
   if (segments.length === 0) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className="py-4">
-      <ol className="flex items-center gap-2 text-sm text-gray-400 flex-wrap">
+    <nav aria-label="Breadcrumb">
+      <ol className="flex flex-wrap items-center gap-2 text-sm text-muted">
         <li>
-          <Link to="/" className="hover:text-white transition-colors flex items-center gap-1">
-            <Home className="w-4 h-4" />
+          <Link to="/" className="flex items-center gap-1 transition-colors hover:text-brand">
+            <Home className="h-4 w-4" />
             Home
           </Link>
         </li>
         {segments.map((segment, index) => {
           const path = '/' + segments.slice(0, index + 1).join('/');
           const isLast = index === segments.length - 1;
-          const label = routeLabels[segment] || segment;
+          const label = routeLabels[segment] || segment.replace(/-/g, ' ');
 
           return (
             <li key={path} className="flex items-center gap-2">
-              <ChevronRight className="w-4 h-4 text-gray-600" />
+              <ChevronRight className="h-4 w-4 text-brand/40" />
               {isLast ? (
-                <span className="text-white font-medium">{label}</span>
+                <span className="font-semibold capitalize text-navy">{label}</span>
               ) : (
-                <Link to={path === '/network' ? '/#our-network' : path} className="hover:text-white transition-colors">
+                <Link to={path === '/network' ? '/#our-network' : path} className="capitalize transition-colors hover:text-brand">
                   {label}
                 </Link>
               )}

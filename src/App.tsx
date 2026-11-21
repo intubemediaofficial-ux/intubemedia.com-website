@@ -1,11 +1,12 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
-import ServicePage from './pages/services/ServicePage';
-import PackagesPage from './pages/PackagesPage';
+import ArtistsPage from './pages/ArtistsPage';
+import PlatformsPage from './pages/PlatformsPage';
+import NotFoundPage from './pages/NotFoundPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import BainslaMusicPage from './pages/BainslaMusicPage';
@@ -32,12 +33,15 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<ServicesPage />} />
-            <Route path="/services/:slug" element={<ServicePage />} />
-            <Route path="/packages" element={<PackagesPage />} />
+            <Route path="/services/:slug" element={<Navigate to="/services" replace />} />
+            <Route path="/packages" element={<Navigate to="/services" replace />} />
+            <Route path="/artists" element={<ArtistsPage />} />
+            <Route path="/platforms" element={<PlatformsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/network/bainsla-music" element={<BainslaMusicPage />} />
             <Route path="/pages/:slug" element={<CmsPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />

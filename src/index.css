@@ -19,3 +19,24 @@
     font-family: var(--cms-heading-font), sans-serif;
   }
 }
+
+.site {
+  font-family: 'DM Sans', Arial, sans-serif;
+}
+
+.site h1,
+.site h2,
+.site h3,
+.site h4,
+.site h5,
+.site h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.site-grid-bg {
+  background-image:
+    linear-gradient(rgba(8, 124, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 124, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
