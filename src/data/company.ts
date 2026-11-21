@@ -55,7 +55,7 @@ export const companyServices: CompanyService[] = [
     points: ['Content ID asset protection', 'Claim and dispute handling', 'Revenue and payment reports'],
   },
   {
-    id: 'live-streaming', number: '05', icon: Radio, group: 'Live Streaming', label: 'IntubeLive', title: '24/7 YouTube Live Streaming',
+    id: 'intubelive-service', number: '05', icon: Radio, group: 'Live Streaming', label: 'IntubeLive', title: '24/7 YouTube Live Streaming',
     summary: 'IntubeLive keeps YouTube lives running around the clock from the cloud — playlists, schedules and many channels, with no PC at home.',
     points: ['24/7 lives from pre-recorded videos', 'Weekly planner for 20+ channels', '₹1,000 / $10 per live channel a month'],
   },
