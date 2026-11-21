@@ -5,9 +5,9 @@ export function LogoMark({ className = 'h-10 w-10' }: { className?: string }) {
     <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
       <defs>
         <linearGradient id="im-g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#5b6cff" />
-          <stop offset="0.55" stopColor="#3ab8ff" />
-          <stop offset="1" stopColor="#a855f7" />
+          <stop offset="0" stopColor="#ff4d3d" />
+          <stop offset="0.55" stopColor="#e11d2a" />
+          <stop offset="1" stopColor="#9b0f1a" />
         </linearGradient>
       </defs>
       <rect width="48" height="48" rx="14" fill="url(#im-g)" />
@@ -19,15 +19,15 @@ export function LogoMark({ className = 'h-10 w-10' }: { className?: string }) {
   );
 }
 
-export default function Logo({ to = '/', subtitle = 'Music • Media • Tech' }: { to?: string; subtitle?: string }) {
+export default function Logo({ to = '/', subtitle = 'Music • Media • Tech', dark = false }: { to?: string; subtitle?: string; dark?: boolean }) {
   return (
     <Link to={to} className="group flex items-center gap-3" aria-label="Intube Media home">
       <LogoMark className="h-10 w-10 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-105" />
       <span className="leading-none">
-        <span className="block font-display text-[1.15rem] font-bold tracking-tight text-white">
-          Intube<span className="text-aurora"> Media</span>
+        <span className={`block font-display text-[1.3rem] font-bold uppercase tracking-wide transition-colors ${dark ? 'text-coal' : 'text-white'}`}>
+          Intube<span className="text-accent"> Media</span>
         </span>
-        <span className="mt-1 block text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-mist">{subtitle}</span>
+        <span className={`mt-0.5 block text-[0.58rem] font-semibold uppercase tracking-[0.3em] transition-colors ${dark ? 'text-coal-400' : 'text-white/60'}`}>{subtitle}</span>
       </span>
     </Link>
   );

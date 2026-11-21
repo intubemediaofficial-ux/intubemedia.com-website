@@ -29,6 +29,10 @@ export interface CompanyService {
   summary: string;
   points: string[];
   group: string;
+  image: string;
+  intro: string;
+  features: { title: string; text: string }[];
+  product?: { name: string; url: string };
 }
 
 export const serviceGroups = ['Music & Distribution', 'YouTube CMS & Rights', 'Live Streaming', 'OTT & Apps', 'Production & Tech'];
@@ -38,41 +42,73 @@ export const companyServices: CompanyService[] = [
     id: 'music-distribution', number: '01', icon: Globe2, group: 'Music & Distribution', label: 'Distribution', title: 'Worldwide Music Distribution',
     summary: 'We prepare every release — audio, artwork, credits and metadata — and deliver it to the streaming and social platforms listeners already use.',
     points: ['Spotify, Apple Music, JioSaavn, Amazon & 150+ stores', 'Metadata, ISRC/UPC and credit checks', 'Instagram, Facebook & short-video music'],
+    image: '/images/hero/hero-global.jpg',
+    intro: "Release a single or a full catalogue on every store your listeners use. Our distribution team checks audio, artwork and metadata, plans the release date and delivers worldwide — then tracks every stream and payout for you.",
+    features: [{ title: "150+ stores & apps", text: "Spotify, Apple Music, JioSaavn, Amazon, Gaana, Wynk, YouTube Music and more." }, { title: "Social & short video", text: "Instagram, Facebook and short-video music libraries for Reels and Shorts." }, { title: "Clean metadata", text: "ISRC/UPC codes, credits, lyrics and language tags done right the first time." }, { title: "Royalty reports", text: "Clear monthly statements for every release and every store." }],
+    product: { name: "Request partner access", url: "/partner/apply" },
   },
   {
     id: 'artist-label', number: '02', icon: Users, group: 'Music & Distribution', label: 'Artists & Labels', title: 'Artist & Label Development',
     summary: 'From a first single to a full label catalogue, we help artists and labels plan releases, grow audiences and move catalogues safely.',
     points: ['Artist onboarding and release planning', 'Catalogue migration from other distributors', 'Playlist pitching and promotion'],
+    image: '/images/hero/hero-studio.jpg',
+    intro: "We help artists and labels plan their releases, build channels and grow loyal audiences — with a team that understands regional, devotional and modern Indian music.",
+    features: [{ title: "Artist onboarding", text: "Rights checks, profile setup and a release calendar for your first 90 days." }, { title: "Label management", text: "Channel networks, catalogue planning and artist rosters for labels." }, { title: "Catalogue migration", text: "Move releases from other distributors without losing ISRCs or stream history." }, { title: "Promotion", text: "Playlist pitching, social campaigns and launches across our platforms." }],
+    product: { name: "Request partner access", url: "/partner/apply" },
   },
   {
     id: 'youtube-cms', number: '03', icon: LayoutDashboard, group: 'YouTube CMS & Rights', label: 'YouTube CMS', title: 'Multi-Channel YouTube CMS',
     summary: 'Our own CMS links every partner channel to one dashboard — manage dozens of channels, assets and permissions from a single login.',
     points: ['All channels managed in one place', 'Channel linking and permissions', 'Channel analytics across the network'],
+    image: '/images/hero/hero-control.jpg',
+    intro: "Our own YouTube CMS links every partner channel to one dashboard. Labels and networks manage dozens of channels, assets and permissions from a single login on cms.intubemedia.com.",
+    features: [{ title: "All channels together", text: "Link every channel and see videos, views and status in one place." }, { title: "Permissions & roles", text: "Separate access for label owners, managers and creators." }, { title: "Network analytics", text: "Views, watch time and growth across the whole network." }, { title: "Channel support", text: "Monetisation, copyright and policy help from our CMS team." }],
+    product: { name: "Open Intube CMS", url: "https://cms.intubemedia.com/" },
   },
   {
     id: 'content-id', number: '04', icon: ShieldCheck, group: 'YouTube CMS & Rights', label: 'Content ID', title: 'Content ID, Claims & Revenue',
     summary: 'We protect your catalogue on YouTube with Content ID, handle claims and disputes, and turn earnings into clear monthly reports.',
     points: ['Content ID asset protection', 'Claim and dispute handling', 'Revenue and payment reports'],
+    image: '/images/platforms/cms.jpg',
+    intro: "We register your songs and videos in YouTube Content ID so every re-upload is found, claimed and monetised — and we handle claims, disputes and monthly revenue for you.",
+    features: [{ title: "Asset protection", text: "Audio and video references registered for every release." }, { title: "Claims & disputes", text: "Our rights team reviews claims and resolves disputes quickly." }, { title: "Revenue reports", text: "Content ID and channel earnings in one monthly statement." }, { title: "Payments", text: "Transparent payouts for every partner and label." }],
+    product: { name: "Open Intube CMS", url: "https://cms.intubemedia.com/" },
   },
   {
     id: 'intubelive-service', number: '05', icon: Radio, group: 'Live Streaming', label: 'IntubeLive', title: '24/7 YouTube Live Streaming',
     summary: 'IntubeLive keeps YouTube lives running around the clock from the cloud — playlists, schedules and many channels, with no PC at home.',
     points: ['24/7 lives from pre-recorded videos', 'Weekly planner for 20+ channels', '₹1,000 / $10 per live channel a month'],
+    image: '/images/hero/hero-live.jpg',
+    intro: "IntubeLive is our cloud live-streaming software. Upload videos once and keep YouTube lives running 24/7 — playlists, weekly schedules and many channels, without a PC at home.",
+    features: [{ title: "24/7 cloud lives", text: "Streams run from our servers, not your computer or internet." }, { title: "Weekly planner", text: "Schedule lives on 20+ channels for the whole week in one go." }, { title: "All platforms", text: "YouTube, Facebook, Twitch and any custom RTMP server in 1080p." }, { title: "Simple pricing", text: "₹1,000 / $10 per live channel a month, with a 3-day free trial." }],
+    product: { name: "Start on IntubeLive", url: "https://intubelive.com/" },
   },
   {
     id: 'ott-apps', number: '06', icon: MonitorPlay, group: 'OTT & Apps', label: 'OTT & Apps', title: 'OTT, Music & Drama Apps',
     summary: 'We run our own OTT, music streaming and micro-drama apps, so partner content reaches viewers on phones, TVs and the web.',
     points: ['Intube Play OTT publishing', 'Intube Music streaming', 'Intube Drama vertical series'],
+    image: '/images/hero/hero-ott.jpg',
+    intro: "We run our own OTT, music streaming and micro-drama apps — Intube Play, Intube Music and Intube Drama — so partner content reaches viewers on phones, TVs and the web.",
+    features: [{ title: "Intube Play", text: "Movies, web series and originals on web, Android and TV." }, { title: "Intube Music", text: "Albums, artists and new releases free to stream." }, { title: "Intube Drama", text: "Short vertical drama series made for mobile." }, { title: "Content publishing", text: "We publish and promote partner content across all three apps." }],
+    product: { name: "Open Intube Play", url: "https://intubeplay.com/" },
   },
   {
     id: 'production', number: '07', icon: Clapperboard, group: 'Production & Tech', label: 'Production', title: 'Music & Video Production',
     summary: 'Recording, mixing, music videos and shoots by a team that knows folk, Rasiya, devotional and modern pop audiences.',
     points: ['Song recording and mixing', 'Music video and shoot production', 'Thumbnails, posters and edits'],
+    image: '/images/creative-studio.jpg',
+    intro: "From the first recording to the final music video, our production team handles audio, video and design for regional and modern Indian music.",
+    features: [{ title: "Recording & mixing", text: "Studio recording, mixing and mastering for release-ready audio." }, { title: "Music videos", text: "Concept, shoot and edit for songs and devotional videos." }, { title: "Design", text: "Thumbnails, posters and artwork that stand out in feeds." }, { title: "Lyric & shorts edits", text: "Lyrical videos, Shorts and Reels cut from every release." }],
+    product: { name: "Talk to our team", url: "/contact" },
   },
   {
     id: 'technology', number: '08', icon: Rocket, group: 'Production & Tech', label: 'Technology', title: 'Digital Growth & Technology',
     summary: 'Websites, apps, dashboards and creator tools built in-house to help artists, labels and businesses grow online.',
     points: ['Websites, apps and dashboards', 'Creator, tag and SEO tools', 'Digital marketing and growth'],
+    image: '/images/digital-marketing.jpg',
+    intro: "Websites, apps, dashboards and creator tools built in-house — the same technology that runs our own network, available for artists, labels and businesses.",
+    features: [{ title: "Websites & apps", text: "Fast websites, Android apps and admin panels." }, { title: "Dashboards", text: "Business, catalogue and channel dashboards." }, { title: "Creator tools", text: "Tag, title and PDF tools used by thousands of creators." }, { title: "Digital growth", text: "SEO, social media and performance marketing." }],
+    product: { name: "Talk to our team", url: "/contact" },
   },
 ];
 

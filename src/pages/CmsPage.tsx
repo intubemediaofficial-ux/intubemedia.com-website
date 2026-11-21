@@ -26,15 +26,15 @@ export default function CmsPage() {
   }, [slug]);
 
   if (loading) {
-    return <div className="flex min-h-screen items-center justify-center text-mist">Loading...</div>;
+    return <div className="flex min-h-screen items-center justify-center text-coal-400">Loading...</div>;
   }
 
   if (!page) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="mb-4 text-4xl font-extrabold text-white">Page Not Found</h1>
-          <Link to="/" className="font-semibold text-brand-cyan hover:text-white">Go back home</Link>
+          <h1 className="mb-4 font-display text-4xl font-bold uppercase text-coal">Page Not Found</h1>
+          <Link to="/" className="font-semibold text-accent hover:underline">Go back home</Link>
         </div>
       </div>
     );
@@ -47,16 +47,16 @@ export default function CmsPage() {
         description={page.meta_description || page.content.slice(0, 160)}
         path={`/pages/${page.slug}`}
       />
-      <section className="relative overflow-hidden pb-16 pt-28 sm:pt-32">
-        <div className="site-grid-bg absolute inset-0 opacity-70" />
+      <section className="relative overflow-hidden bg-coal pb-16 pt-36 sm:pt-40">
+        <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-accent/30 blur-[110px]" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Breadcrumbs />
-          <h1 className="mt-6 text-4xl font-extrabold text-white md:text-5xl">{page.title}</h1>
+          <h1 className="mt-6 font-display text-4xl font-bold uppercase text-white md:text-6xl">{page.title}</h1>
         </div>
       </section>
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="whitespace-pre-wrap text-lg leading-8 text-mist">{page.content}</div>
+          <div className="whitespace-pre-wrap text-lg leading-8 text-coal-600">{page.content}</div>
         </div>
       </section>
     </>

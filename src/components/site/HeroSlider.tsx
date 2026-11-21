@@ -4,7 +4,33 @@ import { ArrowUpRight, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { useCms } from '../../context/useCms';
 import { API_URL } from '../../utils/api';
 import { parseHeroSlides, resolveImage, type HeroSlide } from '../../data/heroSlides';
-import { btnGhost, btnPrimary, EqBars, Glow } from './ui';
+import { btnLight, btnPrimary, EqBars } from './ui';
+
+const WALL = [
+  '/images/platforms/intubeplay.jpg', '/images/artists/dg-mawai.jpg', '/images/platforms/cms.jpg', '/images/hero/hero-studio.jpg',
+  '/images/platforms/intubemusic.jpg', '/images/artists/bhumika-sharma.jpg', '/images/platforms/intubelive.jpg', '/images/hero/hero-ott.jpg',
+  '/images/platforms/intubedrama.jpg', '/images/artists/rashmi-nishad.jpg', '/images/platforms/bainslamusic.jpg', '/images/hero/hero-live.jpg',
+  '/images/platforms/tags.jpg', '/images/artists/ajeet-bainsla.jpg', '/images/platforms/tools.jpg', '/images/hero/hero-global.jpg',
+  '/images/platforms/meet.jpg', '/images/creative-studio.jpg', '/images/hero/hero-control.jpg', '/images/digital-marketing.jpg',
+];
+
+function VideoWall({ extra }: { extra: string[] }) {
+  const pool = [...extra, ...WALL];
+  const cols = Array.from({ length: 6 }, (_, c) => pool.filter((_, i) => i % 6 === c).concat(pool.filter((_, i) => (i + 3) % 6 === c)).slice(0, 6));
+  return (
+    <div aria-hidden="true" className="absolute inset-0 -z-10 grid grid-cols-3 gap-2 p-2 sm:grid-cols-4 lg:grid-cols-6">
+      {cols.map((col, c) => (
+        <div key={c} className={`overflow-hidden ${c > 2 ? 'hidden sm:block' : ''} ${c > 3 ? 'sm:hidden lg:block' : ''}`}>
+          <div className={`flex flex-col gap-2 ${c % 2 ? 'animate-walldown' : 'animate-wallup'}`}>
+            {[...col, ...col].map((src, i) => (
+              <img key={i} src={src} alt="" loading={i < 3 ? 'eager' : 'lazy'} className="aspect-[4/3] w-full rounded-lg object-cover" />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const SLIDE_MS = 7000;
 
@@ -35,7 +61,7 @@ export default function HeroSlider() {
 
   return (
     <section
-      className="noise relative isolate min-h-[100svh] overflow-hidden bg-ink"
+      className="relative isolate min-h-[100svh] overflow-hidden bg-black"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={(e) => { touchX.current = e.touches[0].clientX; }}
@@ -47,35 +73,26 @@ export default function HeroSlider() {
       }}
       aria-roledescription="carousel"
     >
+      <VideoWall extra={slides.map((item) => resolveImage(item.image, API_URL))} />
       {slides.map((item, i) => (
-        <div
-          key={item.id}
-          className={`absolute inset-0 -z-10 transition-opacity duration-[1400ms] ${i === active ? 'opacity-100' : 'opacity-0'}`}
-          aria-hidden={i !== active}
-        >
-          <img
-            src={resolveImage(item.image, API_URL)}
-            alt=""
-            className={`h-full w-full object-cover ${i === active ? 'animate-kenburns' : ''}`}
-            loading={i === 0 ? 'eager' : 'lazy'}
-          />
+        <div key={item.id} className={`absolute inset-0 -z-10 transition-opacity duration-[1400ms] ${i === active ? 'opacity-35' : 'opacity-0'}`} aria-hidden="true">
+          <img src={resolveImage(item.image, API_URL)} alt="" className={`h-full w-full object-cover ${i === active ? 'animate-kenburns' : ''}`} loading={i === 0 ? 'eager' : 'lazy'} />
         </div>
       ))}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/85 to-ink/30" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-transparent to-ink/60" />
-      <div className="site-grid-bg absolute inset-0 -z-10 opacity-60 [mask-image:linear-gradient(90deg,#000,transparent_70%)]" />
-      <Glow className="-left-40 top-1/3 -z-10 h-[480px] w-[480px] bg-brand/35" />
-      <Glow className="bottom-0 right-0 -z-10 h-80 w-80 bg-brand-violet/25" />
+      <div className="absolute inset-0 -z-10 bg-black/55" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/90 via-black/60 to-black/20" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-black to-transparent" />
+      <div className="absolute -left-40 top-1/3 -z-10 h-[460px] w-[460px] rounded-full bg-accent/35 blur-[130px]" />
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center px-5 pb-36 pt-32 sm:px-8">
         <div key={slide.id} className="max-w-3xl">
-          <span className="inline-flex animate-rise items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[0.7rem] font-bold uppercase tracking-[0.26em] text-brand-light backdrop-blur">
-            <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-hot opacity-70" /><span className="relative h-2 w-2 rounded-full bg-brand-hot" /></span>
+          <span className="inline-flex animate-rise items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 font-display text-xs font-semibold uppercase tracking-[0.26em] text-white backdrop-blur">
+            <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" /><span className="relative h-2 w-2 rounded-full bg-accent" /></span>
             {slide.eyebrow}
           </span>
-          <h1 className="mt-7 animate-rise text-[3.1rem] font-extrabold leading-[0.98] text-white [animation-delay:120ms] sm:text-7xl lg:text-[6.2rem]">
+          <h1 className="mt-7 animate-rise font-display text-[3.2rem] font-bold uppercase leading-[0.95] text-white [animation-delay:120ms] sm:text-7xl lg:text-[6.4rem]">
             {slide.title}
-            <span className="block text-aurora pb-3">{slide.highlight}</span>
+            <span className="block text-red-grad pb-3">{slide.highlight}</span>
           </h1>
           <p className="mt-6 max-w-xl animate-rise text-base leading-relaxed text-white/75 [animation-delay:240ms] sm:text-lg">{slide.description}</p>
           <div className="mt-10 flex animate-rise flex-wrap gap-3 [animation-delay:360ms]">
@@ -86,7 +103,7 @@ export default function HeroSlider() {
               </SmartLink>
             )}
             {slide.cta2_label && (
-              <SmartLink to={slide.cta2_link || '/platforms'} className={btnGhost}>
+              <SmartLink to={slide.cta2_link || '/platforms'} className={btnLight}>
                 <Play className="h-4 w-4 fill-current" />
                 {slide.cta2_label}
               </SmartLink>
@@ -111,7 +128,7 @@ export default function HeroSlider() {
                   {i === active ? (
                     <span
                       key={`${item.id}-${paused}`}
-                      className="block h-full origin-left animate-progress bg-aurora"
+                      className="block h-full origin-left animate-progress bg-accent"
                       style={{ animationDuration: `${SLIDE_MS}ms`, animationPlayState: paused ? 'paused' : 'running' }}
                     />
                   ) : (

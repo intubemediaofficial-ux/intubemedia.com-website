@@ -5,55 +5,53 @@ import NetworkSection from '../components/NetworkSection';
 import HeroSlider from '../components/site/HeroSlider';
 import { LogoMark } from '../components/site/Logo';
 import {
-  ArtistsGrid, ClaritySection, ContactSection, CtaPanel, FaqSection, EcosystemGrid, HighlightsBar, JourneySection, LabelChannels, PlatformsStrip, ProductShowcases, ServicesGrid,
+  ArtistsGrid, ClaritySection, ContactSection, CtaPanel, EcosystemGrid, FaqSection, HighlightsBar, JourneySection, LabelChannels, PlatformsStrip, ProductShowcases, ServicesGrid,
 } from '../components/site/sections';
-import { btnGhost, btnPrimary, EqBars, Glow, Reveal, SectionHeading } from '../components/site/ui';
+import { btnGhost, btnPrimary, EqBars, Reveal, SectionHeading } from '../components/site/ui';
 import { ecosystem } from '../data/company';
 
 const pillars = [
-  { icon: Globe2, title: 'Distribution', text: 'Every major store and streaming app' },
-  { icon: ShieldCheck, title: 'YouTube CMS', text: 'Content ID, claims and revenue' },
-  { icon: Radio, title: 'Live & OTT', text: '24/7 streams and our own apps' },
-  { icon: Disc3, title: 'Production', text: 'Audio, video and artist growth' },
+  { icon: Globe2, title: 'Distribution', to: '/services/music-distribution' },
+  { icon: ShieldCheck, title: 'YouTube CMS', to: '/services/youtube-cms' },
+  { icon: Radio, title: 'Live & OTT', to: '/services/intubelive-service' },
+  { icon: Disc3, title: 'Production', to: '/services/production' },
 ];
 
 function AboutIntro() {
   const stats = [
-    { value: `${ecosystem.length}`, label: 'Live platforms we run' },
+    { value: `${ecosystem.length}+`, label: 'Live platforms we run' },
     { value: '24/7', label: 'Streaming & monitoring' },
-    { value: '1', label: 'Team for every service' },
+    { value: '150+', label: 'Stores & apps worldwide' },
   ];
   return (
     <section id="about" className="relative py-24 sm:py-32">
-      <Glow className="right-0 top-10 h-96 w-96 bg-brand-violet/20" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 sm:px-8 lg:grid-cols-2">
         <Reveal className="relative">
           <div className="relative mx-auto aspect-square max-w-md">
-            <div className="absolute inset-0 animate-spinslow rounded-full border border-dashed border-white/15" />
-            <div className="absolute inset-10 rounded-full bg-gradient-to-br from-brand/40 via-ink-700 to-brand-violet/40 blur-[2px]" />
-            <div className="absolute inset-16 grid place-items-center rounded-full border border-white/10 bg-ink-800/90 shadow-glow">
+            <div className="absolute inset-0 animate-spinslow rounded-full border-2 border-dashed border-accent/30" />
+            <div className="absolute inset-8 rounded-full bg-[repeating-radial-gradient(circle_at_center,#1b1c22_0_2px,#0b0b0e_2px_5px)] shadow-[0_40px_100px_-30px_rgba(18,19,24,0.7)]" />
+            <div className="absolute inset-[27%] grid place-items-center rounded-full bg-white shadow-inner">
               <div className="text-center">
-                <LogoMark className="mx-auto h-20 w-20" />
-                <p className="mt-4 font-display text-2xl font-bold text-white">Intube Media</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.3em] text-mist">Since day one, independent</p>
-                <EqBars className="mx-auto mt-5 h-8 justify-center" bars={14} />
+                <LogoMark className="mx-auto h-14 w-14" />
+                <p className="mt-2 font-display text-lg font-bold uppercase text-coal">Intube Media</p>
+                <EqBars className="mx-auto mt-2 h-6 justify-center" bars={12} />
               </div>
             </div>
-            {pillars.map(({ icon: Icon, title }, i) => (
-              <span key={title} className={`glass absolute flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold text-white ${['left-0 top-8', 'right-0 top-24', 'bottom-16 left-[-4%]', 'bottom-4 right-6'][i]}`}>
-                <Icon className="h-4 w-4 text-brand-cyan" />{title}
-              </span>
+            {pillars.map(({ icon: Icon, title, to }, i) => (
+              <Link key={title} to={to} className={`absolute flex items-center gap-2 rounded-full border border-coal-200 bg-white px-4 py-2.5 font-display text-sm font-semibold uppercase tracking-wide text-coal shadow-lg transition hover:-translate-y-1 hover:border-accent hover:text-accent ${['-left-2 top-6', '-right-2 top-20', '-left-4 bottom-20', 'bottom-2 right-4'][i]}`}>
+                <Icon className="h-4 w-4 text-accent" />{title}
+              </Link>
             ))}
           </div>
         </Reveal>
         <div>
           <SectionHeading align="left" eyebrow="About Intube Media" title="A music company" highlight="that builds its own tech." description="Intube Media started with regional Indian music and grew into a full network. We release songs worldwide, manage YouTube channels through our CMS, stream channels live 24/7 and run our own OTT, music and drama apps — with one team that knows both the art and the code." />
           <Reveal delay={120}>
-            <div className="mt-10 grid grid-cols-3 gap-4">
+            <div className="mt-10 grid grid-cols-3 divide-x divide-coal-200 rounded-2xl border border-coal-200 bg-white">
               {stats.map((s) => (
-                <div key={s.label} className="glass rounded-2xl p-5">
-                  <p className="font-display text-3xl font-extrabold text-aurora">{s.value}</p>
-                  <p className="mt-1 text-xs leading-snug text-mist">{s.label}</p>
+                <div key={s.label} className="p-5 text-center">
+                  <p className="font-display text-4xl font-bold text-red-grad">{s.value}</p>
+                  <p className="mt-1 text-xs leading-snug text-coal-600">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -73,22 +71,22 @@ function PartnerPortalTeaser() {
     <section className="relative py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
-          <div className="border-gradient noise relative grid overflow-hidden rounded-[2.5rem] bg-ink-800/80 lg:grid-cols-2">
+          <div className="relative grid overflow-hidden rounded-[2.5rem] bg-coal text-white lg:grid-cols-2">
             <div className="relative p-10 sm:p-14">
-              <Glow className="-left-20 -top-20 h-72 w-72 bg-brand/30" />
+              <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-accent/40 blur-[110px]" />
               <div className="relative">
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-cyan">Private partner portal</p>
-                <h2 className="mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl">Your catalogue.<span className="block text-aurora">Your dashboard.</span></h2>
-                <p className="mt-5 max-w-md text-mist">Approved artists and labels get a personal workspace — releases, distribution status, channel reports and direct support, all behind one secure sign-in.</p>
+                <p className="font-display text-sm font-semibold uppercase tracking-[0.28em] text-[#ff6b6b]">Private partner portal</p>
+                <h2 className="mt-4 font-display text-4xl font-bold uppercase leading-tight sm:text-5xl">Your catalogue.<span className="block text-red-grad">Your dashboard.</span></h2>
+                <p className="mt-5 max-w-md text-white/70">Approved artists and labels get a personal workspace — releases, distribution status, channel reports and direct support, all behind one secure sign-in.</p>
                 <div className="mt-9 flex flex-wrap gap-3">
-                  <Link to="/partner/login" className={btnGhost}><LogIn className="h-4 w-4" /> Artist / Partner Login</Link>
                   <Link to="/partner/apply" className={btnPrimary}>Request Access <ArrowUpRight className="h-4 w-4" /></Link>
+                  <Link to="/partner/login" className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 font-display text-sm font-semibold uppercase tracking-[0.12em] transition hover:bg-white hover:text-coal"><LogIn className="h-4 w-4" /> Partner Login</Link>
                 </div>
               </div>
             </div>
-            <div className="relative min-h-[320px] border-t border-white/10 lg:border-l lg:border-t-0">
-              <img src="/images/hero/hero-global.jpg" alt="Partner distribution dashboard" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-80" />
-              <div className="absolute inset-0 bg-gradient-to-r from-ink-800 via-ink-800/30 to-transparent" />
+            <div className="relative min-h-[320px]">
+              <img src="/images/hero/partner-stage.jpg" alt="Partner portal" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-coal via-coal/30 to-transparent" />
             </div>
           </div>
         </Reveal>
@@ -107,16 +105,16 @@ export default function HomePage() {
       />
       <HeroSlider />
       <HighlightsBar />
-      <PlatformsStrip />
       <AboutIntro />
       <ServicesGrid />
-      <ProductShowcases />
       <EcosystemGrid limit={6} />
+      <ProductShowcases />
+      <PlatformsStrip />
       <ArtistsGrid />
       <LabelChannels />
-      <NetworkSection />
       <JourneySection />
       <ClaritySection />
+      <NetworkSection />
       <PartnerPortalTeaser />
       <FaqSection />
       <CtaPanel />

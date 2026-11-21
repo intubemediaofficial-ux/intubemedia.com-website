@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
+import { companyServices } from '../data/company';
 
 const routeLabels: Record<string, string> = {
   services: 'Services',
@@ -20,7 +21,7 @@ export default function Breadcrumbs() {
 
   return (
     <nav aria-label="Breadcrumb">
-      <ol className="flex flex-wrap items-center gap-2 text-sm text-mist">
+      <ol className="flex flex-wrap items-center gap-2 text-sm text-white/60">
         <li>
           <Link to="/" className="flex items-center gap-1 transition-colors hover:text-white">
             <Home className="h-4 w-4" />
@@ -30,11 +31,11 @@ export default function Breadcrumbs() {
         {segments.map((segment, index) => {
           const path = '/' + segments.slice(0, index + 1).join('/');
           const isLast = index === segments.length - 1;
-          const label = routeLabels[segment] || segment.replace(/-/g, ' ');
+          const label = routeLabels[segment] || companyServices.find((s) => s.id === segment)?.title || segment.replace(/-/g, ' ');
 
           return (
             <li key={path} className="flex items-center gap-2">
-              <ChevronRight className="h-4 w-4 text-white/25" />
+              <ChevronRight className="h-4 w-4 text-white/30" />
               {isLast ? (
                 <span className="font-semibold capitalize text-white">{label}</span>
               ) : (

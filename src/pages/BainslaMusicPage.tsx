@@ -14,7 +14,7 @@ const capabilities = [
 
 export default function BainslaMusicPage() {
   return (
-    <>
+    <div className="bg-[#0e0f14] text-white">
       <SEO
         title="Bainsla Music Private Limited | Intube Media Network"
         description="Explore Bainsla Music Private Limited, the music and entertainment company in the Intube Media network focused on distribution, production, artists, labels and digital content."
@@ -27,7 +27,7 @@ export default function BainslaMusicPage() {
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Breadcrumbs />
           <div className="mt-8 grid items-center gap-10 lg:grid-cols-[260px_1fr] lg:gap-14">
-            <div className="flex min-h-64 items-center justify-center rounded-3xl bg-gradient-to-br from-brand/70 via-ink-700 to-brand-violet/60 p-10 shadow-glow">
+            <div className="flex min-h-64 items-center justify-center rounded-3xl bg-gradient-to-br from-accent/70 via-ink-700 to-[#ff7a3d]/50 p-10 shadow-glow">
               <img
                 src="/images/bainsla-music-logo.png"
                 alt="Bainsla Music logo"
@@ -35,12 +35,12 @@ export default function BainslaMusicPage() {
               />
             </div>
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-brand-cyan">
+              <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-[#ff6b6b]">
                 <Music2 className="h-4 w-4" />
                 Intube Media Network
               </div>
               <h1 className="mb-3 text-4xl font-extrabold leading-tight text-white md:text-6xl">Bainsla Music Private Limited</h1>
-              <p className="mb-6 text-xl font-semibold text-brand-cyan md:text-2xl">Music & Entertainment</p>
+              <p className="mb-6 text-xl font-semibold text-[#ff6b6b] md:text-2xl">Music & Entertainment</p>
               <p className="max-w-3xl text-lg leading-relaxed text-mist">
                 Bainsla Music is a dedicated music and entertainment company within the Intube Media network. It develops music, artists, labels and digital audiences across regional, devotional and contemporary Indian music.
               </p>
@@ -52,7 +52,7 @@ export default function BainslaMusicPage() {
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-brand-cyan">Capabilities</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-[#ff6b6b]">Capabilities</p>
             <h2 className="mb-4 text-3xl font-extrabold text-white md:text-4xl">What Bainsla Music Does</h2>
             <p className="text-mist">
               Specialized music operations built to connect creators, catalogues and original entertainment with digital audiences.
@@ -63,8 +63,8 @@ export default function BainslaMusicPage() {
             {capabilities.map(capability => {
               const Icon = capability.icon;
               return (
-                <div key={capability.title} className="rounded-3xl border border-white/10 bg-ink-800/70 p-7 shadow-card transition hover:-translate-y-1 hover:shadow-glow">
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand to-brand-light">
+                <div key={capability.title} className="rounded-3xl border border-white/10 bg-ink-800/70 p-7 shadow-card transition hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(225,29,42,0.6)]">
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-[#ff7a3d]">
                     <Icon className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="mb-2 text-xl font-bold text-white">{capability.title}</h3>
@@ -78,7 +78,7 @@ export default function BainslaMusicPage() {
 
       <section className="pb-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[2rem] bg-gradient-to-br from-brand/70 via-ink-700 to-brand-violet/60 p-8 text-center md:p-14">
+          <div className="rounded-[2rem] bg-gradient-to-br from-accent/70 via-ink-700 to-[#ff7a3d]/50 p-8 text-center md:p-14">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-white/80">Explore Bainsla Music</p>
             <h2 className="mb-5 text-3xl font-extrabold text-white md:text-4xl">Discover the Official Music Network</h2>
             <p className="mx-auto mb-8 max-w-2xl text-white/80">
@@ -103,6 +103,6 @@ export default function BainslaMusicPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

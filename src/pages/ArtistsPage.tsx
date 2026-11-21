@@ -36,8 +36,8 @@ export default function ArtistsPage() {
             description="Independent or signed, new or established — if you make music, we would love to hear it." />
           <ul className="grid gap-4">
             {perks.map(perk => (
-              <li key={perk} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-ink-800/70 p-5 font-semibold text-white shadow-card">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-brand-light"><Mic2 className="h-5 w-5" /></span>
+              <li key={perk} className="flex items-center gap-4 card-lift rounded-2xl border border-coal-200 bg-white p-5 font-semibold text-coal">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent"><Mic2 className="h-5 w-5" /></span>
                 {perk}
               </li>
             ))}
