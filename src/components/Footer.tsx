@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowUp, ArrowUpRight, Facebook, Instagram, Linkedin, Mail, MapPin, Twitter, Youtube } from 'lucide-react';
+import { ArrowUp, ArrowUpRight, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from 'lucide-react';
 import { useCms } from '../context/useCms';
 import { companyServices, ecosystem } from '../data/company';
 import Logo from './site/Logo';
@@ -36,6 +36,7 @@ export default function Footer() {
             <Logo />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/60">Intube Media is an Indian music, media and technology network — worldwide distribution, YouTube CMS, 24/7 live streaming, OTT apps and production, run by one team.</p>
             <a href={`mailto:${theme.email}`} className="mt-6 flex items-center gap-3 text-sm font-semibold"><span className="grid h-9 w-9 place-items-center rounded-full bg-accent"><Mail className="h-4 w-4" /></span>{theme.email}</a>
+            {theme.phone && !theme.phone.includes('X') && <a href={`tel:${theme.phone.replace(/[^+\d]/g, '')}`} className="mt-3 flex items-center gap-3 text-sm font-semibold"><span className="grid h-9 w-9 place-items-center rounded-full bg-white/10"><Phone className="h-4 w-4" /></span>{theme.phone}</a>}
             {theme.address && <p className="mt-3 flex items-center gap-3 text-sm text-white/60"><span className="grid h-9 w-9 place-items-center rounded-full bg-white/10"><MapPin className="h-4 w-4" /></span>{theme.address}</p>}
             {socials.length > 0 && (
               <div className="mt-6 flex gap-2">
