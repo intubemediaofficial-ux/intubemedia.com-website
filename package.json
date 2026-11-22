@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "cms:seed": "node scripts/generate-cms-seed.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seo:prerender": "python3 scripts/prerender.py http://localhost:5173"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

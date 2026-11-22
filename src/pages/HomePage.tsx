@@ -99,8 +99,8 @@ export default function HomePage() {
   return (
     <>
       <SEO
-        title="Intube Media | Music Distribution, YouTube CMS, Live Streaming & OTT"
-        description="Intube Media is an Indian music, media and technology network — worldwide music distribution, YouTube CMS and Content ID, 24/7 live streaming with IntubeLive, OTT apps and creator tools."
+        title="Intube Media | Music Distribution Company in Jaipur, Rajasthan — YouTube CMS & Live Streaming"
+        description="Intube Media is a music distribution company in Jaipur, Rajasthan — release songs on Spotify, JioSaavn, Apple Music & 150+ stores, YouTube CMS, Content ID, 24/7 live streaming and OTT for artists and labels across India."
         path="/"
       />
       <HeroSlider />
