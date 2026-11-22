@@ -23,6 +23,8 @@ with sync_playwright() as p:
         page.goto(PREVIEW + r, wait_until='load')
         page.wait_for_timeout(2500)
         html = '<!doctype html>\n' + page.evaluate('document.documentElement.outerHTML')
+        if '/@vite/client' in html or '/assets/index-' not in html:
+            sys.exit(f'{PREVIEW} is a dev server, not `vite preview` of dist/')
         out = DIST / r.strip('/') / 'index.html' if r != '/' else DIST / 'index.html'
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html)
