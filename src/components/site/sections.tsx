@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Activity, ArrowRight, ArrowUpRight, CheckCircle2, ChevronLeft, ChevronRight, LayoutDashboard, Mail, MapPin, PlayCircle, Radio, Youtube } from 'lucide-react';
+import { Activity, ArrowRight, ArrowUpRight, CheckCircle2, ChevronLeft, ChevronRight, LayoutDashboard, Mail, MapPin, Phone, PlayCircle, Radio, Youtube } from 'lucide-react';
 import { useCms } from '../../context/useCms';
 import { artists, companyServices, ecosystem, journey, labelChannels, serviceGroups, storePlatforms } from '../../data/company';
 import { platformShots } from '../../data/platformShots';
@@ -366,6 +366,12 @@ export function ContactSection() {
               <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent text-white"><Mail className="h-5 w-5" /></span>
               <span><span className="block font-display text-xs font-semibold uppercase tracking-[0.2em] text-coal-400">Email us</span><span className="block text-lg font-semibold text-coal">{theme.email}</span></span>
             </a>
+            {theme.phone && !theme.phone.includes('X') && (
+              <a href={`tel:${theme.phone.replace(/[^+\d]/g, '')}`} className={card}>
+                <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent-soft text-accent"><Phone className="h-5 w-5" /></span>
+                <span><span className="block font-display text-xs font-semibold uppercase tracking-[0.2em] text-coal-400">Call / WhatsApp</span><span className="block text-lg font-semibold text-coal">{theme.phone}</span></span>
+              </a>
+            )}
             <div className={card}>
               <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent-soft text-accent"><MapPin className="h-5 w-5" /></span>
               <span><span className="block font-display text-xs font-semibold uppercase tracking-[0.2em] text-coal-400">Based in</span><span className="block text-lg font-semibold text-coal">{theme.address}</span></span>
