@@ -3,6 +3,7 @@ import { ArrowUp, ArrowUpRight, Facebook, Instagram, Linkedin, Mail, MapPin, Twi
 import { useCms } from '../context/useCms';
 import { companyServices, ecosystem } from '../data/company';
 import Logo from './site/Logo';
+import seoLocations from '../data/seo-locations.json';
 
 const company = [
   { label: 'About Us', to: '/about' },
@@ -60,6 +61,12 @@ export default function Footer() {
               ))}
             </ul>
           </div>
+        </div>
+      </div>
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-2 px-5 py-5 text-xs text-white/50 sm:px-8">
+          <span className="font-display uppercase tracking-[0.14em] text-white/70">Music distribution company in:</span>
+          {seoLocations.map((l) => <Link key={l.slug} to={`/${l.slug}`} className="hover:text-white">{l.place}</Link>)}
         </div>
       </div>
       <div className="border-t border-white/10 bg-black/40">

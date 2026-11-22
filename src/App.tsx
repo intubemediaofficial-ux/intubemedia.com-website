@@ -5,6 +5,8 @@ import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
+import LocationPage from './pages/LocationPage';
+import seoLocations from './data/seo-locations.json';
 import ArtistsPage from './pages/ArtistsPage';
 import PlatformsPage from './pages/PlatformsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -48,6 +50,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/network/bainsla-music" element={<BainslaMusicPage />} />
+            {seoLocations.map((l) => <Route key={l.slug} path={`/${l.slug}`} element={<LocationPage location={l} />} />)}
             <Route path="/pages/:slug" element={<CmsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

@@ -1,0 +1,8 @@
+[
+  { "slug": "music-distribution-company-jaipur", "place": "Jaipur", "region": "Rajasthan", "nearby": ["Ajmer", "Alwar", "Sikar", "Dausa", "Tonk", "Bharatpur"], "local": "Rajasthani folk, Rasiya, Bhajan and Marwari" },
+  { "slug": "music-distribution-company-rajasthan", "place": "Rajasthan", "region": "India", "nearby": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Bikaner", "Ajmer", "Alwar", "Bharatpur"], "local": "Rajasthani folk, Gurjar Rasiya, Marwari, Bhajan and Mewati" },
+  { "slug": "music-distribution-company-agra", "place": "Agra", "region": "Uttar Pradesh", "nearby": ["Mathura", "Vrindavan", "Firozabad", "Aligarh", "Etawah", "Dholpur"], "local": "Braj Rasiya, Bhajan, Krishna devotional and Bhojpuri" },
+  { "slug": "music-distribution-company-uttar-pradesh", "place": "Uttar Pradesh", "region": "India", "nearby": ["Lucknow", "Agra", "Mathura", "Kanpur", "Varanasi", "Prayagraj", "Meerut", "Noida"], "local": "Bhojpuri, Braj Rasiya, Awadhi, Bhajan and Hindi pop" },
+  { "slug": "music-distribution-company-madhya-pradesh", "place": "Madhya Pradesh", "region": "India", "nearby": ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Morena"], "local": "Bundeli, Malwi, Bhajan, Rasiya and Hindi folk" },
+  { "slug": "music-distribution-company-india", "place": "India", "region": "", "nearby": ["Rajasthan", "Uttar Pradesh", "Madhya Pradesh", "Haryana", "Delhi", "Gujarat", "Punjab", "Bihar"], "local": "Hindi, Haryanvi, Rajasthani, Bhojpuri, Punjabi and devotional" }
+]

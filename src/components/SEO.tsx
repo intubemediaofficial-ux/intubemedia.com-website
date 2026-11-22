@@ -14,7 +14,7 @@ const BASE_URL = 'https://intubemedia.com';
 const DEFAULT_IMAGE = '/images/hero/hero-control.jpg';
 
 export default function SEO({ title, description, path = '/', type = 'website', image = DEFAULT_IMAGE, jsonLd }: SEOProps) {
-  const url = `${BASE_URL}${path}`;
+  const url = `${BASE_URL}${path === '/' || path.endsWith('/') ? path : `${path}/`}`;
   const imageUrl = image.startsWith('http') ? image : `${BASE_URL}${image}`;
 
   return (
