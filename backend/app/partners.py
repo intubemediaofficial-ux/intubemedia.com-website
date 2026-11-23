@@ -22,6 +22,7 @@ from app.auth import (
 )
 from app.database import get_db
 from app.mailer import send_email
+from app.otp import OTP_MAX_ATTEMPTS, OTP_MINUTES, generate_otp, hash_otp, otp_expiry, otp_matches
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -29,7 +30,6 @@ logger = logging.getLogger(__name__)
 EMAIL_PATTERN = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 DEFAULT_NOTIFY_EMAILS = "intubemediaofficial@gmail.com,business@intubemedia.com"
 SETUP_TOKEN_HOURS = 72
-RESET_TOKEN_MINUTES = 60
 
 
 def _notify_recipients() -> list[str]:
@@ -221,8 +221,10 @@ class PartnerForgot(BaseModel):
 
 
 class PartnerReset(BaseModel):
-    token: str
     new_password: str
+    token: str = ""
+    email: str = ""
+    otp: str = ""
 
 
 @router.post("/api/partner/login")
@@ -243,7 +245,7 @@ async def partner_login(req: PartnerLogin, request: Request, db=Depends(get_db))
 
 @router.post("/api/partner/forgot-password", status_code=status.HTTP_202_ACCEPTED)
 async def partner_forgot_password(req: PartnerForgot, request: Request, db=Depends(get_db)):
-    generic = {"message": "If this email belongs to an approved partner, a reset link has been sent."}
+    generic = {"message": "If this email belongs to an approved partner, a 6-digit code has been sent to it."}
     await verify_turnstile(req.turnstile_token, _client_ip(request))
     user = await (await db.execute(
         "SELECT * FROM partner_users WHERE lower(email) = lower(?) AND is_active = 1", (req.email.strip(),)
@@ -256,17 +258,24 @@ async def partner_forgot_password(req: PartnerForgot, request: Request, db=Depen
     )).fetchone()
     if recent:
         return generic
-    raw = await _issue_token(db, user["id"], "reset", timedelta(minutes=RESET_TOKEN_MINUTES))
+    code = generate_otp()
+    await db.execute(
+        "UPDATE partner_password_tokens SET used_at = CURRENT_TIMESTAMP WHERE partner_user_id = ? AND used_at IS NULL",
+        (user["id"],),
+    )
+    await db.execute(
+        "INSERT INTO partner_password_tokens (partner_user_id, token_hash, purpose, expires_at) VALUES (?, ?, 'reset_otp', ?)",
+        (user["id"], hash_otp(code), otp_expiry()),
+    )
     await db.commit()
-    link = f"{_site_url()}/partner/reset-password?token={raw}"
     await _safe_send(
         [user["email"]],
-        "Reset your Intube Media partner password",
+        f"{code} is your Intube Media partner password reset code",
         _email_shell(
-            "Reset your password",
-            f'<p>Use the button below to choose a new password. The link expires in {RESET_TOKEN_MINUTES} minutes.</p>'
-            f'<p><a href="{link}" style="display:inline-block;background:#5b6cff;color:#fff;padding:12px 20px;'
-            'border-radius:10px;text-decoration:none">Reset password</a></p>',
+            "Your password reset code",
+            '<p>Enter this code on the reset page to choose a new password.</p>'
+            f'<p style="font-size:34px;font-weight:700;letter-spacing:10px;color:#fff;margin:24px 0">{code}</p>'
+            f'<p>The code expires in {OTP_MINUTES} minutes and can be used once.</p>',
         ),
     )
     return generic
@@ -275,21 +284,48 @@ async def partner_forgot_password(req: PartnerForgot, request: Request, db=Depen
 @router.post("/api/partner/reset-password")
 async def partner_reset_password(req: PartnerReset, db=Depends(get_db)):
     _validate_partner_password(req.new_password)
-    token = await (await db.execute(
-        """
-        SELECT t.id, t.partner_user_id FROM partner_password_tokens t
-        JOIN partner_users u ON u.id = t.partner_user_id
-        WHERE t.token_hash = ? AND t.used_at IS NULL AND t.expires_at > ? AND u.is_active = 1
-        """,
-        (hashlib.sha256(req.token.encode()).hexdigest(), datetime.now(timezone.utc).isoformat()),
-    )).fetchone()
-    if not token:
-        raise HTTPException(status_code=400, detail="This link is invalid or has expired")
+    now = datetime.now(timezone.utc).isoformat()
+    if req.otp:
+        invalid = HTTPException(status_code=400, detail="The code is invalid or has expired")
+        token = await (await db.execute(
+            """
+            SELECT t.id, t.partner_user_id, t.token_hash, t.attempts FROM partner_password_tokens t
+            JOIN partner_users u ON u.id = t.partner_user_id
+            WHERE lower(u.email) = lower(?) AND u.is_active = 1 AND t.purpose = 'reset_otp'
+              AND t.used_at IS NULL AND t.expires_at > ?
+            ORDER BY t.id DESC LIMIT 1
+            """,
+            (req.email.strip(), now),
+        )).fetchone()
+        if not token:
+            raise invalid
+        if not otp_matches(token["token_hash"], req.otp):
+            attempts = token["attempts"] + 1
+            await db.execute(
+                "UPDATE partner_password_tokens SET attempts = ?, used_at = CASE WHEN ? >= ? THEN CURRENT_TIMESTAMP END WHERE id = ?",
+                (attempts, attempts, OTP_MAX_ATTEMPTS, token["id"]),
+            )
+            await db.commit()
+            raise invalid
+    else:
+        token = await (await db.execute(
+            """
+            SELECT t.id, t.partner_user_id FROM partner_password_tokens t
+            JOIN partner_users u ON u.id = t.partner_user_id
+            WHERE t.token_hash = ? AND t.used_at IS NULL AND t.expires_at > ? AND u.is_active = 1
+            """,
+            (hashlib.sha256(req.token.encode()).hexdigest(), now),
+        )).fetchone()
+        if not token:
+            raise HTTPException(status_code=400, detail="This link is invalid or has expired")
     await db.execute(
         "UPDATE partner_users SET password_hash = ? WHERE id = ?",
         (hash_password(req.new_password), token["partner_user_id"]),
     )
-    await db.execute("UPDATE partner_password_tokens SET used_at = CURRENT_TIMESTAMP WHERE id = ?", (token["id"],))
+    await db.execute(
+        "UPDATE partner_password_tokens SET used_at = CURRENT_TIMESTAMP WHERE partner_user_id = ? AND used_at IS NULL",
+        (token["partner_user_id"],),
+    )
     await db.commit()
     return {"message": "Password saved. You can now sign in."}
 
