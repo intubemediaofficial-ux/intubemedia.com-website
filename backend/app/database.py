@@ -306,7 +306,7 @@ async def _ensure_allowed_admins(db) -> None:
 
     for email in admin_emails():
         existing = await (await db.execute(
-            "SELECT id FROM admin_users WHERE lower(email) = ?", (email,)
+            "SELECT id FROM admin_users WHERE lower(trim(email)) = ?", (email,)
         )).fetchone()
         if existing:
             continue

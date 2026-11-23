@@ -270,7 +270,7 @@ async def partner_forgot_password(req: PartnerForgot, request: Request, db=Depen
     await db.commit()
     await _safe_send(
         [user["email"]],
-        f"{code} is your Intube Media partner password reset code",
+        "Your Intube Media partner password reset code",
         _email_shell(
             "Your password reset code",
             '<p>Enter this code on the reset page to choose a new password.</p>'
@@ -300,10 +300,14 @@ async def partner_reset_password(req: PartnerReset, db=Depends(get_db)):
         if not token:
             raise invalid
         if not otp_matches(token["token_hash"], req.otp):
-            attempts = token["attempts"] + 1
             await db.execute(
-                "UPDATE partner_password_tokens SET attempts = ?, used_at = CASE WHEN ? >= ? THEN CURRENT_TIMESTAMP END WHERE id = ?",
-                (attempts, attempts, OTP_MAX_ATTEMPTS, token["id"]),
+                """
+                UPDATE partner_password_tokens
+                SET attempts = attempts + 1,
+                    used_at = CASE WHEN attempts + 1 >= ? THEN CURRENT_TIMESTAMP ELSE used_at END
+                WHERE id = ?
+                """,
+                (OTP_MAX_ATTEMPTS, token["id"]),
             )
             await db.commit()
             raise invalid
@@ -318,6 +322,13 @@ async def partner_reset_password(req: PartnerReset, db=Depends(get_db)):
         )).fetchone()
         if not token:
             raise HTTPException(status_code=400, detail="This link is invalid or has expired")
+    claimed = await db.execute(
+        "UPDATE partner_password_tokens SET used_at = CURRENT_TIMESTAMP WHERE id = ? AND used_at IS NULL",
+        (token["id"],),
+    )
+    if claimed.rowcount != 1:
+        await db.commit()
+        raise HTTPException(status_code=400, detail="This code or link has already been used")
     await db.execute(
         "UPDATE partner_users SET password_hash = ? WHERE id = ?",
         (hash_password(req.new_password), token["partner_user_id"]),

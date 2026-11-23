@@ -204,10 +204,14 @@ async def reset_password(req: ResetPasswordRequest, db=Depends(get_db)):
         if not token:
             raise invalid
         if not otp_matches(token["token_hash"], req.otp):
-            attempts = token["attempts"] + 1
             await db.execute(
-                "UPDATE password_reset_tokens SET attempts = ?, used_at = CASE WHEN ? >= ? THEN CURRENT_TIMESTAMP END WHERE id = ?",
-                (attempts, attempts, OTP_MAX_ATTEMPTS, token["id"]),
+                """
+                UPDATE password_reset_tokens
+                SET attempts = attempts + 1,
+                    used_at = CASE WHEN attempts + 1 >= ? THEN CURRENT_TIMESTAMP ELSE used_at END
+                WHERE id = ?
+                """,
+                (OTP_MAX_ATTEMPTS, token["id"]),
             )
             await db.commit()
             raise invalid
@@ -225,6 +229,13 @@ async def reset_password(req: ResetPasswordRequest, db=Depends(get_db)):
         if not token:
             raise HTTPException(status_code=400, detail="Reset link is invalid or expired")
 
+    claimed = await db.execute(
+        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE id = ? AND used_at IS NULL",
+        (token["id"],),
+    )
+    if claimed.rowcount != 1:
+        await db.commit()
+        raise HTTPException(status_code=400, detail="The code is invalid or has expired")
     await db.execute(
         "UPDATE admin_users SET password_hash = ? WHERE id = ?",
         (hash_password(req.new_password), token["admin_user_id"]),

@@ -96,9 +96,9 @@ class PartnerFlowTest(unittest.TestCase):
             self.client.post("/api/partner/forgot-password", json={"email": "nobody@example.com"})
         self.assertEqual(send.await_count, 1)
         self.assertEqual(send.await_args.args[0], ["artist@example.com"])
-        code = send.await_args.args[1].split(" ", 1)[0]
-        self.assertRegex(code, r"^\d{6}$")
-        self.assertIn(code, send.await_args.args[2])
+        import re
+        code = re.search(r">(\d{6})<", send.await_args.args[2]).group(1)
+        self.assertNotIn(code, send.await_args.args[1], "code must not be in the subject")
         reset = lambda otp, email="artist@example.com": self.client.post(
             "/api/partner/reset-password", json={"email": email, "otp": otp, "new_password": "NewPass2026"}
         )

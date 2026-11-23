@@ -45,6 +45,6 @@ async def send_password_otp_email(recipient: str, code: str, account: str) -> No
 
     await send_email(
         [recipient],
-        f"{code} is your Intube Media password reset code",
+        "Your Intube Media password reset code",
         otp_email_html(code, account),
     )
