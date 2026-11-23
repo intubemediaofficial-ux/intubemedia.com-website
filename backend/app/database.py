@@ -163,6 +163,10 @@ async def init_db():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
+        for table in ("password_reset_tokens", "partner_password_tokens"):
+            columns = {row[1] for row in await (await db.execute(f"PRAGMA table_info({table})")).fetchall()}
+            if "attempts" not in columns:
+                await db.execute(f"ALTER TABLE {table} ADD COLUMN attempts INTEGER NOT NULL DEFAULT 0")
         await db.commit()
 
         # Seed default admin if not exists
@@ -186,6 +190,8 @@ async def init_db():
                     (email,),
                 )
             await db.commit()
+
+        await _ensure_allowed_admins(db)
 
         with DEFAULT_CONTENT_PATH.open(encoding="utf-8") as content_file:
             default_content = json.load(content_file)
@@ -291,3 +297,29 @@ async def init_db():
                 (key, value),
             )
         await db.commit()
+
+
+async def _ensure_allowed_admins(db) -> None:
+    """Every allowed admin mailbox gets an account; new ones set a password through the emailed code."""
+    import secrets
+    from app.auth import admin_emails, hash_password
+
+    for email in admin_emails():
+        existing = await (await db.execute(
+            "SELECT id FROM admin_users WHERE lower(trim(email)) = ?", (email,)
+        )).fetchone()
+        if existing:
+            continue
+        base = email.split("@", 1)[0]
+        username = base
+        suffix = 1
+        while await (await db.execute(
+            "SELECT id FROM admin_users WHERE lower(username) = lower(?)", (username,)
+        )).fetchone():
+            suffix += 1
+            username = f"{base}{suffix}"
+        await db.execute(
+            "INSERT INTO admin_users (username, email, password_hash) VALUES (?, ?, ?)",
+            (username, email, hash_password(secrets.token_urlsafe(32))),
+        )
+    await db.commit()

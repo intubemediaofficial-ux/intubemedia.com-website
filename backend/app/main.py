@@ -15,11 +15,13 @@ from app.auth import (
     create_access_token,
     get_current_admin,
     hash_password,
+    is_admin_email,
     password_needs_rehash,
     validate_password,
     verify_password,
 )
-from app.mailer import send_password_reset_email
+from app.mailer import send_password_otp_email
+from app.otp import OTP_MAX_ATTEMPTS, generate_otp, hash_otp, otp_expiry, otp_matches
 from app.partners import router as partners_router
 from app.uploads import router as uploads_router
 
@@ -84,8 +86,10 @@ class ForgotPasswordRequest(BaseModel):
     identifier: str
 
 class ResetPasswordRequest(BaseModel):
-    token: str
     new_password: str
+    token: str = ""
+    identifier: str = ""
+    otp: str = ""
 
 @app.post("/api/auth/login")
 async def login(req: LoginRequest, db=Depends(get_db)):
@@ -94,7 +98,11 @@ async def login(req: LoginRequest, db=Depends(get_db)):
         (req.username, req.username),
     )
     user = await cursor.fetchone()
-    if not user or not verify_password(req.password, user["password_hash"]):
+    if (
+        not user
+        or not is_admin_email(user["email"])
+        or not verify_password(req.password, user["password_hash"])
+    ):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     if password_needs_rehash(user["password_hash"]):
         await db.execute(
@@ -102,7 +110,7 @@ async def login(req: LoginRequest, db=Depends(get_db)):
             (hash_password(req.password), user["id"]),
         )
         await db.commit()
-    token = create_access_token({"sub": user["username"], "id": user["id"]})
+    token = create_access_token({"sub": user["username"], "id": user["id"], "email": user["email"].lower()})
     return {"token": token, "username": user["username"]}
 
 @app.post("/api/auth/change-password")
@@ -126,18 +134,14 @@ async def change_password(req: ChangePasswordRequest, admin=Depends(get_current_
 @app.post("/api/auth/forgot-password", status_code=status.HTTP_202_ACCEPTED)
 async def forgot_password(req: ForgotPasswordRequest, db=Depends(get_db)):
     generic_response = {
-        "message": "If the account exists, a password reset link has been sent."
+        "message": "If the account exists, a 6-digit code has been sent to its email."
     }
     identifier = req.identifier.strip()
     if not identifier:
         return generic_response
 
-    cursor = await db.execute(
-        "SELECT * FROM admin_users WHERE username = ? OR lower(email) = lower(?)",
-        (identifier, identifier),
-    )
-    user = await cursor.fetchone()
-    if not user or not user["email"]:
+    user = await _find_admin(db, identifier)
+    if not user:
         return generic_response
 
     recent_cursor = await db.execute(
@@ -151,51 +155,94 @@ async def forgot_password(req: ForgotPasswordRequest, db=Depends(get_db)):
     if await recent_cursor.fetchone():
         return generic_response
 
-    raw_token = secrets.token_urlsafe(32)
-    token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
-    expires_at = datetime.now(timezone.utc) + timedelta(minutes=30)
+    code = generate_otp()
     await db.execute(
         "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE admin_user_id = ? AND used_at IS NULL",
         (user["id"],),
     )
     await db.execute(
         "INSERT INTO password_reset_tokens (admin_user_id, token_hash, expires_at) VALUES (?, ?, ?)",
-        (user["id"], token_hash, expires_at.isoformat()),
+        (user["id"], hash_otp(code), otp_expiry()),
     )
     await db.commit()
-
-    public_site_url = os.environ.get("PUBLIC_SITE_URL", "http://localhost:5173").rstrip("/")
-    reset_url = f"{public_site_url}/admin/reset-password?token={raw_token}"
     try:
-        await send_password_reset_email(user["email"], reset_url)
+        await send_password_otp_email(user["email"], code, "admin")
     except RuntimeError:
-        logger.exception("Unable to send admin password reset email")
+        logger.exception("Unable to send admin password reset code")
     return generic_response
+
+
+async def _find_admin(db, identifier: str):
+    cursor = await db.execute(
+        "SELECT * FROM admin_users WHERE lower(username) = lower(?) OR lower(email) = lower(?)",
+        (identifier, identifier),
+    )
+    user = await cursor.fetchone()
+    if not user or not is_admin_email(user["email"]):
+        return None
+    return user
+
 
 @app.post("/api/auth/reset-password")
 async def reset_password(req: ResetPasswordRequest, db=Depends(get_db)):
     validate_password(req.new_password)
-    token_hash = hashlib.sha256(req.token.encode()).hexdigest()
     now = datetime.now(timezone.utc).isoformat()
-    cursor = await db.execute(
-        """
-        SELECT id, admin_user_id
-        FROM password_reset_tokens
-        WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?
-        """,
-        (token_hash, now),
-    )
-    token = await cursor.fetchone()
-    if not token:
-        raise HTTPException(status_code=400, detail="Reset link is invalid or expired")
+    if req.otp:
+        invalid = HTTPException(status_code=400, detail="The code is invalid or has expired")
+        user = await _find_admin(db, req.identifier.strip())
+        if not user:
+            raise invalid
+        token = await (await db.execute(
+            """
+            SELECT id, admin_user_id, token_hash, attempts
+            FROM password_reset_tokens
+            WHERE admin_user_id = ? AND used_at IS NULL AND expires_at > ? AND token_hash LIKE 'otp$%'
+            ORDER BY id DESC LIMIT 1
+            """,
+            (user["id"], now),
+        )).fetchone()
+        if not token:
+            raise invalid
+        if not otp_matches(token["token_hash"], req.otp):
+            await db.execute(
+                """
+                UPDATE password_reset_tokens
+                SET attempts = attempts + 1,
+                    used_at = CASE WHEN attempts + 1 >= ? THEN CURRENT_TIMESTAMP ELSE used_at END
+                WHERE id = ?
+                """,
+                (OTP_MAX_ATTEMPTS, token["id"]),
+            )
+            await db.commit()
+            raise invalid
+    else:
+        token_hash = hashlib.sha256(req.token.encode()).hexdigest()
+        cursor = await db.execute(
+            """
+            SELECT id, admin_user_id
+            FROM password_reset_tokens
+            WHERE token_hash = ? AND used_at IS NULL AND expires_at > ?
+            """,
+            (token_hash, now),
+        )
+        token = await cursor.fetchone()
+        if not token:
+            raise HTTPException(status_code=400, detail="Reset link is invalid or expired")
 
+    claimed = await db.execute(
+        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE id = ? AND used_at IS NULL",
+        (token["id"],),
+    )
+    if claimed.rowcount != 1:
+        await db.commit()
+        raise HTTPException(status_code=400, detail="The code is invalid or has expired")
     await db.execute(
         "UPDATE admin_users SET password_hash = ? WHERE id = ?",
         (hash_password(req.new_password), token["admin_user_id"]),
     )
     await db.execute(
-        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE id = ?",
-        (token["id"],),
+        "UPDATE password_reset_tokens SET used_at = CURRENT_TIMESTAMP WHERE admin_user_id = ? AND used_at IS NULL",
+        (token["admin_user_id"],),
     )
     await db.commit()
     return {"message": "Password reset successfully"}

@@ -15,6 +15,22 @@ LEGACY_HASH_SALT = "intube-media-salt"
 
 security = HTTPBearer()
 
+# Only these mailboxes may hold the website admin role.
+DEFAULT_ADMIN_EMAILS = (
+    "shivlalbainslaofficial@gmail.com",
+    "ajeetbainslaofficial@gmail.com",
+)
+
+
+def admin_emails() -> tuple[str, ...]:
+    configured = os.environ.get("ADMIN_EMAILS", "")
+    emails = tuple(e.strip().lower() for e in configured.split(",") if e.strip())
+    return emails or DEFAULT_ADMIN_EMAILS
+
+
+def is_admin_email(email: object) -> bool:
+    return isinstance(email, str) and email.strip().lower() in admin_emails()
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     if hashed_password.startswith("pbkdf2_sha256$"):
         try:
@@ -83,7 +99,12 @@ def decode_token(token: str) -> dict:
 
 async def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     payload = decode_token(credentials.credentials)
-    if not payload.get("id") or not payload.get("sub") or payload.get("role") == "partner":
+    if (
+        not payload.get("id")
+        or not payload.get("sub")
+        or payload.get("role") == "partner"
+        or not is_admin_email(payload.get("email"))
+    ):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     return payload
 

@@ -11,6 +11,7 @@ os.environ["DB_PATH"] = os.path.join(TEST_DIRECTORY.name, "app.db")
 os.environ["JWT_SECRET"] = "test-jwt-secret-with-at-least-32-bytes"
 os.environ["ADMIN_USERNAME"] = "admin"
 os.environ["ADMIN_EMAIL"] = "admin@example.com"
+os.environ.setdefault("ADMIN_EMAILS", "admin@example.com,second.admin@example.com")
 os.environ["ADMIN_INITIAL_PASSWORD"] = "InitialPass123!"
 os.environ["PUBLIC_SITE_URL"] = "https://intubemedia.com"
 
@@ -218,28 +219,28 @@ class AdminApiTest(unittest.TestCase):
             json={"identifier": "missing@example.com"},
         )
 
-        with patch("app.main.send_password_reset_email", new=AsyncMock()) as send_email:
+        with patch("app.main.send_password_otp_email", new=AsyncMock()) as send_email:
             forgot = self.client.post(
                 "/api/auth/forgot-password",
                 json={"identifier": "admin@example.com"},
             )
             self.assertEqual(forgot.status_code, 202)
             self.assertEqual(unknown_forgot.json(), forgot.json())
-            reset_url = send_email.await_args.args[1]
+            self.assertEqual(send_email.await_args.args[0], "admin@example.com")
+            code = send_email.await_args.args[1]
+            self.client.post("/api/auth/forgot-password", json={"identifier": "admin@example.com"})
+            self.assertEqual(send_email.await_count, 1, "second request inside 60s is throttled")
+        self.assertRegex(code, r"^\d{6}$")
 
-        token = parse_qs(urlparse(reset_url).query)["token"][0]
-        reset = self.client.post(
+        wrong = "000000" if code != "000000" else "111111"
+        reset = lambda otp, password="ResetPassword123!": self.client.post(
             "/api/auth/reset-password",
-            json={"token": token, "new_password": "ResetPassword123!"},
+            json={"identifier": "Admin", "otp": otp, "new_password": password},
         )
-        self.assertEqual(reset.status_code, 200)
-        self.assertEqual(
-            self.client.post(
-                "/api/auth/reset-password",
-                json={"token": token, "new_password": "AnotherPassword123!"},
-            ).status_code,
-            400,
-        )
+        self.assertEqual(reset(wrong).status_code, 400)
+        self.assertEqual(reset(code, "short").status_code, 400)
+        self.assertEqual(reset(code).status_code, 200)
+        self.assertEqual(reset(code, "AnotherPassword123!").status_code, 400, "code is single use")
         self.assertEqual(
             self.client.post(
                 "/api/auth/login",
@@ -253,6 +254,64 @@ class AdminApiTest(unittest.TestCase):
         self.assertEqual(self.client.delete(f"/api/pages/{page_id}", headers=self.headers).status_code, 200)
         self.assertEqual(
             self.client.delete(f"/api/contact-submissions/{submission_id}", headers=self.headers).status_code,
+            200,
+        )
+
+    def test_admin_allowlist_and_otp_limits(self):
+        import sqlite3
+        from app.auth import create_access_token, hash_password
+
+        with sqlite3.connect(os.environ["DB_PATH"]) as raw_db:
+            seeded = raw_db.execute(
+                "SELECT username FROM admin_users WHERE email = 'second.admin@example.com'"
+            ).fetchone()
+            raw_db.execute(
+                "INSERT OR IGNORE INTO admin_users (username, email, password_hash) VALUES (?, ?, ?)",
+                ("former", "former@example.com", hash_password("InitialPass123!")),
+            )
+            former_id = raw_db.execute("SELECT id FROM admin_users WHERE username = 'former'").fetchone()[0]
+        self.assertEqual(seeded, ("second.admin",))
+
+        self.assertEqual(
+            self.client.post("/api/auth/login", json={"username": "former", "password": "InitialPass123!"}).status_code,
+            401,
+        )
+        forged = create_access_token({"sub": "former", "id": former_id, "email": "former@example.com"})
+        self.assertEqual(self.client.get("/api/dashboard", headers={"Authorization": f"Bearer {forged}"}).status_code, 401)
+        legacy = create_access_token({"sub": "admin", "id": 1})
+        self.assertEqual(self.client.get("/api/dashboard", headers={"Authorization": f"Bearer {legacy}"}).status_code, 401)
+        with patch("app.main.send_password_otp_email", new=AsyncMock()) as send_email:
+            self.client.post("/api/auth/forgot-password", json={"identifier": "former@example.com"})
+        send_email.assert_not_awaited()
+
+        def request_code():
+            with sqlite3.connect(os.environ["DB_PATH"]) as raw_db:
+                raw_db.execute("UPDATE password_reset_tokens SET created_at = datetime('now', '-5 minutes')")
+            with patch("app.main.send_password_otp_email", new=AsyncMock()) as send_email:
+                self.client.post("/api/auth/forgot-password", json={"identifier": "second.admin@example.com"})
+            return send_email.await_args.args[1]
+
+        reset = lambda otp: self.client.post(
+            "/api/auth/reset-password",
+            json={"identifier": "second.admin@example.com", "otp": otp, "new_password": "SecondAdmin123!"},
+        )
+        code = request_code()
+        wrong = "000000" if code != "000000" else "111111"
+        for _ in range(5):
+            self.assertEqual(reset(wrong).status_code, 400)
+        self.assertEqual(reset(code).status_code, 400, "code is burned after 5 wrong attempts")
+
+        code = request_code()
+        with sqlite3.connect(os.environ["DB_PATH"]) as raw_db:
+            raw_db.execute("UPDATE password_reset_tokens SET expires_at = '2000-01-01T00:00:00+00:00'")
+        self.assertEqual(reset(code).status_code, 400, "expired code is rejected")
+
+        code = request_code()
+        self.assertEqual(reset(code).status_code, 200)
+        self.assertEqual(
+            self.client.post(
+                "/api/auth/login", json={"username": "second.admin@example.com", "password": "SecondAdmin123!"}
+            ).status_code,
             200,
         )
 

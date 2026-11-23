@@ -12,6 +12,7 @@ if "DB_PATH" not in os.environ:
 os.environ.setdefault("JWT_SECRET", "test-jwt-secret-with-at-least-32-bytes")
 os.environ.setdefault("ADMIN_USERNAME", "admin")
 os.environ.setdefault("ADMIN_EMAIL", "admin@example.com")
+os.environ.setdefault("ADMIN_EMAILS", "admin@example.com,second.admin@example.com")
 os.environ.setdefault("ADMIN_INITIAL_PASSWORD", "InitialPass123!")
 os.environ.setdefault("PUBLIC_SITE_URL", "https://intubemedia.com")
 
@@ -94,9 +95,18 @@ class PartnerFlowTest(unittest.TestCase):
             self.client.post("/api/partner/forgot-password", json={"email": "artist@example.com"})
             self.client.post("/api/partner/forgot-password", json={"email": "nobody@example.com"})
         self.assertEqual(send.await_count, 1)
-        reset_link = [p for p in send.await_args.args[2].split('"') if "reset-password" in p][0]
-        reset_token = parse_qs(urlparse(reset_link).query)["token"][0]
-        self.assertEqual(self.client.post("/api/partner/reset-password", json={"token": reset_token, "new_password": "NewPass2026"}).status_code, 200)
+        self.assertEqual(send.await_args.args[0], ["artist@example.com"])
+        import re
+        code = re.search(r">(\d{6})<", send.await_args.args[2]).group(1)
+        self.assertNotIn(code, send.await_args.args[1], "code must not be in the subject")
+        reset = lambda otp, email="artist@example.com": self.client.post(
+            "/api/partner/reset-password", json={"email": email, "otp": otp, "new_password": "NewPass2026"}
+        )
+        wrong = "000000" if code != "000000" else "111111"
+        self.assertEqual(reset(wrong).status_code, 400)
+        self.assertEqual(reset(code, "nobody@example.com").status_code, 400)
+        self.assertEqual(reset(code).status_code, 200)
+        self.assertEqual(reset(code).status_code, 400, "code is single use")
         self.assertEqual(self.client.post("/api/partner/login", json={"email": "artist@example.com", "password": "NewPass2026"}).status_code, 200)
 
         self.client.post(f"/api/partner-applications/{app_id}/reject", json={}, headers=self.admin)
